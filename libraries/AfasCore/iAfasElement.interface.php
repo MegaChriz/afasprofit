@@ -1,43 +1,56 @@
 <?php
 /**
  * @file
- * Interface for parenting systems in AFAS objects 
+ * Interface for parenting systems in AFAS objects.
  */
 
-interface iAFAS_Element
-{
+interface iAfasElement {
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
-  
+
   /**
-   * Adds a child element object
+   * Adds a child element object.
+   *
    * @param string $p_sType
    * @param string $p_sObject_id
    * @param array $p_aFields
    * @param string $p_sClass
+   *
    * @access public
-   * @return AFAS_Element
+   * @return AfasElement
    */
-  public function addChild($p_sType, $p_sObject_id = '', $p_aFields=array(), $p_sClass = 'AFAS_Element');
-  
+  public function addChild($p_sType, $p_sObject_id = '', $p_aFields = array(), $p_sClass = 'AfasElement');
+
   /**
-   * Removes a child object
+   * Removes a child object.
+   *
    * @param string $p_sObject_id
+   *
    * @access public
    * @return void
    */
   public function removeChild($p_sObject_id);
-  
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
-    
+
   /**
-   * Returns specific child object
+   * Returns specific child object.
+   *
    * @access public
-   * @return AFAS_Element
+   * @return AfasElement
    * @throws AfasException
    */
   public function getChild($p_sObject_id);
+
+  /**
+   * Returns the server-object this element is in.
+   *
+   * @return AfasServer
+   *   The server-object used by the update-connector.
+   *   Or NULL, if this element isn't attached to a server.
+   */
+  public function getServer();
 }

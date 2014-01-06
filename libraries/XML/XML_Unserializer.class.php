@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * This class contains a collection of function for 
+ * This class contains a collection of function for
  * parsing XML files
  */
 class XML_Unserializer {
@@ -18,11 +18,11 @@ class XML_Unserializer {
         'name' => 'document',
         'attributes' => array(),
         'children' => array(),
-        'data' => ''
-       )
+        'data' => '',
+      ),
     );
     if (!xml_parse($p, $str_input_xml)) {
-      trigger_error(xml_error_string(xml_get_error_code($p)) ."\n". $str_input_xml, E_USER_NOTICE);
+      trigger_error(xml_error_string(xml_get_error_code($p)) . "\n" . $str_input_xml, E_USER_NOTICE);
       xml_parser_free($p);
       return;
     }

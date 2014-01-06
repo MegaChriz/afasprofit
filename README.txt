@@ -1,3 +1,3 @@
 Afas API
 --------
-An API to connect to Afas Profit written in PHP.
+This folder contains the basic Afas API only.

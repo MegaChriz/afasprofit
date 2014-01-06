@@ -1,8 +1,0 @@
-# Protect certain directories
-AuthUserFile /home/users/kerckftp/.htpasswd
-AuthGroupFile /dev/null
-AuthName "Access Denied"
-AuthType Basic
-<Limit GET POST>
-require valid-user
-</Limit>

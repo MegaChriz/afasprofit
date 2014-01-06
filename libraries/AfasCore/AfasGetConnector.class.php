@@ -3,26 +3,27 @@
  * @file
  * AFAS Connector class for 'Get' connections.
  *
- * This class extends the AfasConnector class with specific methods for getting data
+ * This class extends the AfasConnector class with specific methods for getting data.
  */
 
 class AfasGetConnector extends AfasConnector {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
-    
+
   /**
    * @var array $m_aFilters
    * @access protected
    */
   protected $m_aFilters;
-  
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
-    
+
   /**
-   * Initialize values
+   * Initialize values.
+   *
    * @overloaded
    * @access public
    * @return void
@@ -32,38 +33,40 @@ class AfasGetConnector extends AfasConnector {
     $this->m_aFilters = array();
     $this->m_sLocation = "http://" . $this->m_oServer->ip_address . "/profitservices/getconnector.asmx";
   }
-  
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
 
   /**
-   * Adds a single filter in a new group
+   * Adds a single filter in a new group.
+   *
    * @param $p_sField
    * @param $p_sValue
    * @param mixed $p_mOperator
    * @access public
    * @return AFAS_Filter
    */
-  public function addFilter($p_sField, $p_sValue='', $p_mOperator='=') {
+  public function addFilter($p_sField, $p_sValue = '', $p_mOperator = '=') {
     $oGroup = $this->addFilterGroup();
     return $oGroup->addFilter($p_sField, $p_sValue, $p_mOperator);
   }
-  
+
   /**
-   * Adds a new filter group
+   * Adds a new filter group.
+   *
    * @param string $p_sFilter_id
    *  Optional name for filter group
    * @return AFAS_FilterGroup
    */
-  public function addFilterGroup($p_sFilter_id='') {
+  public function addFilterGroup($p_sFilter_id = '') {
     if (!$p_sFilter_id) {
       // Think of a filter name
-      $bSet = false;
+      $bSet = FALSE;
       for ($iAdd = 1; !$bSet; $iAdd++) {
-        $p_sFilter_id = 'Filter' . (count($this->m_aFilters) +$iAdd);
+        $p_sFilter_id = 'Filter' . (count($this->m_aFilters) + $iAdd);
         if (!isset($this->m_aFilters[$p_sFilter_id])) {
-          $bSet = true;
+          $bSet = TRUE;
         }
       }
     }
@@ -72,9 +75,10 @@ class AfasGetConnector extends AfasConnector {
     $this->m_aFilters[$p_sFilter_id] = $oFilterGroup;
     return $oFilterGroup;
   }
-  
+
   /**
    * Removes a filter if filter exists.
+   *
    * @param string $p_sFilter_id
    * @access public
    * @return boolean
@@ -86,22 +90,24 @@ class AfasGetConnector extends AfasConnector {
     }
     return FALSE;
   }
-  
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
-  
+
   /**
-   * Returns Filters
+   * Returns Filters.
+   *
    * @access public
    * @return array
    */
   public function getFilters() {
     return $this->m_aFilters;
   }
-  
+
   /**
-   * Returns Filters XML
+   * Returns Filters XML.
+   *
    * @access public
    * @return string XML
    */
@@ -113,9 +119,10 @@ class AfasGetConnector extends AfasConnector {
     $sOutput .= '</Filters>';
     return $sOutput;
   }
-  
+
   /**
-   * Return response result as XML string
+   * Return response result as XML string.
+   *
    * @access public
    * @return string XML
    */
@@ -123,22 +130,23 @@ class AfasGetConnector extends AfasConnector {
     $sXMLString = $this->m_oSoapClient->__getLastResponse();
     $oDoc = new DOMDocument();
     $oDoc->loadXML($sXMLString);
-    
-    // Retrieve data result  
+
+    // Retrieve data result.
     $oList = $oDoc->getElementsByTagName('GetDataResult');
     $aData = array();
-    foreach($oList as $oNode) {
-      foreach($oNode->childNodes as $oChild) {
+    foreach ($oList as $oNode) {
+      foreach ($oNode->childNodes as $oChild) {
         $aData[] = array($oChild->nodeName => $oChild->nodeValue);
       }
     }
-    
-    // Create XML Document
+
+    // Create XML Document.
     return '<?xml version="1.0" encoding="utf-8"?>' . $aData[0]['#text'];
   }
-  
+
   /**
-   * Return response result in an array
+   * Return response result in an array.
+   *
    * @access public
    * @return array
    */
@@ -148,13 +156,14 @@ class AfasGetConnector extends AfasConnector {
     $oParser->unserialize($sXMLString);
     return $oParser->get_unserialized_data();
   }
-  
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
-  
+
   /**
-   * Send a SOAP request
+   * Sends a SOAP request.
+   *
    * @param string $p_sFunction
    * @param string $p_sConnector_id
    * @param array $p_aParameters
@@ -162,35 +171,36 @@ class AfasGetConnector extends AfasConnector {
    * @access public
    * @return void
    */
-  public function sendRequest($p_sFunction, $p_sConnector_id, $p_aParameters=array(), $p_aOptions=array()) {
+  public function sendRequest($p_sFunction, $p_sConnector_id, $p_aParameters = array(), $p_aOptions = array()) {
     $p_aParameters['connectorId'] = $p_sConnector_id;
     $this->_sendRequest($p_sFunction, $p_aParameters, $p_aOptions);
   }
-  
+
   // --------------------------------------------------------------
   // HOOK IMPLEMENTATIONS
   // --------------------------------------------------------------
-  
+
   /**
-   * Implementation of _additionalParameters().
+   * Implements _additionalParameters().
+   *
    * @param array $p_aParams
    * @overloaded
    * @access protected
    * @return void
    */
   protected function _additionalParameters(&$p_aParams) {
-    // Add filters to the request if defined
+    // Add filters to the request if defined.
     if (count($this->m_aFilters) > 0) {
       $p_aParams['filtersXml'] = $this->getFiltersXML();
     }
   }
-  
+
   // --------------------------------------------------------------
   // TEST
   // --------------------------------------------------------------
-  
+
   /**
-   * output data result
+   * Outputs data result.
    */
   public function outputDataResult() {
     // Output it
