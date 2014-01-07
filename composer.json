@@ -1,0 +1,17 @@
+{
+    "name": "kkb/afas",
+    "description": "An API to connect to Afas Profit written in PHP.",
+    "keywords": ["afas", "profit"],
+    "authors": [
+        {
+            "name": "Youri van Koppen",
+            "email": "megachriz@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0" : { "Afas" : "lib/" }
+    }
+}
