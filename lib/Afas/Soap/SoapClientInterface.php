@@ -16,7 +16,7 @@ interface SoapClientInterface {
    *
    * @return string
    */
-  public function __doRequest(string $request, string $location, string $action, int $version, int $one_way = 0);
+  public function __doRequest($request, $location, $action, $version, $one_way = 0);
 
   /**
    * Returns list of available SOAP functions.
@@ -53,12 +53,12 @@ interface SoapClientInterface {
   /**
    *
    */
-  public function __setCookie(string $name, string $value);
+  public function __setCookie($name, $value);
 
   /**
    *
    */
-  public function __setLocation(string $new_location);
+  public function __setLocation($new_location);
 
   /**
    *
@@ -68,5 +68,5 @@ interface SoapClientInterface {
   /**
    *
    */
-  public function __soapCall(string $function_name, array $arguments, array $options = array(), $input_headers = NULL, &$output_headers = NULL);
+  public function __soapCall($function_name, $arguments, $options = array(), $input_headers = NULL, &$output_headers = NULL);
 }

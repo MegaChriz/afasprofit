@@ -15,10 +15,10 @@ use Afas\Soap\SoapClientInterface;
  * @author Meltir <meltir@meltir.com>
  *
  */
-class NTLM_SoapClient extends SoapClient implements SoapClientInterface {
+class NTLM_SoapClient extends \SoapClient implements SoapClientInterface {
   public function __construct($wsdl, $options = array()) {
     if (empty($options['login']) || empty($options['password'])) {
-      throw new Exception('Login and password required for NTLM authentication!');
+      throw new \Exception('Login and password are required for NTLM authentication.');
     }
     $this->login = $options['login'];
     $this->password = $options['password'];

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * This file should PHPUnit give access to the afas classes.
+ * Code that need to be loaded on every request.
  */
 
 use Afas\Autoload;
