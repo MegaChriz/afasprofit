@@ -2,12 +2,10 @@
 
 /**
  * @file
- * Contains \Afas\Soap\NTLM_SoapClient.
+ * Contains \Afas\Component\Soap\NTLM_SoapClient.
  */
 
-namespace Afas\Soap;
-
-use Afas\Soap\SoapClientInterface;
+namespace Afas\Component\Soap;
 
 /**
  * A child of SoapClient with support for ntlm proxy authentication

@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Afas\Soap\SoapClientInterface.
+ * Contains \Afas\Component\Soap\SoapClientInterface.
  */
 
-namespace Afas\Soap;
+namespace Afas\Component\Soap;
 
 /**
  * Provides an interface for handling Soap Requests.
