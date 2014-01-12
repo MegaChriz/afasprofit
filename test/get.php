@@ -7,8 +7,9 @@
 
 use Afas\Core\GetConnector;
 use Afas\Core\Server;
-use Afas\Soap\NTLM_SoapClient;
+use Afas\Component\Soap\NTLM_SoapClient;
 
+// Bootstrap.
 require_once __DIR__ . '/../includes/bootstrap.php';
 
 // Create AfasServer.

@@ -7,7 +7,7 @@
 
 namespace Afas\Core;
 
-use Afas\Soap\SoapClientInterface;
+use Afas\Component\Soap\SoapClientInterface;
 
 class Connector implements ConnectorInterface {
   // --------------------------------------------------------------
