@@ -31,7 +31,7 @@ class Autoload {
       return FALSE;
     }
 
-    $file_path = str_replace('Afas\\', '', $class);
+    $file_path = preg_replace('/^Afas\\/', '', $class);
     $file_path = str_replace('\\', '/', $file_path);
     $file_path = __DIR__ . '/' . $file_path . '.php';
 
