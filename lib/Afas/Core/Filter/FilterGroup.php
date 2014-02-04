@@ -17,13 +17,6 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * The container this group belongs to.
-   *
-   * @var FilterContainerInterface
-   */
-  private $container;
-
-  /**
    * The name of this filter group.
    *
    * @var string
@@ -41,7 +34,6 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *   The name of this filter group.
    */
   public function __construct($name) {
-    $this->container = $container;
     $this->name = $name;
   }
 
@@ -63,44 +55,22 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $filter = new Filter($field, $value, $operator);
+    $this->list[] = $filter;
   }
 
   /**
-   * Sets the parent of this filter group.
+   * Removes a filter.
    *
-   * @param FilterContainerInterface $container
-   *   The container this group belongs to.
+   * @param int $index
+   *   The id of the filter to remove.
    */
-  public function setParent(FilterContainerInterface $container) {
-    $this->container = $container;
-  }
-
-  /**
-   * Removes this filter group from the container.
-   */
-  public function remove() {
-    $this->getParent()->removeGroup($this);
+  public function removeFilter($index) {
+    unset($this->list[$index]);
   }
 
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
-
-  /**
-   * Returns the parent of this filter group.
-   *
-   * @return FilterContainerInterface
-   *   A filter container.
-   * @throws Exception
-   *   When the parent is not set.
-   * @todo throw a specific exception.
-   */
-  public function getParent() {
-    if ($this->container instanceof FilterContainerInterface) {
-      return $this->container;
-    }
-    throw new Exception('This filter group does not belong to a container.')
-  }
 
   // --------------------------------------------------------------
   // ACTION
@@ -120,12 +90,14 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *   XML.
    */
   public function compile() {
-    $output = '<Filter FilterId="' . $this->name . '">';
-    foreach ($this->list as $filter) {
-      $output .= $filter->compile();
+    if ($this->count()) {
+      $output = '<Filter FilterId="' . $this->name . '">';
+      foreach ($this->list as $filter) {
+        $output .= $filter->compile();
+      }
+      $output .= '</Filter>';
+      return $output;
     }
-    $output .= '</Filter>';
-    return $output;
   }
 
   /**

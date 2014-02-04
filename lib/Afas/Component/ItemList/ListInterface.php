@@ -12,7 +12,7 @@ namespace Afas\Component\ItemList;
  *
  * Based on \Drupal\Core\TypedData\ListInterface.
  */
-interface ListInterface extends \ArrayAccess, \Countable, \Traversable {
+interface ListInterface extends \Countable, \Traversable {
 
   /**
    * Determines whether the list contains any non-empty items.

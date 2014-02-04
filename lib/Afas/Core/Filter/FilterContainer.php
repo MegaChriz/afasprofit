@@ -8,8 +8,8 @@
 namespace Afas\Core\Filter;
 
 use Afas\Component\ItemList\ItemList;
-use Afas\Filter\FilterContainerInterface;
-use Afas\Filter\FilterGroupInterface;
+use Afas\Core\Filter\FilterContainerInterface;
+use Afas\Core\Filter\FilterGroupInterface;
 
 /**
  * Class containing filter groups.
@@ -40,7 +40,11 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * @todo Avoid new keyword.
    */
   public function group($name = NULL) {
+    if (is_null($name)) {
+      $name = 'Filter ' . ($this->count() + 1);
+    }
     $group = new FilterGroup($name);
+    $this->list[] = $group;
     return $group;
   }
 

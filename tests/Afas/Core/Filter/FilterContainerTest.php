@@ -14,7 +14,7 @@ class FilterContainerTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests if the right output is generated using a single filter.
    *
-   * @dataProvider singleFilterProvider()
+   * @dataProvider singleFilterOperatorProvider()
    */
   public function testSingleFilterOperator($expected, $operator = NULL) {
     $container = new FilterContainer();
