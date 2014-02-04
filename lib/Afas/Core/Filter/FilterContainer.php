@@ -28,6 +28,9 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    *   The value to test the field against.
    * @param mixed $operator
    *   The comparison operator, such as =, <, or >=.
+   *
+   * @return FilterContainer
+   *   Returns current instance.
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $this->currentGroup()->filter($field, $value, $operator);
@@ -38,13 +41,16 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * Adds a filter group.
    *
    * @todo Avoid new keyword.
+   *
+   * @return FilterGroupInterface
+   *   Returns an new instance of FilterGroupInterface.
    */
   public function group($name = NULL) {
     if (is_null($name)) {
       $name = 'Filter ' . ($this->count() + 1);
     }
     $group = new FilterGroup($name);
-    $this->list[] = $group;
+    $this->addItem($group, $name);
     return $group;
   }
 
@@ -53,9 +59,13 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    *
    * @param int $index
    *   The id of the filter to remove.
+   *
+   * @return FilterContainer
+   *   Returns current instance.
    */
   public function removeFilter($index) {
     $this->currentGroup()->removeFilter($index);
+    return $this;
   }
 
   /**
@@ -64,6 +74,9 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * @param string | FilterGroupInterface $group
    *   Either the ID of the group to remove
    *   or the group itself.
+   *
+   * @return FilterContainer
+   *   Returns current instance.
    */
   public function removeGroup($group) {
     $name = NULL;
@@ -73,7 +86,8 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     elseif (is_scalar($group)) {
       $name = $group;
     }
-    unset($this->list[$name]);
+    $this->removeItem($name);
+    return $this;
   }
 
   // --------------------------------------------------------------
@@ -84,12 +98,13 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * Returns current group.
    *
    * @todo Test if this actually works.
+   * @todo This should be improved. The pointer can't be set at all.
    */
   protected function currentGroup() {
     if (!$this->count()) {
       return $this->group();
     }
-    return current($this->getIterator());
+    return end($this->getIterator());
   }
 
   // --------------------------------------------------------------
@@ -100,11 +115,11 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * Return XML string.
    *
    * @return string
-   *   XML.
+   *   XML generated string.
    */
   public function compile() {
     $output = '<Filters>';
-    foreach ($this->list as $filter_group) {
+    foreach ($this->getItems() as $filter_group) {
       $output .= $filter_group->compile();
     }
     $output .= '</Filters>';
@@ -115,7 +130,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    * Implements PHP magic __toString method to convert the filter group to string.
    *
    * @return string
-   *   A string version of the filter group.
+   *   A string version of the filter container.
    */
   public function __toString() {
     return $this->compile();

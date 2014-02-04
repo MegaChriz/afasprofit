@@ -52,10 +52,14 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *   The comparison operator, such as =, <, or >=.
    *
    * @todo Pass object creation to factory object.
+   *
+   * @return FilterGroup
+   *   Returns current instance.
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $filter = new Filter($field, $value, $operator);
-    $this->list[] = $filter;
+    $this->addItem($filter);
+    return $this;
   }
 
   /**
@@ -63,9 +67,13 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *
    * @param int $index
    *   The id of the filter to remove.
+   *
+   * @return FilterGroup
+   *   Returns current instance.
    */
   public function removeFilter($index) {
-    unset($this->list[$index]);
+    $this->removeItem($index);
+    return $this;
   }
 
   // --------------------------------------------------------------
@@ -87,12 +95,12 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    * Return XML string.
    *
    * @return string
-   *   XML.
+   *   XML generated string.
    */
   public function compile() {
     if ($this->count()) {
       $output = '<Filter FilterId="' . $this->name . '">';
-      foreach ($this->list as $filter) {
+      foreach ($this->getItems() as $filter) {
         $output .= $filter->compile();
       }
       $output .= '</Filter>';

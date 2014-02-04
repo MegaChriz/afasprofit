@@ -116,11 +116,11 @@ class Filter {
    * @todo Move to FilterGroup instead?
    */
   public function compile() {
-    if ($this->value != '') {
-      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '">' . $this->value . '</Field>';
+    if (is_null($this->value) || $this->value === '') {
+      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '" />';
     }
     else {
-      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '" />';
+      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '">' . $this->value . '</Field>';
     }
     return $output;
   }
