@@ -5,11 +5,12 @@
  * Contains \Afas\Core\Connector.
  */
 
-namespace Afas\Core;
+namespace Afas\Core\Connector;
 
+use Afas\Core\Connector\ConnectorInterface;
 use Afas\Component\Soap\SoapClientInterface;
 
-class Connector implements ConnectorInterface {
+class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------

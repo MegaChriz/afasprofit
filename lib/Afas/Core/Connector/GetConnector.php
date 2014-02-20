@@ -8,74 +8,48 @@
  * @todo Put code for parsing the result out of this class.
  */
 
-namespace Afas\Core;
+namespace Afas\Core\Connector;
 
-class GetConnector extends Connector {
+use Afas\Core\Connector\ConnectorBase;
+use Afas\Core\Filter\FilterContainerInterface;
+use \DOMDocument;
+
+class GetConnector extends ConnectorBase {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
 
   /**
-   * A list of filters.
+   * A filter container.
    *
-   * @var array
-   * @todo class instead of array?
+   * @var FilterContainerInterface
+   * An instance of FilterContainerInterface.
    */
-  protected $filters;
+  protected $filterContainer;
+
+  // --------------------------------------------------------------
+  // CONSTRUCT
+  // --------------------------------------------------------------
 
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
 
   /**
-   * Adds a single filter.
+   * Sets a filter container.
+   *
+   * @param FilterContainerInterface $filterContainer
+   *   A container containing filters.
+   *
+   * @return void
    */
-  public function addFilter(FilterInterface $filter) {
-    // @todo implement.
-  }
-
-  /**
-   * Adds a new filter group.
-   */
-  public function addFilterGroup(FilterGroupInterface $group) {
-    // @todo implement.
-  }
-
-  /**
-   * Removes a filter.
-   */
-  public function removeFilter($filter_id) {
-    // @todo implement.
+  public function setFilterContainer(FilterContainerInterface $filterContainer) {
+    $this->filterContainer = $filterContainer;
   }
 
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
-
-  /**
-   * Returns filters.
-   *
-   * @access public
-   * @return array
-   */
-  public function getFilters() {
-    return $this->filters;
-  }
-
-  /**
-   * Returns Filters XML.
-   *
-   * @access public
-   * @return string XML
-   */
-  public function getFiltersXML() {
-    $output = '<Filters>';
-    foreach ($this->filters as $filter_group) {
-      $output .= $filter_group->getXML();
-    }
-    $output .= '</Filters>';
-    return $output;
-  }
 
   /**
    * Returns result.
@@ -138,8 +112,8 @@ class GetConnector extends Connector {
    */
   protected function getSoapArguments() {
     $arguments = parent::getSoapArguments();
-    if (count($this->filters) > 0) {
-      $arguments['filtersXml'] = $this->getFiltersXML();
+    if (isset($this->filterContainer)) {
+      $arguments['filtersXml'] = $this->filterContainer->compile();
     }
     return $arguments;
   }

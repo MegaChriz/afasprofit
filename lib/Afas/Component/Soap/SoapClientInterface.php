@@ -14,7 +14,7 @@ interface SoapClientInterface {
   /**
    * Performs A SOAP request.
    *
-   * @return string
+   * {@inheritdoc}
    */
   public function __doRequest($request, $location, $action, $version, $one_way = 0);
 

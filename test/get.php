@@ -5,7 +5,7 @@
  * Psuedo-code for using a get-connector.
  */
 
-use Afas\Core\GetConnector;
+use Afas\Core\Connector\GetConnector;
 use Afas\Core\Server;
 use Afas\Component\Soap\NTLM_SoapClient;
 

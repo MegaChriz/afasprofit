@@ -11,5 +11,11 @@ namespace Afas\Core\Filter;
  *
  */
 interface FilterContainerInterface {
-  // @todo Define public methods.
+  /**
+   * Return XML string.
+   *
+   * @return string
+   *   XML generated string.
+   */
+  public function compile();
 }

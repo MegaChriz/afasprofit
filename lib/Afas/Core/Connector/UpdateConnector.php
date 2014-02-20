@@ -5,7 +5,7 @@
  * Contains \Afas\Core\UpdateConnector.
  */
 
-namespace Afas\Core;
+namespace Afas\Core\Connector;
 
 class UpdateConnector extends Connector {
   // --------------------------------------------------------------
