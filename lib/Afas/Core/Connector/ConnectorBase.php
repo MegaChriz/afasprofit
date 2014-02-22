@@ -8,8 +8,15 @@
 namespace Afas\Core\Connector;
 
 use Afas\Core\Connector\ConnectorInterface;
+use Afas\Core\ServerInterface;
 use Afas\Component\Soap\SoapClientInterface;
 
+/**
+ * Class ConnectorBase
+ * @package Afas\Core\Connector
+ *
+ * @todo server->$variable is not explicit.
+ */
 class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
   // PROPERTIES
@@ -18,7 +25,7 @@ class ConnectorBase implements ConnectorInterface {
   /**
    * The Soap client.
    *
-   * @var \Afas\Soap\SoapClientInterface
+   * @var \Afas\Component\Soap\SoapClientInterface
    */
   private $client;
 
@@ -36,10 +43,12 @@ class ConnectorBase implements ConnectorInterface {
   /**
    * Constructor.
    *
-   * @param \Afas\Soap\SoapClientInterface $client
+   * @param \Afas\Component\Soap\SoapClientInterface $client
    *   A Soap Client.
    * @param \Afas\Core\ServerInterface $server
    *   An Afas server.
+   *
+   * @return \Afas\Core\Connector\ConnectorBase
    */
   public function __construct(SoapClientInterface $client, ServerInterface $server) {
     $this->client = $client;
@@ -67,7 +76,8 @@ class ConnectorBase implements ConnectorInterface {
    * arguments for the soap request.
    *
    * @return array
-   *  A list of arguments.
+   *   A list of arguments.
+   * @todo server->$variable is not explicit.
    */
   protected function getSoapArguments() {
     return array(
@@ -86,6 +96,7 @@ class ConnectorBase implements ConnectorInterface {
    *
    * @return array
    *  A list of arguments.
+   * @todo server->$variable is not explicit.
    */
   protected function getSoapOptions() {
     return array(
@@ -103,11 +114,13 @@ class ConnectorBase implements ConnectorInterface {
    * @param array $arguments
    *   (optional) The Soap arguments to send with the request.
    *   Defaults to the result of getSoapArguments().
-   * @param array $option
+   * @param array $options
    *   (optional) An array of options to send with the request.
    *   Defaults to the result of getSoapOptions().
+   *
+   * @return void
    */
-  protected function _sendRequest(string $function, array $arguments = array(), array $options = array()) {
+  protected function _sendRequest($function, array $arguments = array(), array $options = array()) {
     // Set action to call.
     // @todo Evaluate if this is still needed.
     //$this->client->setAction($function);

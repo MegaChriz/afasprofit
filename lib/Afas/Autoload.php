@@ -24,6 +24,10 @@ class Autoload {
    *
    * @param string $class
    *   The class to load.
+   *
+   * @return boolean
+   *   TRUE if the class was found.
+   *   FALSE otherwise.
    */
   public static function autoload($class) {
     // Check if the class is in the Afas namespace.
@@ -38,6 +42,8 @@ class Autoload {
 
     if (is_file($file_path)) {
       require_once($file_path);
+      return TRUE;
     }
+    return FALSE;
   }
 }
