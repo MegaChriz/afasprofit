@@ -10,11 +10,38 @@ namespace Afas\Core\Filter;
 use Afas\Component\ItemList\ItemList;
 use Afas\Core\Filter\FilterContainerInterface;
 use Afas\Core\Filter\FilterGroupInterface;
+use Afas\Core\Filter\FilterFactoryInterface;
+use Afas\Core\Filter\FilterFactory;
 
 /**
  * Class containing filter groups.
  */
 class FilterContainer extends ItemList implements FilterContainerInterface {
+  // --------------------------------------------------------------
+  // PROPERTIES
+  // --------------------------------------------------------------
+
+  /**
+   * @var FilterFactoryInterface $factory
+   */
+  private $factory;
+
+  // --------------------------------------------------------------
+  // CONSTRUCT
+  // --------------------------------------------------------------
+
+  /**
+   * @param FilterFactoryInterface $factory
+   *   (optional) The factory to use.
+   *   Defaults to \Afas\Core\Filter\FilterFactory.
+   */
+  public function __construct(FilterFactoryInterface $factory = NULL) {
+    if (!isset($factory)) {
+      $factory = new FilterFactory();
+    }
+    $this->setFactory($factory);
+  }
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -40,17 +67,20 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   /**
    * Adds a filter group.
    *
-   * @todo Avoid new keyword.
+   * @param string $name
+   *   (optional) The name of the filter group.
+   *   Defaults to 'Filter N' where N is the number of filter groups currently defined.
    *
    * @return FilterGroupInterface
    *   Returns an new instance of FilterGroupInterface.
+   * @todo Avoid new keyword.
    */
   public function group($name = NULL) {
     if (is_null($name)) {
       $name = 'Filter ' . ($this->count() + 1);
     }
-    $group = new FilterGroup($name);
-    $this->addItem($group, $name);
+    $group = $this->factory->createFilterGroup($name);
+    $this->addItem($group, $group->getName());
     return $group;
   }
 
@@ -81,13 +111,25 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   public function removeGroup($group) {
     $name = NULL;
     if ($group instanceof FilterGroupInterface) {
-      $name = $group->name;
+      $name = $group->getName();
     }
     elseif (is_scalar($group)) {
       $name = $group;
     }
     $this->removeItem($name);
     return $this;
+  }
+
+  /**
+   * Sets the factory that generates the objects.
+   *
+   * @param FilterFactoryInterface $factory
+   *   The factory that generates filter and filter group objects.
+   *
+   * @return void
+   */
+  public function setFactory(FilterFactoryInterface $factory) {
+    $this->factory = $factory;
   }
 
   // --------------------------------------------------------------
@@ -104,7 +146,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     if (!$this->count()) {
       return $this->group();
     }
-    return end($this->getIterator());
+    return end($this->getItems());
   }
 
   // --------------------------------------------------------------

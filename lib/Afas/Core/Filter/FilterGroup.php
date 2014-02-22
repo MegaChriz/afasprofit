@@ -11,6 +11,11 @@ use Afas\Component\ItemList\ItemList;
 use Afas\Core\Filter\FilterContainerInterface;
 use Afas\Core\Filter\FilterGroupInterface;
 
+/**
+ * Class FilterGroup
+ * @package Afas\Core\Filter
+ * @todo Maybe remove dependency on ItemList.
+ */
 class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
   // PROPERTIES
@@ -23,6 +28,11 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    */
   private $name;
 
+  /**
+   * @var FilterFactoryInterface $factory
+   */
+  private $factory;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -32,9 +42,14 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *
    * @param string $name
    *   The name of this filter group.
+   * @param \Afas\Core\Filter\FilterFactoryInterface $factory
+   *   The factory to use for generating filter objects.
+   *
+   * @return \Afas\Core\Filter\FilterGroup
    */
-  public function __construct($name) {
+  public function __construct($name, FilterFactoryInterface $factory) {
     $this->name = $name;
+    $this->factory = $factory;
   }
 
   // --------------------------------------------------------------
@@ -42,22 +57,10 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * Adds a single filter.
-   *
-   * @param string $field
-   *   The name of the field to filter on.
-   * @param mixed $value
-   *   The value to test the field against.
-   * @param mixed $operator
-   *   The comparison operator, such as =, <, or >=.
-   *
-   * @todo Pass object creation to factory object.
-   *
-   * @return FilterGroup
-   *   Returns current instance.
+   * Implements FilterGroupInterface::filter().
    */
   public function filter($field, $value = NULL, $operator = NULL) {
-    $filter = new Filter($field, $value, $operator);
+    $filter = $this->factory->createFilter($field, $value, $operator);
     $this->addItem($filter);
     return $this;
   }
@@ -80,22 +83,19 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // GETTERS
   // --------------------------------------------------------------
 
+  /**
+   * Implements FilterGroupInterface::getName().
+   */
+  public function getName() {
+    return $this->name;
+  }
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
 
   /**
-   * Creates a new instance of Filter.
-   */
-  protected function createItem() {
-    // @todo implement!
-  }
-
-  /**
-   * Return XML string.
-   *
-   * @return string
-   *   XML generated string.
+   * Implements FilterGroupInterface::compile().
    */
   public function compile() {
     if ($this->count()) {
@@ -109,7 +109,7 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   }
 
   /**
-   * Implements PHP magic __toString method to convert the filter group to string.
+   * Implements PHP magic __toString() method to convert the filter group to string.
    *
    * @return string
    *   A string version of the filter group.

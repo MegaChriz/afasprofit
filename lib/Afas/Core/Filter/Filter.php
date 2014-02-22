@@ -7,9 +7,10 @@
 
 namespace Afas\Core\Filter;
 
+use \Afas\Core\Filter\FilterInterface;
 use \InvalidArgumentException;
 
-class Filter {
+class Filter implements FilterInterface {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -76,7 +77,7 @@ class Filter {
    *   - static::OPERATOR_EQ if value is set;
    *   - NULL otherwise.
    *
-   * @return void
+   * @return \Afas\Core\Filter\Filter
    */
   public function __construct($field, $value = NULL, $operator = NULL) {
     if (!isset($operator) && isset($value)) {
@@ -95,6 +96,11 @@ class Filter {
 
   /**
    * Magic getter.
+   *
+   * @param string $key
+   *   The property to get.
+   *
+   * @return mixed
    */
   public function __get($key) {
     switch ($key) {
@@ -191,19 +197,18 @@ class Filter {
     if (is_null($value)) {
       $this->value = $value;
       $this->setOperator(static::OPERATOR_EMPTY);
-      return $this;
     }
     elseif (is_scalar($value)) {
       $this->value = $value;
-      return $this;
     }
+    return $this;
     // @todo other cases.
   }
 
   /**
-   * Sets operator of filter (e.g. equal to).
+   * Sets operator of filter (e.g., 'equal').
    *
-   * Accepts both ints and strings.
+   * Accepts both integers and strings.
    *
    * @param mixed $operator
    *   The operator to set.
@@ -233,6 +238,7 @@ class Filter {
       $operator = strtolower($operator);
       switch ($operator) {
         case '=':
+        case '==':
         case 'eq':
         case 'equal':
           return $this->setOperator(static::OPERATOR_EQ);
@@ -242,41 +248,57 @@ class Filter {
           return $this->setOperator(static::OPERATOR_GT);
         case '>=':
         case 'ge':
-        case 'ge':
+        case 'greater than or equal':
           return $this->setOperator(static::OPERATOR_GE);
         case '<':
         case 'lt':
+        case 'less than':
         case 'lesser than':
           return $this->setOperator(static::OPERATOR_LT);
         case '<=':
         case 'le':
+        case 'less than or equal':
+        case 'lesser than or equal':
           return $this->setOperator(static::OPERATOR_LE);
         case '!=':
+        case '<>':
         case 'ne':
         case 'not equal':
           return $this->setOperator(static::OPERATOR_NE);
+        case 'null':
         case 'is null':
         case 'empty':
           return $this->setOperator(static::OPERATOR_EMPTY);
+        case 'not null':
         case 'is not null':
         case 'not empty':
           return $this->setOperator(static::OPERATOR_NOT_EMPTY);
         case 'contains':
+        case 'like':
           return $this->setOperator(static::OPERATOR_CONTAINS);
+        case 'not like':
+        case 'not contains':
         case 'contains not':
+        case 'does not contain':
           return $this->setOperator(static::OPERATOR_CONTAINS_NOT);
+        case 'starts':
         case 'starts with':
           return $this->setOperator(static::OPERATOR_STARTS_WITH);
+        case 'not starts':
         case 'starts not with':
+        case 'does not start with':
           return $this->setOperator(static::OPERATOR_STARTS_NOT_WITH);
+        case 'ends':
         case 'ends with':
           return $this->setOperator(static::OPERATOR_ENDS_WITH);
+        case 'not ends':
         case 'ends not with':
+        case 'does not end with':
           return $this->setOperator(static::OPERATOR_ENDS_NOT_WITH);
         case 'quick':
           return $this->setOperator(static::OPERATOR_QUICK);
       }
     }
-    throw new InvalidArgumentException('The operator "' . htmlspecialchars($operator, ENT_QUOTES, 'UTF-8') . '" is not supported.');
+    throw new InvalidArgumentException('The operator "' . $operator . '" is not supported.');
   }
 }
