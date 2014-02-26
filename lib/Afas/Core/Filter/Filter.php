@@ -118,8 +118,6 @@ class Filter implements FilterInterface {
    *
    * @return string
    *   The filter as XML.
-   *
-   * @todo Move to FilterGroup instead?
    */
   public function compile() {
     if (is_null($this->value) || $this->value === '') {
@@ -226,8 +224,8 @@ class Filter implements FilterInterface {
 
         // Erase value if 'empty' or 'not empty' operator is chosen.
         switch ($this->operator) {
-          case self::OPERATOR_NOT_EMPTY:
-          case self::OPERATOR_EMPTY:
+          case static::OPERATOR_NOT_EMPTY:
+          case static::OPERATOR_EMPTY:
             $this->value = NULL;
             break;
         }

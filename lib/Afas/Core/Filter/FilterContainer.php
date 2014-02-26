@@ -160,12 +160,14 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    *   XML generated string.
    */
   public function compile() {
-    $output = '<Filters>';
-    foreach ($this->getItems() as $filter_group) {
-      $output .= $filter_group->compile();
+    if ($this->count()) {
+      $output = '<Filters>';
+      foreach ($this->getItems() as $filter_group) {
+        $output .= $filter_group->compile();
+      }
+      $output .= '</Filters>';
+      return $output;
     }
-    $output .= '</Filters>';
-    return $output;
   }
 
   /**

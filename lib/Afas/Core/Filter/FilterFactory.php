@@ -7,6 +7,10 @@
 
 namespace Afas\Core\Filter;
 
+use \Afas\Core\Filter\FilterFactoryInterface;
+use \Afas\Core\Filter\Filter;
+use \Afas\Core\Filter\FilterGroup;
+
 /**
  * Class FilterFactory
  * @package Afas\Core\Filter

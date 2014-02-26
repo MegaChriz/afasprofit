@@ -8,151 +8,67 @@
 namespace Afas\Core\Filter;
 
 use Afas\Core\Filter\FilterContainer;
-//use Afas\Core\Filter\Filter;
 
 /**
  * @group AfasCoreFilter
  */
 class FilterContainerTest extends \PHPUnit_Framework_TestCase {
   /**
-   * Tests if the right output is generated using a single filter.
-   *
-   * @dataProvider singleFilterOperatorProvider()
+   * @var /Afas\Core\Filter\FilterContainer
    */
-  public function testSingleFilterOperator($expected, $operator = NULL) {
-    $container = new FilterContainer();
-    $container->filter('item_id', 0, $operator);
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  private $container;
+
+  /**
+   * @var /Afas\Core\Filter\FilterGroupInterface
+   */
+  private $group;
+
+  /**
+   * Setup.
+   */
+  public function setUp() {
+    parent::setUp();
+    $filter = $this->getMock('Afas\Core\Filter\FilterInterface');
+    $this->group = $this->getMock('Afas\Core\Filter\FilterGroupInterface');
+    $factory = $this->getMock('Afas\Core\Filter\FilterFactoryInterface');
+
+    $factory->expects($this->any())
+      ->method('createFilter')
+      ->will($this->returnValue($filter));
+    $factory->expects($this->any())
+      ->method('createFilterGroup')
+      ->will($this->returnValue($this->group));
+
+    $this->container = new FilterContainer($factory);
   }
 
   /**
-   * Data provider for testSingleFilter.
+   * @covers ::filter().
    */
-  public function singleFilterOperatorProvider() {
-    return array(
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>'
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="2">0</Field></Filter></Filters>',
-        '>=',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="3">0</Field></Filter></Filters>',
-        '<=',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="4">0</Field></Filter></Filters>',
-        '>',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="5">0</Field></Filter></Filters>',
-        '<',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="6">0</Field></Filter></Filters>',
-        'contains',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="7">0</Field></Filter></Filters>',
-        '!=',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="8" /></Filter></Filters>',
-        'empty',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="9" /></Filter></Filters>',
-        'not empty',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="10">0</Field></Filter></Filters>',
-        'starts with',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="11">0</Field></Filter></Filters>',
-        'contains not',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="12">0</Field></Filter></Filters>',
-        'starts not with',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="13">0</Field></Filter></Filters>',
-        'ends with',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="14">0</Field></Filter></Filters>',
-        'ends not with',
-      ),
-      array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="15">0</Field></Filter></Filters>',
-        'quick',
-      ),
-    );
+  public function testFilter() {
+    $this->assertSame($this->container, $this->container->filter('item_id'));
   }
 
   /**
-   * Tests if the right output is generated using two filters.
+   * @covers ::group().
    */
-  public function testTwoFilters() {
-    $container = new FilterContainer();
-    $container
-      ->filter('item_id', 0)
-      ->filter('status', 1);
-    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field><Field FieldId="status" OperatorType="1">1</Field></Filter></Filters>';
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  public function testGroup() {
+    $this->assertSame($this->group, $this->container->group());
   }
 
   /**
-   * Tests if the right output is generated using two filter groups.
+   * @covers ::compile().
    */
-  public function testTwoFilterGroups() {
-    $container = new FilterContainer();
-    $container->group()
-      ->filter('item_id', 0);
-    $container->group()
-      ->filter('item_id', 456);
-    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter><Filter FilterId="Filter 2"><Field FieldId="item_id" OperatorType="1">456</Field></Filter></Filters>';
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  public function testCompileWithoutFilters() {
+    $this->assertNull($this->container->compile());
   }
 
   /**
-   * Tests if new filters are applied against the latest filter group.
+   * @covers ::compile().
    */
-  public function testAddFilterAfterGroup() {
-    $container = new FilterContainer();
-    $container->group()
-      ->filter('item_id', 0);
-    $container->group();
-    $container->filter('item_id', 456);
-    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter><Filter FilterId="Filter 2"><Field FieldId="item_id" OperatorType="1">456</Field></Filter></Filters>';
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
-  }
-
-  /**
-   * Tests if empty groups are ignored in output generation.
-   */
-  public function testEmptyGroup() {
-    $container = new FilterContainer();
-    $container->group()
-      ->filter('item_id', 0);
-    $container->group();
-    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>';
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
-  }
-
-  /**
-   * Tests removing filters.
-   */
-  public function testRemoveFilter() {
-    $container = new FilterContainer();
-    $container
-      ->filter('item_id', 0)
-      ->filter('status', 1);
-    // Remove the second created filter.
-    $container->removeFilter(1);
-    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>';
-    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  public function testCompileWithFilters() {
+    $this->container->filter('item_id');
+    $expected = '<Filters></Filters>';
+    $this->assertXmlStringEqualsXmlString($expected, $this->container->compile());
   }
 }
