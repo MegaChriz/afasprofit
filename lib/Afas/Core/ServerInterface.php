@@ -8,5 +8,51 @@
 namespace Afas\Core;
 
 interface ServerInterface {
-  // @todo Define!
+  /**
+   * Returns the base url of the Profit server.
+   *
+   * @return string
+   *   The server's base url.
+   */
+  public function getBaseUrl();
+
+  /**
+   * Returns the uri of the Profit server.
+   *
+   * @return string
+   *   The server's uri.
+   */
+  public function getUri();
+
+  /**
+   * Returns the Profit environment to connect to.
+   *
+   * @return string
+   *   The server's environment.
+   */
+  public function getEnvironmentId();
+
+  /**
+   * Returns the username to use to login to Profit.
+   *
+   * @return string
+   *   The username.
+   */
+  public function getUserId();
+
+  /**
+   * Returns the password to use to login to Profit.
+   *
+   * @return string
+   *   The password.
+   */
+  public function getPassword();
+
+  /**
+   * Returns 'logonAs' variable.
+   *
+   * @return string
+   *   The 'logonAs' variable.
+   */
+  public function getLogonAs();
 }

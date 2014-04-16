@@ -32,4 +32,4 @@ interface FilterFactoryInterface {
    * @return \Afas\Core\Filter\FilterGroupInterface.
    */
   public function createFilterGroup($name);
-} 
+}

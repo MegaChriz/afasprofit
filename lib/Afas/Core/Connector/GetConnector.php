@@ -52,12 +52,13 @@ class GetConnector extends ConnectorBase {
   // --------------------------------------------------------------
 
   /**
-   * Returns result.
+   * Location of the soap service to call, usually an url.
    *
-   * @todo Wrap result into object?
+   * @return string
+   *   The location of the soap service.
    */
-  public function getResult() {
-    return $this->client->__getLastResponse();
+  public function getLocation() {
+    return $this->getServer()->getBaseUrl() . '/getconnector.asmx';
   }
 
   /**
@@ -70,7 +71,7 @@ class GetConnector extends ConnectorBase {
    * @todo Parse result in other class.
    */
   public function getResultXML() {
-    $sXMLString = $this->client->__getLastResponse();
+    $sXMLString = $this->getResult();
     $oDoc = new DOMDocument();
     $oDoc->loadXML($sXMLString, LIBXML_PARSEHUGE);
 
@@ -116,5 +117,22 @@ class GetConnector extends ConnectorBase {
       $arguments['filtersXml'] = $this->filterContainer->compile();
     }
     return $arguments;
+  }
+
+  // --------------------------------------------------------------
+  // ACTION
+  // --------------------------------------------------------------
+
+  /**
+   * Sends a SOAP request.
+   *
+   * @param string $function
+   *   The function to call.
+   * @param $connector_id
+   *   The get-connector to use.
+   */
+  public function sendRequest($function, $connector_id) {
+    $arguments['connectorId'] = $connector_id;
+    $this->_sendRequest($function, $arguments);
   }
 }

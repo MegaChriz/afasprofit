@@ -10,14 +10,13 @@ namespace Afas\Core\Connector;
 use Afas\Core\Connector\ConnectorInterface;
 use Afas\Core\ServerInterface;
 use Afas\Component\Soap\SoapClientInterface;
+use \SoapParam;
 
 /**
  * Class ConnectorBase
  * @package Afas\Core\Connector
- *
- * @todo server->$variable is not explicit.
  */
-class ConnectorBase implements ConnectorInterface {
+abstract class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -70,6 +69,23 @@ class ConnectorBase implements ConnectorInterface {
   }
 
   /**
+   * Location of the soap service to call, usually an url.
+   *
+   * @return string
+   *   The location of the soap service.
+   */
+  abstract public function getLocation();
+
+  /**
+   * Returns result.
+   *
+   * @todo Wrap result into object?
+   */
+  public function getResult() {
+    return $this->client->__getLastResponse();
+  }
+
+  /**
    * Returns the default Soap arguments to send with a Soap call.
    *
    * Subclasses should override this method to supply additional
@@ -81,10 +97,10 @@ class ConnectorBase implements ConnectorInterface {
    */
   protected function getSoapArguments() {
     return array(
-      'environmentId' => $this->server->environmentId,
-      'userId' => $this->server->userId,
-      'password' => $this->server->password,
-      'logonAs' => $this->server->logonAs,
+      'environmentId' => $this->server->getEnvironmentId(),
+      'userId' => $this->server->getUserId(),
+      'password' => $this->server->getPassword(),
+      'logonAs' => $this->server->getLogonAs(),
     );
   }
 
@@ -95,12 +111,12 @@ class ConnectorBase implements ConnectorInterface {
    * options for the soap request.
    *
    * @return array
-   *  A list of arguments.
-   * @todo server->$variable is not explicit.
+   *   A list of arguments.
    */
   protected function getSoapOptions() {
     return array(
-      'uri' => $this->server->uri,
+      'location' => $this->getLocation(),
+      'uri' => $this->server->getUri(),
     );
   }
 
@@ -109,6 +125,8 @@ class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
 
   /**
+   * Sends a SOAP request.
+   *
    * @param string $function
    *   The soap function to call?
    * @param array $arguments
@@ -128,7 +146,7 @@ class ConnectorBase implements ConnectorInterface {
     // Setup arguments.
     $arguments += $this->getSoapArguments();
     // Convert arguments to Soap parameters.
-    // @todo Don't create an instance of SoapParam here.
+    // @todo Don't create an instance of SoapParam here?
     $soap_params = array();
     foreach ($arguments as $key => $value) {
       $soap_params[] = new SoapParam($value, $key);
@@ -137,7 +155,7 @@ class ConnectorBase implements ConnectorInterface {
     // Setup options.
     $options += $this->getSoapOptions();
     $options += array(
-      'soapaction' => $this->server->uri . '/' . $function,
+      'soapaction' => $this->server->getUri() . '/' . $function,
     );
 
     // Finally, send the request!
