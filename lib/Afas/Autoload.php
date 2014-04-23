@@ -16,7 +16,7 @@ class Autoload {
    */
   public static function register() {
     ini_set('unserialize_callback_func', 'spl_autoload_call');
-    spl_autoload_register(array(new self, 'autoload'));
+    spl_autoload_register(array(new self(), 'autoload'));
   }
 
   /**
@@ -41,7 +41,7 @@ class Autoload {
     $file_path = __DIR__ . '/' . $file_path . '.php';
 
     if (is_file($file_path)) {
-      require_once($file_path);
+      require_once $file_path;
       return TRUE;
     }
     return FALSE;

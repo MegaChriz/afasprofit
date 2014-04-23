@@ -169,7 +169,8 @@ abstract class ConnectorBase implements ConnectorInterface {
   /**
    * Outputs last response of soap client.
    *
-   * @return string XML
+   * @return string
+   *   Response in XML format.
    * @todo Remove this method?
    */
   public function outputResponse() {

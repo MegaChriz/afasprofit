@@ -31,6 +31,8 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   // --------------------------------------------------------------
 
   /**
+   * FilterContainer object constructor.
+   *
    * @param FilterFactoryInterface $factory
    *   (optional) The factory to use.
    *   Defaults to \Afas\Core\Filter\FilterFactory.
@@ -69,7 +71,8 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    *
    * @param string $name
    *   (optional) The name of the filter group.
-   *   Defaults to 'Filter N' where N is the number of filter groups currently defined.
+   *   Defaults to 'Filter N' where N is the number of filter groups currently
+   *   defined.
    *
    * @return FilterGroupInterface
    *   Returns an new instance of FilterGroupInterface.
@@ -101,7 +104,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   /**
    * Removes a filter group.
    *
-   * @param string | FilterGroupInterface $group
+   * @param string|FilterGroupInterface $group
    *   Either the ID of the group to remove
    *   or the group itself.
    *
@@ -171,7 +174,9 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   }
 
   /**
-   * Implements PHP magic __toString method to convert the filter group to string.
+   * Implements PHP magic __toString().
+   *
+   * Converts the filter group to a string.
    *
    * @return string
    *   A string version of the filter container.

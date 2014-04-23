@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Afas\Component\Soap\NTLM_SoapClient.
+ * Contains \Afas\Component\Soap\NTLMSoapClient.
  */
 
 namespace Afas\Component\Soap;
@@ -14,9 +14,8 @@ use \SoapFault;
  * A child of SoapClient with support for ntlm proxy authentication
  *
  * @author Meltir <meltir@meltir.com>
- *
  */
-class NTLM_SoapClient extends SoapClient implements SoapClientInterface {
+class NTLMSoapClient extends SoapClient implements SoapClientInterface {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -40,14 +39,14 @@ class NTLM_SoapClient extends SoapClient implements SoapClientInterface {
    *
    * @var array
    */
-  private $curl_options = array();
+  private $curlOptions = array();
 
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
 
   /**
-   * NTLM_SoapClient object constructor.
+   * NTLMSoapClient object constructor.
    */
   public function __construct($wsdl, $options = array()) {
     // Set login and password.
@@ -61,7 +60,7 @@ class NTLM_SoapClient extends SoapClient implements SoapClientInterface {
     $options += array(
       'curl' => array(),
     );
-    $this->curl_options = array_replace_recursive($this->curlDefaults(), $options['curl']);
+    $this->curlOptions = array_replace_recursive($this->curlDefaults(), $options['curl']);
 
     parent::__construct($wsdl, $options);
   }
@@ -109,18 +108,19 @@ class NTLM_SoapClient extends SoapClient implements SoapClientInterface {
    *   The data to send along.
    *
    * @return string
+   *   Response from the server.
    * @throws SoapFault on curl connection error.
    */
   protected function callCurl($url, $data) {
     $handle = curl_init();
 
     // Set curl options.
-    foreach ($this->curl_options as $key => $value) {
+    foreach ($this->curlOptions as $key => $value) {
       curl_setopt($handle, $key, $value);
     }
 
     // Set curl headers.
-    $headers = $this->curl_options[CURLOPT_HTTPHEADER];
+    $headers = $this->curlOptions[CURLOPT_HTTPHEADER];
     $headers[] = "Content-length: " . strlen($data);
     curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 

@@ -8,7 +8,6 @@
 namespace Afas\Core\Filter;
 
 use Afas\Core\Filter\FilterContainer;
-//use Afas\Core\Filter\Filter;
 
 /**
  * @group AfasCoreFilter
@@ -31,7 +30,7 @@ class FilterContainerCombinedTest extends \PHPUnit_Framework_TestCase {
   public function singleFilterOperatorProvider() {
     return array(
       array(
-        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>'
+        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
       ),
       array(
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="2">0</Field></Filter></Filters>',

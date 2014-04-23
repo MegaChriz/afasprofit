@@ -32,7 +32,8 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   /**
    * Adds an item to the list.
    *
-   * @return void
+   * @return self
+   *   An instance of this class.
    */
   protected function addItem($item, $key = NULL) {
     if (is_null($key)) {
@@ -41,6 +42,7 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
     else {
       $this->list[$key] = $item;
     }
+    return $this;
   }
 
   /**
@@ -56,9 +58,11 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   /**
    * Removes an item from the list.
    *
-   * @return void
+   * @return self
+   *   An instance of this class.
    */
   protected function removeItem($key) {
     unset($this->list[$key]);
+    return $this;
   }
 }

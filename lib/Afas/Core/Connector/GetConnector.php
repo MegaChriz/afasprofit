@@ -38,13 +38,13 @@ class GetConnector extends ConnectorBase {
   /**
    * Sets a filter container.
    *
-   * @param FilterContainerInterface $filterContainer
+   * @param FilterContainerInterface $filter_container
    *   A container containing filters.
    *
    * @return void
    */
-  public function setFilterContainer(FilterContainerInterface $filterContainer) {
-    $this->filterContainer = $filterContainer;
+  public function setFilterContainer(FilterContainerInterface $filter_container) {
+    $this->filterContainer = $filter_container;
   }
 
   // --------------------------------------------------------------
@@ -65,27 +65,28 @@ class GetConnector extends ConnectorBase {
    * Return response result as XML string.
    *
    * @access public
-   * @return string XML
+   * @return string
+   *   Response result in XML format.
    *
    * @todo Don't instantiate DOMDocument if possible.
    * @todo Parse result in other class.
    */
   public function getResultXML() {
-    $sXMLString = $this->getResult();
-    $oDoc = new DOMDocument();
-    $oDoc->loadXML($sXMLString, LIBXML_PARSEHUGE);
+    $xml_string = $this->getResult();
+    $doc = new DOMDocument();
+    $doc->loadXML($xml_string, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
-    $oList = $oDoc->getElementsByTagName('GetDataResult');
-    $aData = array();
-    foreach ($oList as $oNode) {
-      foreach ($oNode->childNodes as $oChild) {
-        $aData[] = array($oChild->nodeName => $oChild->nodeValue);
+    $list = $doc->getElementsByTagName('GetDataResult');
+    $data = array();
+    foreach ($list as $node) {
+      foreach ($node->childNodes as $child) {
+        $data[] = array($child->nodeName => $child->nodeValue);
       }
     }
 
     // Create XML Document.
-    return '<?xml version="1.0" encoding="utf-8"?>' . $aData[0]['#text'];
+    return '<?xml version="1.0" encoding="utf-8"?>' . $data[0]['#text'];
   }
 
   /**
@@ -93,15 +94,16 @@ class GetConnector extends ConnectorBase {
    *
    * @access public
    * @return array
+   *   The response in array format.
    *
    * @todo Don't instantiate XML_Unserializer if possible.
    * @todo Parse result in other class.
    */
   public function getResultArray() {
-    $sXMLString = $this->getResultXML();
-    $oParser = new XML_Unserializer();
-    $oParser->unserialize($sXMLString);
-    return $oParser->get_unserialized_data();
+    $xml_string = $this->getResultXML();
+    $parser = new XML_Unserializer();
+    $parser->unserialize($xml_string);
+    return $parser->get_unserialized_data();
   }
 
   // --------------------------------------------------------------
@@ -128,7 +130,7 @@ class GetConnector extends ConnectorBase {
    *
    * @param string $function
    *   The function to call.
-   * @param $connector_id
+   * @param string $connector_id
    *   The get-connector to use.
    */
   public function sendRequest($function, $connector_id) {

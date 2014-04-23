@@ -11,8 +11,7 @@ use Afas\Core\Filter\Filter;
 
 class FilterTest extends \PHPUnit_Framework_TestCase {
   /**
-   * Test if an exception is thrown when bad name
-   * is passed to Filter.
+   * Test if an exception is thrown when a bad name is passed to Filter.
    *
    * @expectedException \InvalidArgumentException
    */
@@ -21,8 +20,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Test if an exception is thrown when a bad operator
-   * is passed to Filter.
+   * Test if an exception is thrown when a bad operator is passed to Filter.
    *
    * @dataProvider badFilterOperatorProvider()
    * @expectedException \InvalidArgumentException
@@ -54,4 +52,3 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
     $this->assertXmlStringEqualsXmlString($expected, $filter->compile());
   }
 }
- 

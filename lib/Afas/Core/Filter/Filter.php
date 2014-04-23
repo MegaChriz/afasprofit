@@ -101,13 +101,16 @@ class Filter implements FilterInterface {
    *   The property to get.
    *
    * @return mixed
+   *   Property's value.
    */
   public function __get($key) {
     switch ($key) {
       case 'field':
         return $this->field;
+
       case 'value':
         return $this->value;
+
       case 'operator':
         return $this->operator;
     }
@@ -151,9 +154,11 @@ class Filter implements FilterInterface {
       case 'field':
         $this->setField($value);
         break;
+
       case 'value':
         $this->setValue($value);
         break;
+
       case 'operator':
         $this->setOperator($value);
         break;
@@ -240,59 +245,73 @@ class Filter implements FilterInterface {
         case 'eq':
         case 'equal':
           return $this->setOperator(static::OPERATOR_EQ);
+
         case '>':
         case 'gt':
         case 'greater than':
           return $this->setOperator(static::OPERATOR_GT);
+
         case '>=':
         case 'ge':
         case 'greater than or equal':
           return $this->setOperator(static::OPERATOR_GE);
+
         case '<':
         case 'lt':
         case 'less than':
         case 'lesser than':
           return $this->setOperator(static::OPERATOR_LT);
+
         case '<=':
         case 'le':
         case 'less than or equal':
         case 'lesser than or equal':
           return $this->setOperator(static::OPERATOR_LE);
+
         case '!=':
         case '<>':
         case 'ne':
         case 'not equal':
           return $this->setOperator(static::OPERATOR_NE);
+
         case 'null':
         case 'is null':
         case 'empty':
           return $this->setOperator(static::OPERATOR_EMPTY);
+
         case 'not null':
         case 'is not null':
         case 'not empty':
           return $this->setOperator(static::OPERATOR_NOT_EMPTY);
+
         case 'contains':
         case 'like':
           return $this->setOperator(static::OPERATOR_CONTAINS);
+
         case 'not like':
         case 'not contains':
         case 'contains not':
         case 'does not contain':
           return $this->setOperator(static::OPERATOR_CONTAINS_NOT);
+
         case 'starts':
         case 'starts with':
           return $this->setOperator(static::OPERATOR_STARTS_WITH);
+
         case 'not starts':
         case 'starts not with':
         case 'does not start with':
           return $this->setOperator(static::OPERATOR_STARTS_NOT_WITH);
+
         case 'ends':
         case 'ends with':
           return $this->setOperator(static::OPERATOR_ENDS_WITH);
+
         case 'not ends':
         case 'ends not with':
         case 'does not end with':
           return $this->setOperator(static::OPERATOR_ENDS_NOT_WITH);
+
         case 'quick':
           return $this->setOperator(static::OPERATOR_QUICK);
       }

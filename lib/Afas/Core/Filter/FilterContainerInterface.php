@@ -8,7 +8,7 @@
 namespace Afas\Core\Filter;
 
 /**
- *
+ * Interface for filter container.
  */
 interface FilterContainerInterface {
   /**

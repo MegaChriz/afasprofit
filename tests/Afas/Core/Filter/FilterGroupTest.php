@@ -10,7 +10,7 @@ namespace Afas\Core\Filter;
 use Afas\Core\Filter\FilterGroup;
 
 class FilterGroupTest extends \PHPUnit_Framework_TestCase {
-   /**
+  /**
    * @var /Afas\Core\Filter\FilterGroup
    */
   private $group;

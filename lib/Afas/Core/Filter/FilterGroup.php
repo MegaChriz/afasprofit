@@ -109,7 +109,9 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   }
 
   /**
-   * Implements PHP magic __toString() method to convert the filter group to string.
+   * Implements PHP magic __toString().
+   *
+   * Converts the filter group to a string.
    *
    * @return string
    *   A string version of the filter group.

@@ -28,7 +28,8 @@ interface FilterGroupInterface {
    *
    * @return string
    *   XML generated string.
-   * @todo Maybe move to an other interface as Filter implements this method too?
+   * @todo Maybe move to an other interface as Filter implements this method
+   * too?
    */
   public function compile();
 

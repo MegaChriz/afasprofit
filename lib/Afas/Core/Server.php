@@ -54,13 +54,20 @@ class Server implements ServerInterface {
   /**
    * Server object constructor.
    *
+   * @param string $environment_id
+   *   The Profit environment to use.
+   * @param string $user_id
+   *   The username to use to login to Profit.
+   * @param string $password
+   *   The password to use to login to Profit.
+   *
    * @return \Afas\Core\Server
    */
-  public function __construct($environmentId, $userId, $password) {
+  public function __construct($environment_id, $user_id, $password) {
     $this->baseUrl = 'https://profitweb.afasonline.nl/profitservices';
     $this->uri = 'urn:Afas.Profit.Services';
-    $this->environmentId = $environmentId;
-    $this->userId = $userId;
+    $this->environmentId = $environment_id;
+    $this->userId = $user_id;
     $this->password = $password;
   }
 
