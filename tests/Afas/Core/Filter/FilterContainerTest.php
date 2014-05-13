@@ -14,12 +14,12 @@ use Afas\Core\Filter\FilterContainer;
  */
 class FilterContainerTest extends \PHPUnit_Framework_TestCase {
   /**
-   * @var /Afas\Core\Filter\FilterContainer
+   * @var \Afas\Core\Filter\FilterContainer
    */
   private $container;
 
   /**
-   * @var /Afas\Core\Filter\FilterGroupInterface
+   * @var \Afas\Core\Filter\FilterGroupInterface
    */
   private $group;
 
