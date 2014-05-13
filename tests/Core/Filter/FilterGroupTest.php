@@ -9,6 +9,10 @@ namespace Afas\Core\Filter;
 
 use Afas\Core\Filter\FilterGroup;
 
+/**
+ * @coversDefaultClass \Afas\Core\Filter\FilterContainer\FilterGroup
+ * @group AfasCoreFilter
+ */
 class FilterGroupTest extends \PHPUnit_Framework_TestCase {
   /**
    * @var /Afas\Core\Filter\FilterGroup
@@ -36,28 +40,28 @@ class FilterGroupTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::filter().
+   * @covers ::filter
    */
   public function testFilter() {
     $this->assertSame($this->group, $this->group->filter('item_id'));
   }
 
   /**
-   * @covers ::getName().
+   * @covers ::getName
    */
   public function testGetName() {
     $this->assertSame('my_name', $this->group->getName());
   }
 
   /**
-   * @covers ::compile().
+   * @covers ::compile
    */
   public function testCompileWithoutFilters() {
     $this->assertNull($this->group->compile());
   }
 
   /**
-   * @covers ::compile().
+   * @covers ::compile
    */
   public function testCompileWithFilters() {
     $this->group->filter('item_id');

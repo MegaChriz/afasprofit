@@ -9,6 +9,10 @@ namespace Afas\Core\Filter;
 
 use Afas\Core\Filter\Filter;
 
+/**
+ * @coversDefaultClass \Afas\Core\Filter\FilterContainer\Filter
+ * @group AfasCoreFilter
+ */
 class FilterTest extends \PHPUnit_Framework_TestCase {
   /**
    * Test if an exception is thrown when a bad name is passed to Filter.
@@ -44,7 +48,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::compile()
+   * @covers ::compile
    */
   public function testCompile() {
     $filter = new Filter('item_id');
