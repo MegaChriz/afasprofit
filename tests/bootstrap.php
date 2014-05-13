@@ -5,7 +5,4 @@
  * This file should PHPUnit give access to the afas classes.
  */
 
-use Afas\Autoload;
-
-require_once __DIR__ . '/../lib/Afas/Autoload.php';
-Autoload::register();
+require dirname(__DIR__) . '/vendor/autoload.php';

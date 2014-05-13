@@ -15,6 +15,9 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0" : { "Afas" : "lib/" }
+        "psr-4": {
+            "Afas\\": "src/",
+            "Afas\\Tests\\": "tests/"
+        }
     }
 }

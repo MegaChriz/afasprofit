@@ -5,14 +5,10 @@
  * Code that need to be loaded on every request.
  */
 
-use Afas\Autoload;
-
-// Require Autoloader.
-require_once __DIR__ . '/../lib/Afas/Autoload.php';
-Autoload::register();
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 // Require global Afas class.
-require_once __DIR__ . '/../lib/Afas/Afas.php';
+require_once dirname(__DIR__) . '/src/Afas.php';
 
 // Require global yvklibrary and functions.
 require_once '/Websites/library/importer.inc.php';

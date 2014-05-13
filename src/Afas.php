@@ -5,6 +5,8 @@
  * Contains Afas.
  */
 
+namespace Afas;
+
 class Afas {
   /**
    * Returns the typed data manager service.
