@@ -79,16 +79,17 @@ function afas_autoload($name = NULL) {
   $lib_path = AFAS_ROOT . '/libraries';
   $files = scandir($lib_path);
   foreach ($files as $file) {
-    if (is_dir($lib_path . '/' . $file) && $file != '.' && $file != '..') {
+    $path = $lib_path . '/' . $file;
+    if (is_dir($path) && $file != '.' && $file != '..') {
       // Look for a class first.
-      $filepath = $lib_path . '/' . $file . '/' . $name . '.class.php';
+      $filepath = $path . '/' . $name . '.class.php';
       if (file_exists($filepath)) {
         require_once($filepath);
         return TRUE;
       }
 
       // Else look for an interface.
-      $filepath = $lib_path . '/' . $file . '/' . $name . '.interface.php';
+      $filepath = $path . '/' . $name . '.interface.php';
       if (file_exists($filepath)) {
         require_once($filepath);
         return TRUE;

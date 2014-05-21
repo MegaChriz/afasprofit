@@ -31,7 +31,7 @@ class AfasGetConnector extends AfasConnector {
   public function init() {
     parent::init();
     $this->m_aFilters = array();
-    $this->m_sLocation = "http://" . $this->m_oServer->ip_address . "/profitservices/getconnector.asmx";
+    $this->m_sLocation = "https://" . $this->m_oServer->ip_address . "/profitservices/getconnector.asmx";
   }
 
   // --------------------------------------------------------------
@@ -70,7 +70,7 @@ class AfasGetConnector extends AfasConnector {
         }
       }
     }
-    $oFilterGroup = new AFAS_FilterGroup($p_sFilter_id);
+    $oFilterGroup = new AfasFilterGroup($p_sFilter_id);
     $oFilterGroup->tree_id = $p_sFilter_id;
     $this->m_aFilters[$p_sFilter_id] = $oFilterGroup;
     return $oFilterGroup;
@@ -114,7 +114,7 @@ class AfasGetConnector extends AfasConnector {
   public function getFiltersXML() {
     $sOutput = '<Filters>';
     foreach ($this->m_aFilters as $oFilterGroup) {
-      $sOutput .= $oFilterGroup->getXML();
+      $sOutput .= $oFilterGroup->compile();
     }
     $sOutput .= '</Filters>';
     return $sOutput;
@@ -129,7 +129,7 @@ class AfasGetConnector extends AfasConnector {
   public function getResultXML() {
     $sXMLString = $this->m_oSoapClient->__getLastResponse();
     $oDoc = new DOMDocument();
-    $oDoc->loadXML($sXMLString);
+    $oDoc->loadXML($sXMLString, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
     $oList = $oDoc->getElementsByTagName('GetDataResult');

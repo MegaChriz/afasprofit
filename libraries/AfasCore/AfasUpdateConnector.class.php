@@ -59,7 +59,7 @@ class AfasUpdateConnector extends AfasConnector implements iAfasElement {
   public function init() {
     parent::init();
     $this->m_oElement = new AfasElement($this, $this->m_sConnectorType);
-    $this->m_sLocation = "http://" . $this->m_oServer->ip_address . "/profitservices/updateconnector.asmx";
+    $this->m_sLocation = "https://" . $this->m_oServer->ip_address . "/profitservices/updateconnector.asmx";
   }
 
   // --------------------------------------------------------------

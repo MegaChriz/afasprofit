@@ -245,7 +245,7 @@ class AfasXSDRead {
           break;
 
         default:
-          $this->readFields($entry, &$array, $descriptions, $possible_values);
+          $this->readFields($entry, $array, $descriptions, $possible_values);
           break;
       }
       $i++;

@@ -87,7 +87,7 @@ class AfasConnector {
   public function init() {
     // Set default values
     $this->m_oSoapClient = NULL;
-    $this->m_sLocation = "http://" . $this->m_oServer->ip_address . "/profitservices/";
+    $this->m_sLocation = "https://" . $this->m_oServer->ip_address . "/profitservices/";
     $this->m_sURI = 'urn:Afas.Profit.Services';
     $this->m_sEnvironment = $this->m_oServer->environment;
     $this->m_sLogonAs = '';
@@ -231,11 +231,13 @@ class AfasConnector {
       'trace' => 1,
       "style" => SOAP_RPC,
       "use" => SOAP_ENCODED,
+      'login' => $this->m_sUser,
+      'password' => $this->m_sPassword,
     );
     // Merge with additional options
     $aOptions = array_merge($aOptions, $p_aOptions);
 
-    $this->m_oSoapClient = new MSSoapClient(NULL, $aOptions);
+    $this->m_oSoapClient = new NTLM_SoapClient(NULL, $aOptions);
   }
 
   /**
@@ -249,14 +251,11 @@ class AfasConnector {
    */
   protected function _sendRequest($p_sFunction, $p_aParameters = array(), $p_aOptions = array()) {
     if (!$this->isConnected()) {
-      // Connect first
+      // Connect first.
       $this->connect();
     }
 
-    // Set action to call
-    $this->m_oSoapClient->setAction($p_sFunction);
-
-    // Setup parameters
+    // Setup parameters.
     $aParams = array(
       'environmentId' => $this->m_sEnvironment,
       'userId' => $this->m_sUser,
@@ -273,15 +272,17 @@ class AfasConnector {
       $aSoapParams[] = new SoapParam($mValue, $sKey);
     }
 
-    // Setup options
+    // Setup options.
     $aOptions = array(
       'soapaction' => $this->m_sURI . '/' . $p_sFunction,
       'uri' => $this->m_sURI,
     );
-    // Merge with additional parameters defined by subclasses
+    // Merge with additional parameters defined by subclasses.
     $this->_additionalOptions($aOptions);
     // Merge with additional options.
     $aOptions = array_merge($aOptions, $p_aOptions);
+
+    // Send request.
     $this->m_oSoapClient->__soapCall($p_sFunction, $aSoapParams, $aOptions);
   }
 
@@ -336,7 +337,7 @@ class AfasConnector {
     if ($this->isConnected()) {
       $output = '';
       $output .= "\nDumping request headers:\n" . $this->m_oSoapClient->__getLastRequestHeaders();
-      $output .= "\nDumping request:\n" . $this->m_oSoapClient->__getLastRequest();
+      $output .= "\nDumping request:\n" . htmlentities($this->m_oSoapClient->__getLastRequest());
       $output .= "\nDumping response headers:\n" . $this->m_oSoapClient->__getLastResponseHeaders();
       $output .= "\nDumping response:\n" . $this->m_oSoapClient->__getLastResponse();
       return $output;
