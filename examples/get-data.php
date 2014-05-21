@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Test if the Afas API works.
+ * Tests if the Afas API works.
  */
 
 // Afas php.
-require_once('afas.php');
+require_once('../afas.php');
 
 // Initialize Afas environment.
 afas_initialize();
