@@ -15,6 +15,7 @@ afas_initialize();
 try {
   $oServer = AfasServer::get();
   $oConnector = $oServer->getConnector();
+  $oConnector->addFilter('code', 'AA.1');
   $oConnector->sendRequest('GetData', 'KKB_Functie');
   $oConnector->outputDataResult();
   exit();
