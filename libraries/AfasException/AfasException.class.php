@@ -53,7 +53,7 @@ class AfasException extends Exception {
   /**
    * Occurs when organisation already has an invoice contact.
    */
-  const ERROR_INVOICE_CONTACT = "SoapFault: sending invoice contact to Afas leaded to errors: General message: Type rapport mag niet vaker dan één keer voorkomen.";
+  const ERROR_INVOICE_CONTACT = "General message: Type rapport mag niet vaker dan één keer voorkomen.";
 
   /**
    * Occurs when an item already exists in Profit.
