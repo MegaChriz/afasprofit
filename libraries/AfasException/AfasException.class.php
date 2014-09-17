@@ -56,6 +56,11 @@ class AfasException extends Exception {
   const ERROR_INVOICE_CONTACT = "General message: Type rapport mag niet vaker dan één keer voorkomen.";
 
   /**
+   * Occurs when sending a provapplication for blocked contact.
+   */
+  const ERROR_CONTACT_BLOCKED = "General message: Deze contactpersoon is niet toegestaan omdat hij/zij geblokeerd is.";
+
+  /**
    * Occurs when an item already exists in Profit.
    */
   const ERROR_CONTACT_ALREADY_EXISTS = "(AntaObject) The primary key already exists for field 'Nummer'";
