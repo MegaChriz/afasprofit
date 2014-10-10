@@ -1,0 +1,253 @@
+coid;name;eu;iso-alpha2;iso-alpha3;iso-num3
+A;Österreich;AT;AT;AUT;40
+AE;Ver. Arabische Emiraten;;AE;ARE;784
+AFG;Afghanistan;;AF;AFG;4
+AG;Antigua en Barbuda;;AG;ATG;28
+AIA;Anguilla;;AI;AIA;660
+AL;Albanië;;AL;ALB;8
+AM;Armenië;;AM;ARM;51
+AN;Angola;;AO;AGO;24
+AND;Andorra;;AD;AND;20
+AS;Saudi-Arabië;;SA;SAU;682
+ASM;Amerikaans Samoa;;AS;ASM;16
+ATA;Antarctica;;AQ;ATA;10
+ATF;Franse Zuidelijke Territories;;TF;ATF;260
+AUS;Australië;;AU;AUS;36
+AW;Aruba;;AW;ABW;533
+AX;Aland Islands;;AX;ALA;248
+AZ;Azerbeidzjan;;AZ;AZE;31
+B;België;BE;BE;BEL;56
+BA;Bosnië Herzegowina;;BA;BIH;70
+BD;Bangladesh;;BD;BGD;50
+BDS;Barbados;;BB;BRB;52
+BG;Bulgarije;BG;BG;BGR;100
+BH;Belize;;BZ;BLZ;84
+BL;Saint Barthélemy;;BL;BLM;652
+BM;Bermuda;;BM;BMU;60
+BOL;Bolivia;;BO;BOL;68
+BQ;Bonaire, Sint Eustatius, Saba;;BQ;BES;535
+BR;Brazilië;;BR;BRA;76
+BRN;Bahrein;;BH;BHR;48
+BRU;Brunei;;BN;BRN;96
+BS;Bahama's;;BS;BHS;44
+BT;Bhutan;;BT;BTN;64
+BU;Burkina Faso;;BF;BFA;854
+BUR;Myanmar (vml. Burma);;MM;MMR;104
+BVT;Bouvet Island;;BV;BVT;74
+BY;Wit Rusland;;BY;BLR;112
+C;Cuba;;CU;CUB;192
+CCK;Cocos Eilanden;;CC;CCK;166
+CDN;Canada;;CA;CAN;124
+CH;Zwitserland;;CH;CHE;756
+CI;Ivoorkust (Cote d'Ivoire);;CI;CIV;384
+CL;Sri Lanka;;LK;LKA;144
+CN;China;;CN;CHN;156
+CO;Colombia;;CO;COL;170
+COK;Cook Eilanden;;CK;COK;184
+CR;Costa Rica;;CR;CRI;188
+CV;Kaapverdië;;CV;CPV;132
+CW;Curaçao;;CW;CUW;531
+CXR;Christmas Island;;CX;CXR;162
+CY;Cyprus;CY;CY;CYP;196
+CYM;Kaaiman eilanden;;KY;CYM;136
+CZ;Tsjechië;CZ;CZ;CZE;203
+D;Deutschland;DE;DE;DEU;276
+DJI;Djibouti;;DJ;DJI;262
+DK;Denemarken;DK;DK;DNK;208
+DOM;Dominicaanse Republiek;;DO;DOM;214
+DY;Benin (Dahomey);;BJ;BEN;204
+DZ;Algerije;;DZ;DZA;12
+E;Spanje;ES;ES;ESP;724
+EAK;Kenya;;KE;KEN;404
+EAT;Tanzania;;TZ;TZA;834
+EAU;Uganda;;UG;UGA;800
+EC;Ecuador;;EC;ECU;218
+EE;Estland;EE;EE;EST;233
+EL;El Salvador;;SV;SLV;222
+EQ;Equatoriaal Guinee;;GQ;GNQ;226
+ERI;Eritrea;;ER;ERI;232
+ESH;Westelijke Sahara;;EH;ESH;732
+ET;Egypte;;EG;EGY;818
+ETH;Ethiopië;;ET;ETH;231
+F;Frankrijk;FR;FR;FRA;250
+FIN;Finland;FI;FI;FIN;246
+FJI;Fiji;;FJ;FJI;242
+FL;Liechtenstein;;LI;LIE;438
+FLK;Falkland Eilanden;;FK;FLK;238
+FRO;Faroer Eilanden;;FO;FRO;234
+GA;Gabon;;GA;GAB;266
+GB;Groot-Brittannië;GB;GB;GBR;826
+GCA;Guatemala;;GT;GTM;320
+GE;Georgië;;GE;GEO;268
+GF;Frans Guyana;;GF;GUF;254
+GG;Guernsey;;GG;GGY;831
+GH;Ghana;;GH;GHA;288
+GIB;Gibraltar;;GI;GIB;292
+GN;Guinee (Republiek);;GN;GIN;324
+GP;Guadeloupe;;GP;GLP;312
+GR;Griekenland;EL;GR;GRC;300
+GRO;Groenland;;GL;GRL;304
+GUM;Guam;;GU;GUM;316
+GUY;Guyana;;GY;GUY;328
+GW;Guinee Bissau;;GW;GNB;624
+H;Hongarije;HU;HU;HUN;348
+HK;Hongkong;;HK;HKG;344
+HKJ;Jordanië;;JO;JOR;400
+HMD;Heard Eiland en McDonald Eilanden;;HM;HMD;334
+HON;Honduras;;HN;HND;340
+HR;Kroatië;HR;HR;HRV;191
+I;Italië;IT;IT;ITA;380
+IL;Israël;;IL;ISR;376
+IM;Isle of Man;;IM;IMN;833
+IND;India;;IN;IND;356
+IOT;British Indian Ocean Territory;;IO;IOT;86
+IR;Iran;;IR;IRN;364
+IRL;Ierland;IE;IE;IRL;372
+IRQ;Irak;;IQ;IRQ;368
+IS;IJsland;;IS;ISL;352
+J;Japan;;JP;JPN;392
+JA;Jamaica;;JM;JAM;388
+JE;Jersey;;JE;JEY;832
+K;Cambodja;;KH;KHM;116
+KG;Kyrgyzstan;;KG;KGZ;417
+KIR;Kiribati;;KI;KIR;296
+KM;Comoren;;KM;COM;174
+KN;Saint Kitts en Nevis;;KN;KNA;659
+KO;Noord-Korea;;KP;PRK;408
+KWT;Koeweit;;KW;KWT;414
+KZ;Kazachstan;;KZ;KAZ;398
+L;Luxemburg;LU;LU;LUX;442
+LAO;Laos;;LA;LAO;418
+LAR;Libië;;LY;LBY;434
+LB;Liberia;;LR;LBR;430
+LS;Lesotho;;LS;LSO;426
+LT;Litouwen;LT;LT;LTU;440
+LV;Letland;LV;LV;LVA;428
+M;Malta;MT;MT;MLT;470
+MA;Marokko;;MA;MAR;504
+MAL;Maleisië;;MY;MYS;458
+MAR;Marshalleilanden;;MH;MHL;584
+MC;Monaco;;MC;MCO;492
+MD;Moldavië;;MD;MDA;498
+MEX;Mexico;;MX;MEX;484
+MF;Saint Martin (Franse deel);;MF;MAF;663
+MIC;Micronesia;;FM;FSM;583
+MK;Macedonië;;MK;MKD;807
+MNE;Montenegro;;ME;MNE;499
+MNP;Noordelijke Mariana Eilanden;;MP;MNP;580
+MO;Macau;;MO;MAC;446
+MOC;Mozambique;;MZ;MOZ;508
+MON;Mongolië;;MN;MNG;496
+MQ;Martinique;;MQ;MTQ;474
+MS;Mauritius;;MU;MUS;480
+MSR;Montserrat;;MS;MSR;500
+MV;Maldiven;;MV;MDV;462
+MW;Malawi;;MW;MWI;454
+MYT;Mayotte;;YT;MYT;175
+N;Noorwegen;;NO;NOR;578
+NA;Voorheen Nederlandse Antillen;;AN;ANT;530
+NCL;Nieuw-Caledonië;;NC;NCL;540
+NFK;Norfolk Eiland;;NF;NFK;574
+NIC;Nicaragua;;NI;NIC;558
+NIU;Niue;;NU;NIU;570
+NL;Nederland;NL;NL;NLD;528
+NPL;Nepal;;NP;NPL;524
+NR;Nauru;;NR;NRU;520
+NZ;Nieuw-Zeeland;;NZ;NZL;554
+OEZ;Oezbekistan;;UZ;UZB;860
+OMA;Oman;;OM;OMN;512
+P;Portugal;PT;PT;PRT;620
+PA;Panama;;PA;PAN;591
+PCN;Pitcairn;;PN;PCN;612
+PE;Peru;;PE;PER;604
+PK;Pakistan;;PK;PAK;586
+PL;Polen;PL;PL;POL;616
+PLW;Palau;;PW;PLW;585
+PNG;Papua-Nieuw-Guinea;;PG;PNG;598
+PR;Puerto Rico;;PR;PRI;630
+PSE;Palestina;;PS;PSE;275
+PY;Paraguay;;PY;PRY;600
+PYF;Frans Polynesië;;PF;PYF;258
+QA;Qatar;;QA;QAT;634
+RA;Argentinië;;AR;ARG;32
+RB;Botswana;;BW;BWA;72
+RC;Taiwan;;TW;TWN;158
+RCA;Centr. Afrikaanse Republ;;CF;CAF;140
+RCB;Congo, Republic Of;;CG;COG;178
+RCH;Chili;;CL;CHL;152
+REU;Réunion;;RE;REU;638
+RH;Haïti;;HT;HTI;332
+RI;Indonesië;;ID;IDN;360
+RIM;Mauritanië;;MR;MRT;478
+RL;Libanon;;LB;LBN;422
+RM;Madagaskar;;MG;MDG;450
+RMM;Mali;;ML;MLI;466
+RN;Niger;;NE;NER;562
+RO;Roemenië;RO;RO;ROU;642
+ROK;Zuid-Korea;;KR;KOR;410
+ROU;Uruguay;;UY;URY;858
+RP;Filippijnen;;PH;PHL;608
+RSM;San Marino;;SM;SMR;674
+RU;Burundi;;BI;BDI;108
+RUS;Russische Federatie;;RU;RUS;643
+RWA;Rwanda;;RW;RWA;646
+S;Zweden;SE;SE;SWE;752
+SB;Solomoneilanden;;SB;SLB;90
+SD;Swaziland;;SZ;SWZ;748
+SGP;Singapore;;SG;SGP;702
+SGS;Sandwich Eilanden;;GS;SGS;239
+SHN;Sint Helena;;SH;SHN;654
+SJM;Svalbard en Jan Mayen;;SJ;SJM;744
+SK;Slowakije;SK;SK;SVK;703
+SLO;Slovenië;SI;SI;SVN;705
+SME;Suriname;;SR;SUR;740
+SN;Senegal;;SN;SEN;686
+SP;Somalia;;SO;SOM;706
+SPM;Sint Pierre en Miquelon;;PM;SPM;666
+SRB;Servië;;RS;SRB;688
+SS;Zuid Soedan;;SS;SSD;728
+ST;Sao Tome en Principe;;ST;STP;678
+SUD;Sudan;;SD;SDN;729
+SWA;Namibië;;NA;NAM;516
+SX;Sint Maarten;;SX;SXM;534
+SY;Seychellen;;SC;SYC;690
+SYR;Syrië;;SY;SYR;760
+T;Thailand;;TH;THA;764
+TAD;Tadzjikistan;;TJ;TJK;762
+TC;Kameroen;;CM;CMR;120
+TCA;Turks en Caicos Eilanden;;TC;TCA;796
+TG;Togo;;TG;TGO;768
+TKL;Tokelau;;TK;TKL;772
+TLS;Timor Leste;;TL;TLS;626
+TMN;Turkmenistan;;TM;TKM;795
+TN;Tunesië;;TN;TUN;788
+TO;Tonga;;TO;TON;776
+TR;Turkije;;TR;TUR;792
+TS;Tsjaad;;TD;TCD;148
+TT;Trinidad/Tobago;;TT;TTO;780
+TV;Tuvalu;;TV;TUV;798
+UA;Oekraine;;UA;UKR;804
+UMI;United States Minor Outlying Eilanden;;UM;UMI;581
+USA;Verenigde Staten;;US;USA;840
+VAT;Vaticaanstad;;VA;VAT;336
+VGB;Britse Maagdeneilanden;;VG;VGB;92
+VIR;Amerikaanse Maagdeneilanden;;VI;VIR;850
+VN;Vietnam;;VN;VNM;704
+VU;Vanuatu;;VU;VUT;548
+WAG;Gambia;;GM;GMB;270
+WAL;Sierra Leone;;SL;SLE;694
+WAN;Nigeria;;NG;NGA;566
+WD;Dominica;;DM;DMA;212
+WG;Grenada;;GD;GRD;308
+WL;Saint Lucia;;LC;LCA;662
+WLF;Wallis en Futuna;;WF;WLF;876
+WSM;Samoa;;WS;WSM;882
+WV;Saint Vincent/Grenadines;;VC;VCT;670
+XK;Kosovo;;XK;XK;381
+YMN;Jemen;;YE;YEM;887
+YU;Joegoslavie;;YU;YUG;
+YV;Venezuela;;VE;VEN;862
+Z;Zambia;;ZM;ZMB;894
+ZA;Zuid-Afrika;;ZA;ZAF;710
+ZRE;Congo, The Democratic Republic Of The;;CD;COD;180
+ZW;Zimbabwe;;ZW;ZWE;716

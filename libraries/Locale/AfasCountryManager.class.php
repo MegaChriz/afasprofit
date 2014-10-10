@@ -5,17 +5,282 @@
  * Contains AfasCountryManager class.
  */
 
+use KzykHys\CsvParser\CsvParser;
+
 /**
  * Provides list of countries.
  */
 class AfasCountryManager {
+  /**
+   * Get an array of all country code => profit country code pairs.
+   *
+   * @return
+   *   An array of all country code => profit country code pairs.
+   */
+  public static function getList() {
+    return array(
+      'AT' => 'A',
+      'AE' => 'AE',
+      'AF' => 'AFG',
+      'AG' => 'AG',
+      'AI' => 'AIA',
+      'AL' => 'AL',
+      'AM' => 'AM',
+      'AO' => 'AN',
+      'AD' => 'AND',
+      'SA' => 'AS',
+      'AS' => 'ASM',
+      'AQ' => 'ATA',
+      'TF' => 'ATF',
+      'AU' => 'AUS',
+      'AW' => 'AW',
+      'AX' => 'AX',
+      'AZ' => 'AZ',
+      'BE' => 'B',
+      'BA' => 'BA',
+      'BD' => 'BD',
+      'BB' => 'BDS',
+      'BG' => 'BG',
+      'BZ' => 'BH',
+      'BL' => 'BL',
+      'BM' => 'BM',
+      'BO' => 'BOL',
+      'BQ' => 'BQ',
+      'BR' => 'BR',
+      'BH' => 'BRN',
+      'BN' => 'BRU',
+      'BS' => 'BS',
+      'BT' => 'BT',
+      'BF' => 'BU',
+      'MM' => 'BUR',
+      'BV' => 'BVT',
+      'BY' => 'BY',
+      'CU' => 'C',
+      'CC' => 'CCK',
+      'CA' => 'CDN',
+      'CH' => 'CH',
+      'CI' => 'CI',
+      'LK' => 'CL',
+      'CN' => 'CN',
+      'CO' => 'CO',
+      'CK' => 'COK',
+      'CR' => 'CR',
+      'CV' => 'CV',
+      'CW' => 'CW',
+      'CX' => 'CXR',
+      'CY' => 'CY',
+      'KY' => 'CYM',
+      'CZ' => 'CZ',
+      'DE' => 'D',
+      'DJ' => 'DJI',
+      'DK' => 'DK',
+      'DO' => 'DOM',
+      'BJ' => 'DY',
+      'DZ' => 'DZ',
+      'ES' => 'E',
+      'KE' => 'EAK',
+      'TZ' => 'EAT',
+      'UG' => 'EAU',
+      'EC' => 'EC',
+      'EE' => 'EE',
+      'SV' => 'EL',
+      'GQ' => 'EQ',
+      'ER' => 'ERI',
+      'EH' => 'ESH',
+      'EG' => 'ET',
+      'ET' => 'ETH',
+      'FR' => 'F',
+      'FI' => 'FIN',
+      'FJ' => 'FJI',
+      'LI' => 'FL',
+      'FK' => 'FLK',
+      'FO' => 'FRO',
+      'GA' => 'GA',
+      'GB' => 'GB',
+      'GT' => 'GCA',
+      'GE' => 'GE',
+      'GF' => 'GF',
+      'GG' => 'GG',
+      'GH' => 'GH',
+      'GI' => 'GIB',
+      'GN' => 'GN',
+      'GP' => 'GP',
+      'GR' => 'GR',
+      'GL' => 'GRO',
+      'GU' => 'GUM',
+      'GY' => 'GUY',
+      'GW' => 'GW',
+      'HU' => 'H',
+      'HK' => 'HK',
+      'JO' => 'HKJ',
+      'HM' => 'HMD',
+      'HN' => 'HON',
+      'HR' => 'HR',
+      'IT' => 'I',
+      'IL' => 'IL',
+      'IM' => 'IM',
+      'IN' => 'IND',
+      'IO' => 'IOT',
+      'IR' => 'IR',
+      'IE' => 'IRL',
+      'IQ' => 'IRQ',
+      'IS' => 'IS',
+      'JP' => 'J',
+      'JM' => 'JA',
+      'JE' => 'JE',
+      'KH' => 'K',
+      'KG' => 'KG',
+      'KI' => 'KIR',
+      'KM' => 'KM',
+      'KN' => 'KN',
+      'KP' => 'KO',
+      'KW' => 'KWT',
+      'KZ' => 'KZ',
+      'LU' => 'L',
+      'LA' => 'LAO',
+      'LY' => 'LAR',
+      'LR' => 'LB',
+      'LS' => 'LS',
+      'LT' => 'LT',
+      'LV' => 'LV',
+      'MT' => 'M',
+      'MA' => 'MA',
+      'MY' => 'MAL',
+      'MH' => 'MAR',
+      'MC' => 'MC',
+      'MD' => 'MD',
+      'MX' => 'MEX',
+      'MF' => 'MF',
+      'FM' => 'MIC',
+      'MK' => 'MK',
+      'ME' => 'MNE',
+      'MP' => 'MNP',
+      'MO' => 'MO',
+      'MZ' => 'MOC',
+      'MN' => 'MON',
+      'MQ' => 'MQ',
+      'MU' => 'MS',
+      'MS' => 'MSR',
+      'MV' => 'MV',
+      'MW' => 'MW',
+      'YT' => 'MYT',
+      'NO' => 'N',
+      'AN' => 'NA',
+      'NC' => 'NCL',
+      'NF' => 'NFK',
+      'NI' => 'NIC',
+      'NU' => 'NIU',
+      'NL' => 'NL',
+      'NP' => 'NPL',
+      'NR' => 'NR',
+      'NZ' => 'NZ',
+      'UZ' => 'OEZ',
+      'OM' => 'OMA',
+      'PT' => 'P',
+      'PA' => 'PA',
+      'PN' => 'PCN',
+      'PE' => 'PE',
+      'PK' => 'PK',
+      'PL' => 'PL',
+      'PW' => 'PLW',
+      'PG' => 'PNG',
+      'PR' => 'PR',
+      'PS' => 'PSE',
+      'PY' => 'PY',
+      'PF' => 'PYF',
+      'QA' => 'QA',
+      'AR' => 'RA',
+      'BW' => 'RB',
+      'TW' => 'RC',
+      'CF' => 'RCA',
+      'CG' => 'RCB',
+      'CL' => 'RCH',
+      'RE' => 'REU',
+      'HT' => 'RH',
+      'ID' => 'RI',
+      'MR' => 'RIM',
+      'LB' => 'RL',
+      'MG' => 'RM',
+      'ML' => 'RMM',
+      'NE' => 'RN',
+      'RO' => 'RO',
+      'KR' => 'ROK',
+      'UY' => 'ROU',
+      'PH' => 'RP',
+      'SM' => 'RSM',
+      'BI' => 'RU',
+      'RU' => 'RUS',
+      'RW' => 'RWA',
+      'SE' => 'S',
+      'SB' => 'SB',
+      'SZ' => 'SD',
+      'SG' => 'SGP',
+      'GS' => 'SGS',
+      'SH' => 'SHN',
+      'SJ' => 'SJM',
+      'SK' => 'SK',
+      'SI' => 'SLO',
+      'SR' => 'SME',
+      'SN' => 'SN',
+      'SO' => 'SP',
+      'PM' => 'SPM',
+      'RS' => 'SRB',
+      'SS' => 'SS',
+      'ST' => 'ST',
+      'SD' => 'SUD',
+      'NA' => 'SWA',
+      'SX' => 'SX',
+      'SC' => 'SY',
+      'SY' => 'SYR',
+      'TH' => 'T',
+      'TJ' => 'TAD',
+      'CM' => 'TC',
+      'TC' => 'TCA',
+      'TG' => 'TG',
+      'TK' => 'TKL',
+      'TL' => 'TLS',
+      'TM' => 'TMN',
+      'TN' => 'TN',
+      'TO' => 'TO',
+      'TR' => 'TR',
+      'TD' => 'TS',
+      'TT' => 'TT',
+      'TV' => 'TV',
+      'UA' => 'UA',
+      'UM' => 'UMI',
+      'US' => 'USA',
+      'VA' => 'VAT',
+      'VG' => 'VGB',
+      'VI' => 'VIR',
+      'VN' => 'VN',
+      'VU' => 'VU',
+      'GM' => 'WAG',
+      'SL' => 'WAL',
+      'NG' => 'WAN',
+      'DM' => 'WD',
+      'GD' => 'WG',
+      'LC' => 'WL',
+      'WF' => 'WLF',
+      'WS' => 'WSM',
+      'VC' => 'WV',
+      'XK' => 'XK',
+      'YE' => 'YMN',
+      'YU' => 'YU',
+      'VE' => 'YV',
+      'ZM' => 'Z',
+      'ZA' => 'ZA',
+      'CD' => 'ZRE',
+      'ZW' => 'ZW',
+    );
+  }
+
   /**
    * Get an array of all country numcode => country iso 2 code pairs.
    *
    * @return
    *   An array of all country numcode => country iso 2 code pairs.
    */
-  public static function getList() {
+  public static function getListNum3toIso2() {
     return array(
       4 => 'AF',
       8 => 'AL',
@@ -34,7 +299,7 @@ class AfasCountryManager {
       50 => 'BD',
       51 => 'AM',
       52 => 'BB',
-      56 => 'B',
+      56 => 'BE',
       60 => 'BM',
       64 => 'BT',
       68 => 'BO',
@@ -271,6 +536,35 @@ class AfasCountryManager {
   }
 
   /**
+   * Returns list of countries codes from CSV file.
+   *
+   * @return array
+   *   A list of country codes, with the following keys:
+   *   - coid
+   *     Profit's country ID.
+   *   - name
+   *     Name of the country
+   *   - eu
+   *   - iso-alpha2
+   *   - iso-alpha3
+   *   - iso-num3
+   */
+  public static function getListFromCSV() {
+    $parser = CsvParser::fromFile(__DIR__ . '/countrycodes.csv', array(
+      'delimiter' => ';',
+      'header' => array(
+        'coid',
+        'name',
+        'eu',
+        'iso-alpha2',
+        'iso-alpha3',
+        'iso-num3',
+      ),
+    ));
+    return $parser->parse();
+  }
+
+  /**
    * Returns an array of countries and their postal code patterns.
    *
    * @todo There must be an external library that handles this.
@@ -286,17 +580,17 @@ class AfasCountryManager {
   /**
    * Returns a postal code pattern for one country.
    *
-   * @param int $country_id
-   *   The pattern to return.
+   * @param string $country_iso2
+   *   The iso2 country code.
    *
    * @return mixed
    *  string postal code pattern, if the pattern was for the asked country.
    *  NULL otherwise.
    */
-  public static function getPostalCodePattern($country_id) {
+  public static function getPostalCodePattern($country_iso2) {
     $patterns = self::getAllPostalCodePatterns();
-    if (isset($patterns[$country_id])) {
-      return $patterns[$country_id];
+    if (isset($patterns[$country_iso2])) {
+      return $patterns[$country_iso2];
     }
   }
 }
