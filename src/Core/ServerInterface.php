@@ -8,6 +8,33 @@
 namespace Afas\Core;
 
 interface ServerInterface {
+  // --------------------------------------------------------------
+  // ACTION
+  // --------------------------------------------------------------
+
+  /**
+   * Returns a get query object.
+   *
+   * @param string $connector_id
+   *   The Get connector to use.
+   *
+   * @return \Afas\Core\Query\Get
+   *   An instance of Get.
+   */
+  public function get($connector_id);
+
+  /**
+   * Returns an update query object.
+   *
+   * @return \Afas\Core\Query\Update
+   *   An instance of Update.
+   */
+  public function update();
+
+  // --------------------------------------------------------------
+  // GETTERS
+  // --------------------------------------------------------------
+
   /**
    * Returns the base url of the Profit server.
    *
@@ -55,18 +82,4 @@ interface ServerInterface {
    *   The 'logonAs' variable.
    */
   public function getLogonAs();
-
-  /**
-   * Returns a get query object.
-   *
-   * @return \Afas\Core\Query\Get
-   */
-  public function get($connector_id);
-
-  /**
-   * Returns an update query object.
-   *
-   * @return \Afas\Core\Query\Update
-   */
-  public function update();
 }
