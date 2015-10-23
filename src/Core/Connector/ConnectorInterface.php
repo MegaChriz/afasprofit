@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of \Afas\Core\ConnectorInterface.
+ * Definition of \Afas\Core\Connector\ConnectorInterface.
  */
 
 namespace Afas\Core\Connector;

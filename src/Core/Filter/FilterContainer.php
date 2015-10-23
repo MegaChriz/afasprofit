@@ -149,7 +149,8 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     if (!$this->count()) {
       return $this->group();
     }
-    return end($this->getItems());
+    $items = $this->getItems();
+    return end($items);
   }
 
   // --------------------------------------------------------------

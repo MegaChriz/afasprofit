@@ -2,14 +2,15 @@
 
 /**
  * @file
- * Contains \Afas\Core\Connector.
+ * Contains \Afas\Core\Connector\ConnectorBase.
  */
 
 namespace Afas\Core\Connector;
 
+use Afas\Component\Soap\SoapClientInterface;
 use Afas\Core\Connector\ConnectorInterface;
 use Afas\Core\ServerInterface;
-use Afas\Component\Soap\SoapClientInterface;
+use Afas\Core\Result\Result;
 use \SoapParam;
 
 /**
@@ -79,10 +80,11 @@ abstract class ConnectorBase implements ConnectorInterface {
   /**
    * Returns result.
    *
-   * @todo Wrap result into object?
+   * @return Afas\Core\Result\Result
+   *   An instance of Result.
    */
   public function getResult() {
-    return $this->client->__getLastResponse();
+    return new Result($this->client->__getLastResponse());
   }
 
   /**

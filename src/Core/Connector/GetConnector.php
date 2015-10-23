@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Afas\Core\GetConnector.
+ * Contains \Afas\Core\Connector\GetConnector.
  *
  * @todo Maybe move the filter logic out of get-connector.
  * @todo Put code for parsing the result out of this class.
@@ -14,7 +14,7 @@ use Afas\Core\Connector\ConnectorBase;
 use Afas\Core\Filter\FilterContainerInterface;
 use \DOMDocument;
 
-class GetConnector extends ConnectorBase {
+class GetConnector extends ConnectorBase implements GetConnectorInterface {
   // --------------------------------------------------------------
   // CONSTANTS
   // --------------------------------------------------------------
@@ -117,7 +117,7 @@ class GetConnector extends ConnectorBase {
    * A filter container.
    *
    * @var FilterContainerInterface
-   * An instance of FilterContainerInterface.
+   *   An instance of FilterContainerInterface.
    */
   protected $filterContainer;
 
@@ -184,51 +184,6 @@ class GetConnector extends ConnectorBase {
    */
   public function getLocation() {
     return $this->getServer()->getBaseUrl() . '/getconnector.asmx';
-  }
-
-  /**
-   * Return response result as XML string.
-   *
-   * @access public
-   * @return string
-   *   Response result in XML format.
-   *
-   * @todo Don't instantiate DOMDocument if possible.
-   * @todo Parse result in other class.
-   */
-  public function getResultXML() {
-    $xml_string = $this->getResult();
-    $doc = new DOMDocument();
-    $doc->loadXML($xml_string, LIBXML_PARSEHUGE);
-
-    // Retrieve data result.
-    $list = $doc->getElementsByTagName('GetDataResult');
-    $data = array();
-    foreach ($list as $node) {
-      foreach ($node->childNodes as $child) {
-        $data[] = array($child->nodeName => $child->nodeValue);
-      }
-    }
-
-    // Create XML Document.
-    return '<?xml version="1.0" encoding="utf-8"?>' . $data[0]['#text'];
-  }
-
-  /**
-   * Return response result in an array.
-   *
-   * @access public
-   * @return array
-   *   The response in array format.
-   *
-   * @todo Don't instantiate XML_Unserializer if possible.
-   * @todo Parse result in other class.
-   */
-  public function getResultArray() {
-    $xml_string = $this->getResultXML();
-    $parser = new XML_Unserializer();
-    $parser->unserialize($xml_string);
-    return $parser->get_unserialized_data();
   }
 
   // --------------------------------------------------------------

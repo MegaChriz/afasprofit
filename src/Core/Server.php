@@ -7,6 +7,9 @@
 
 namespace Afas\Core;
 
+use Afas\Core\Query\Get;
+use Afas\Core\Query\Update;
+
 class Server implements ServerInterface {
   // --------------------------------------------------------------
   // PROPERTIES
@@ -115,5 +118,19 @@ class Server implements ServerInterface {
    */
   public function getLogonAs() {
     return '';
+  }
+
+  /**
+   * Implements ServerInterface::get().
+   */
+  public function get($connector_id) {
+    return new Get($this, $connector_id);
+  }
+
+  /**
+   * Implements ServerInterface::update().
+   */
+  public function update() {
+    return new Update($this);
   }
 }

@@ -11,7 +11,7 @@ use \SoapClient;
 use \SoapFault;
 
 /**
- * A child of SoapClient with support for ntlm proxy authentication
+ * A child of SoapClient with support for ntlm proxy authentication.
  *
  * @author Meltir <meltir@meltir.com>
  */

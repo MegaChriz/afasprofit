@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Afas\Core\UpdateConnector.
+ * Contains \Afas\Core\Connector\UpdateConnector.
  */
 
 namespace Afas\Core\Connector;

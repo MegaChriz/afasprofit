@@ -55,4 +55,18 @@ interface ServerInterface {
    *   The 'logonAs' variable.
    */
   public function getLogonAs();
+
+  /**
+   * Returns a get query object.
+   *
+   * @return \Afas\Core\Query\Get
+   */
+  public function get($connector_id);
+
+  /**
+   * Returns an update query object.
+   *
+   * @return \Afas\Core\Query\Update
+   */
+  public function update();
 }
