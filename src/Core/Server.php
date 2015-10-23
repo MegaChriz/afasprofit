@@ -75,24 +75,6 @@ class Server implements ServerInterface {
   }
 
   // --------------------------------------------------------------
-  // ACTION
-  // --------------------------------------------------------------
-
-  /**
-   * Implements ServerInterface::get().
-   */
-  public function get($connector_id) {
-    return new Get($this, $connector_id);
-  }
-
-  /**
-   * Implements ServerInterface::update().
-   */
-  public function update() {
-    return new Update($this);
-  }
-
-  // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
 
@@ -136,5 +118,19 @@ class Server implements ServerInterface {
    */
   public function getLogonAs() {
     return '';
+  }
+
+  /**
+   * Implements ServerInterface::get().
+   */
+  public function get($connector_id) {
+    return new Get($this, $connector_id);
+  }
+
+  /**
+   * Implements ServerInterface::update().
+   */
+  public function update() {
+    return new Update($this);
   }
 }
