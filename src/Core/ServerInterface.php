@@ -26,10 +26,24 @@ interface ServerInterface {
   /**
    * Returns an update query object.
    *
+   * @param string $connector_id
+   *   The Update connector to use.
+   *
+   * @return \Afas\Core\Query\Insert
+   *   An instance of Insert.
+   */
+  public function insert($connector_id, array $data, $mapper = NULL);
+
+  /**
+   * Returns an update query object.
+   *
+   * @param string $connector_id
+   *   The Update connector to use.
+   *
    * @return \Afas\Core\Query\Update
    *   An instance of Update.
    */
-  public function update();
+  public function update($connector_id, array $data, $mapper = NULL);
 
   // --------------------------------------------------------------
   // GETTERS

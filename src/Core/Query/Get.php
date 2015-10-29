@@ -68,7 +68,7 @@ class Get extends Query implements GetInterface {
   }
 
   /**
-   * Implements \Afas\Core|Query\QueryInterface::execute().
+   * Implements \Afas\Core\Query\QueryInterface::execute().
    */
   public function execute() {
     $connector = new GetConnector($this->client, $this->server);

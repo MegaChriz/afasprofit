@@ -86,10 +86,17 @@ class Server implements ServerInterface {
   }
 
   /**
+   * Implements ServerInterface::insert().
+   */
+  public function insert($connector_id, array $data, $mapper = NULL) {
+    return new Insert($this, $connector_id, $data, $mapper);
+  }
+
+  /**
    * Implements ServerInterface::update().
    */
-  public function update() {
-    return new Update($this);
+  public function update($connector_id, array $data, $mapper = NULL) {
+    return new Update($this, $connector_id, $data, $mapper);
   }
 
   // --------------------------------------------------------------
