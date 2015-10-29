@@ -33,6 +33,22 @@ class FilterContainerCombinedTest extends \PHPUnit_Framework_TestCase {
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
       ),
       array(
+        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
+        '=',
+      ),
+      array(
+        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
+        '==',
+      ),
+      array(
+        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
+        'eq',
+      ),
+      array(
+        '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
+        'equal',
+      ),
+      array(
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="2">0</Field></Filter></Filters>',
         '>=',
       ),

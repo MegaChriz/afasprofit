@@ -10,7 +10,7 @@ namespace Afas\Core\Filter;
 use Afas\Core\Filter\FilterGroup;
 
 /**
- * @coversDefaultClass \Afas\Core\Filter\FilterContainer\FilterGroup
+ * @coversDefaultClass \Afas\Core\Filter\FilterGroup
  * @group AfasCoreFilter
  */
 class FilterGroupTest extends \PHPUnit_Framework_TestCase {

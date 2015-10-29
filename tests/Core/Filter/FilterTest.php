@@ -10,7 +10,7 @@ namespace Afas\Core\Filter;
 use Afas\Core\Filter\Filter;
 
 /**
- * @coversDefaultClass \Afas\Core\Filter\FilterContainer\Filter
+ * @coversDefaultClass \Afas\Core\Filter\Filter
  * @group AfasCoreFilter
  */
 class FilterTest extends \PHPUnit_Framework_TestCase {
@@ -48,6 +48,29 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @covers ::__get
+   */
+  public function testMagicGetter() {
+    $filter = new Filter('item_id', 'x', 'like');
+    $this->assertEquals('item_id', $filter->field);
+    $this->assertEquals('x', $filter->value);
+    $this->assertEquals(Filter::OPERATOR_CONTAINS, $filter->operator);
+    $this->assertNull($filter->non_existing_property);
+  }
+
+  /**
+   * @covers ::__set
+   */
+  public function testMagicSetter() {
+    $filter = new Filter('item_id');
+    $filter->field = 'other_field';
+    $filter->value = 'x';
+    $filter->operator = 'ends with';
+    $expected = '<Field FieldId="other_field" OperatorType="13">x</Field>';
+    $this->assertXmlStringEqualsXmlString($expected, $filter->compile());
+  }
+
+  /**
    * @covers ::compile
    */
   public function testCompile() {
@@ -55,4 +78,13 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
     $expected = '<Field FieldId="item_id" OperatorType="8" />';
     $this->assertXmlStringEqualsXmlString($expected, $filter->compile());
   }
+
+  /**
+   * @covers ::__toString
+   */
+ public function testToString() {
+   $filter = new Filter('item_id');
+   $expected = '<Field FieldId="item_id" OperatorType="8" />';
+   $this->assertXmlStringEqualsXmlString($expected, (string) $filter);
+ }
 }
