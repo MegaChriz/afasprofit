@@ -3,9 +3,6 @@
 /**
  * @file
  * Contains \Afas\Core\Connector\GetConnector.
- *
- * @todo Maybe move the filter logic out of get-connector.
- * @todo Put code for parsing the result out of this class.
  */
 
 namespace Afas\Core\Connector;
@@ -133,7 +130,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    * @param array $options
    *   Options for getting the data.
    *
-   * @return ???
+   * @return \Afas\Core\Result\Result
    *   The result of the call.
    */
   public function getData($connector_id, $options = array()) {
@@ -154,6 +151,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
 
     // Send request.
     $this->_sendRequest('GetDataWithOptions', $arguments);
+    return $this->getResult();
   }
 
   // --------------------------------------------------------------

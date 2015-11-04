@@ -73,7 +73,6 @@ class Get extends Query implements GetInterface {
   public function execute() {
     $connector = new GetConnector($this->client, $this->server);
     $connector->setFilterContainer($this->filterContainer);
-    $connector->sendRequest('GetData', $this->connectorId);
-    return $connector->getResult();
+    return $connector->getData($this->connectorId);
   }
 }
