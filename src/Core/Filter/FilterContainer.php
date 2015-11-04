@@ -22,7 +22,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * @var FilterFactoryInterface $factory
+   * @var Afas\Core\Filter\FilterFactoryInterface $factory
    */
   private $factory;
 
@@ -183,6 +183,10 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    *   A string version of the filter container.
    */
   public function __toString() {
-    return $this->compile();
+    $result = $this->compile();
+    if (empty($result)) {
+      return '';
+    }
+    return $result;
   }
 }
