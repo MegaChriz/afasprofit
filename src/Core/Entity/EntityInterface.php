@@ -71,6 +71,16 @@ interface EntityInterface {
   public function getField($field_name);
 
   /**
+   * Gets the field action.
+   *
+   * @return string
+   *   The field's action: insert, update or delete.
+   *
+   * @todo Maybe move to ElementInterface.
+   */
+  public function getAction();
+
+  /**
    * Converts the entity and all child entities to an array.
    *
    * @return mixed[]
@@ -159,7 +169,7 @@ interface EntityInterface {
   public function fromArray(array $data);
 
   // --------------------------------------------------------------
-  // SAVING/DELETING
+  // ACTION
   // --------------------------------------------------------------
 
   /**
