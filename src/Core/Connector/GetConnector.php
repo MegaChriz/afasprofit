@@ -113,7 +113,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   /**
    * A filter container.
    *
-   * @var FilterContainerInterface
+   * @var \Afas\Core\Filter\FilterContainerInterface
    *   An instance of FilterContainerInterface.
    */
   protected $filterContainer;
@@ -161,7 +161,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   /**
    * Sets a filter container.
    *
-   * @param FilterContainerInterface $filter_container
+   * @param \Afas\Core\Filter\FilterContainerInterface $filter_container
    *   A container containing filters.
    *
    * @return void

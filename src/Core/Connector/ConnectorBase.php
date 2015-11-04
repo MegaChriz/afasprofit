@@ -8,13 +8,12 @@
 namespace Afas\Core\Connector;
 
 use Afas\Component\Soap\SoapClientInterface;
-use Afas\Core\Connector\ConnectorInterface;
 use Afas\Core\ServerInterface;
 use Afas\Core\Result\Result;
 use \SoapParam;
 
 /**
- * Class ConnectorBase
+ * Class ConnectorBase.
  * @package Afas\Core\Connector
  */
 abstract class ConnectorBase implements ConnectorInterface {

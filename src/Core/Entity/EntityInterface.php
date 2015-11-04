@@ -7,6 +7,8 @@
 
 namespace Afas\Core\Entity;
 
+use \DOMDocument;
+
 /**
  *
  */
@@ -76,6 +78,17 @@ interface EntityInterface {
    */
   public function toArray();
 
+  /**
+   * Converts the entity and all child entities to XML.
+   *
+   * @param \DOMDocument $doc
+   *   (optional) An instance of DOMDocument.
+   *
+   * @return \DOMNode
+   *   An instance of DOMNode.
+   */
+  public function toXML(DOMDocument $doc = NULL);
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -131,32 +144,6 @@ interface EntityInterface {
    * @todo Maybe move to ElementInterface.
    */
   public function setAction($action);
-
-  /**
-   * Adds a child object by giving a entity type.
-   *
-   * @param string $entity_type
-   *   The type of entity to add.
-   * @param array $values
-   *   (optional) The values to fill the new entity with.
-   *
-   * @return \Afas\Core\Entity\EntityInterface
-   *   The created entity.
-   */
-  public function add($entity_type, array $values = array());
-
-  /**
-   * Adds a child object by giving an instance.
-   *
-   * @param \Afas\Core\Entity\EntityInterface $entity
-   *   The entity to add.
-   *
-   * @return $this
-   *   An instance of this class.
-   *
-   * @todo Maybe move to ElementInterface.
-   */
-  public function addObject(EntityInterface $entity);
 
   /**
    * Loads data in from an array.
