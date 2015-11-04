@@ -8,6 +8,9 @@ vendor/*
 .idea/*
 *.esproj/*
 
+# PHPUnit code coverage
+build
+
 # OS generated files #
 ######################
 .DS_Store
@@ -21,3 +24,6 @@ Thumbs.db
 # Other git repo's #
 ####################
 *.git
+
+# Other
+docs
