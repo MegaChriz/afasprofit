@@ -89,6 +89,10 @@ class AfasServer {
 
     // Load server info from config.
     $servers = AfasConfig::get('servers');
+    if (empty($servers)) {
+      // No servers found!
+      throw new AfasException('No Afas servers found. Specify servers in afasconfig.inc.php.');
+    }
     if (empty($name)) {
       // Load the default server.
       $name = AfasConfig::get('default_server');
