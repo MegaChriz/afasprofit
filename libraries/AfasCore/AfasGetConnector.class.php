@@ -145,16 +145,59 @@ class AfasGetConnector extends AfasConnector {
   }
 
   /**
-   * Return response result in an array.
+   * Return response result in an array (raw).
    *
    * @access public
    * @return array
    */
-  public function getResultArray() {
+  public function getRawResultArray() {
     $sXMLString = $this->getResultXML();
     $oParser = new XML_Unserializer();
     $oParser->unserialize($sXMLString);
     return $oParser->get_unserialized_data();
+  }
+
+  /**
+   * Return result into array where all keys from the connector are defined for each row.
+   *
+   * @return array
+   *   The result as an array.
+   */
+  public function getResultArray() {
+    $aKeys = $this->getResultKeys();
+    $aData = $this->getRawResultArray();
+    unset($aData['xs:schema']);
+    if (isset($aData[0]['xs:element'])) {
+      unset($aData[0]);
+    }
+
+    foreach ($aData as &$aRow) {
+      $aRow += array_fill_keys($aKeys, NULL);
+    }
+
+    return $aData;
+  }
+
+  /**
+   * Returns the keys used by the connector.
+   *
+   * @return array
+   *   The keys that are used by the connector.
+   */
+  public function getResultKeys() {
+    $sXMLString = $this->getResultXML();
+    $oDoc = new DOMDocument();
+    $oDoc->loadXML($sXMLString, LIBXML_PARSEHUGE);
+
+    $oList = $oDoc->getElementsByTagName('sequence');
+    $aKeys = array();
+    foreach ($oList as $oNode) {
+      foreach ($oNode->childNodes as $oChild) {
+        $aKeys[] = $oChild->getAttribute('name');
+      }
+    }
+
+    return $aKeys;
   }
 
   // --------------------------------------------------------------
