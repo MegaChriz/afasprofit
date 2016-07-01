@@ -17,6 +17,23 @@ class AfasGetConnector extends AfasConnector {
    */
   protected $m_aFilters;
 
+  /**
+   * A list of options to set.
+   *
+   * If set, the methdo GetDataWithOptions will be used instead.
+   *
+   * @var array
+   * @access protected
+   */
+  protected $m_aOptions;
+
+  /**
+   * The last method being used.
+   *
+   * @var string
+   */
+  private $m_sMethod;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -31,6 +48,7 @@ class AfasGetConnector extends AfasConnector {
   public function init() {
     parent::init();
     $this->m_aFilters = array();
+    $this->m_aOptions = array();
     $this->m_sLocation = "https://" . $this->m_oServer->ip_address . "/profitservices/getconnector.asmx";
   }
 
@@ -91,6 +109,32 @@ class AfasGetConnector extends AfasConnector {
     return FALSE;
   }
 
+  /**
+   * Sets an options.
+   *
+   * @param string $p_sName
+   *   The name of the options to set.
+   * @param string $p_sValue
+   *   The option's value.
+   *
+   * @return void
+   */
+  public function setOption($p_sName, $p_sValue) {
+    $this->m_aOptions[$p_sName] = $p_sValue;
+  }
+
+  /**
+   * Removes an option.
+   *
+   * @param string $p_sName
+   *   The option to remove.
+   *
+   * @return void
+   */
+  public function removeOption($p_sName) {
+    unset($this->m_aOptions[$p_sName]);
+  }
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
@@ -121,6 +165,31 @@ class AfasGetConnector extends AfasConnector {
   }
 
   /**
+   * Returns options.
+   *
+   * @access public
+   * @return array
+   */
+  public function getOptions() {
+    return $this->m_aOptions;
+  }
+
+  /**
+   * Returns options XML.
+   *
+   * @access public
+   * @return array
+   */
+  public function getOptionsXML() {
+    $sOutput = '<options>';
+    foreach ($this->getOptions() as $key => $value) {
+      $sOutput .= '<' . $key . '>' . $value . '</' . $key . '>';
+    }
+    $sOutput .= '</options>';
+    return $sOutput;
+  }
+
+  /**
    * Return response result as XML string.
    *
    * @access public
@@ -132,7 +201,7 @@ class AfasGetConnector extends AfasConnector {
     $oDoc->loadXML($sXMLString, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
-    $oList = $oDoc->getElementsByTagName('GetDataResult');
+    $oList = $oDoc->getElementsByTagName($this->m_sMethod . 'Result');
     $aData = array();
     foreach ($oList as $oNode) {
       foreach ($oNode->childNodes as $oChild) {
@@ -216,6 +285,7 @@ class AfasGetConnector extends AfasConnector {
    */
   public function sendRequest($p_sFunction, $p_sConnector_id, $p_aParameters = array(), $p_aOptions = array()) {
     $p_aParameters['connectorId'] = $p_sConnector_id;
+    $this->m_sMethod = $p_sFunction;
     $this->_sendRequest($p_sFunction, $p_aParameters, $p_aOptions);
   }
 
@@ -235,6 +305,11 @@ class AfasGetConnector extends AfasConnector {
     // Add filters to the request if defined.
     if (count($this->m_aFilters) > 0) {
       $p_aParams['filtersXml'] = $this->getFiltersXML();
+    }
+
+    // Add options to the request if defined.
+    if (count($this->m_aOptions) > 0) {
+      $p_aParams['options'] = $this->getOptionsXML();
     }
   }
 
