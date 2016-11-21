@@ -1,0 +1,10 @@
+{
+  "name": "kerckebosch/afascore",
+  "type": "library",
+  "description": "Library for integration with Afas Profit.",
+  "require": {
+    "php": ">=5.3.0",
+    "kzykhys/php-csv-parser": "2.0.*",
+    "symfony/yaml": ">=2.1"
+  }
+}
