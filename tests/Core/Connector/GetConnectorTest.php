@@ -60,7 +60,7 @@ class GetConnectorTest extends \PHPUnit_Framework_TestCase {
       ->will($this->returnValue('https://www.example.com'));
 
     $connector = new GetConnector($this->client, $this->server);
-    $this->assertEquals('https://www.example.com/getconnector.asmx', $connector->getLocation());
+    $this->assertEquals('https://www.example.com/appconnectorget.asmx', $connector->getLocation());
   }
 
   /**

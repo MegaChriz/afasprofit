@@ -28,6 +28,22 @@ class Get extends Query implements GetInterface {
    */
   protected $filterContainer;
 
+  /**
+   * The number of records to skip.
+   * -1 means no skipping.
+   *
+   * @var int
+   */
+  protected $offset = -1;
+
+  /**
+   * The number of records to take.
+   * -1 means all records taken.
+   *
+   * @var int
+   */
+  protected $length = -1;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -55,6 +71,15 @@ class Get extends Query implements GetInterface {
   /**
    * Implements Afas\Core\Query\GetInterface::filter().
    */
+  public function range($offset, $length = -1) {
+    $this->offset = $offset;
+    $this->length = $length;
+    return $this;
+  }
+
+  /**
+   * Implements Afas\Core\Query\GetInterface::filter().
+   */
   public function filter($field, $value = NULL, $operator = NULL) {
     $this->filterContainer->filter($field, $value, $operator);
     return $this;
@@ -73,6 +98,7 @@ class Get extends Query implements GetInterface {
   public function execute() {
     $connector = new GetConnector($this->client, $this->server);
     $connector->setFilterContainer($this->filterContainer);
+    $connector->setRange($this->offset, $this->length);
     return $connector->getData($this->connectorId);
   }
 }

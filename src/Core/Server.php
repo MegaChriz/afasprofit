@@ -30,25 +30,11 @@ class Server implements ServerInterface {
   private $uri;
 
   /**
-   * The Profit environment to use.
+   * The API key to use.
    *
    * @var string
    */
-  private $environmentId;
-
-  /**
-   * The username to use to login to Profit.
-   *
-   * @var string
-   */
-  private $userId;
-
-  /**
-   * The password to use to login to Profit.
-   *
-   * @var string
-   */
-  private $password;
+  private $apiKey;
 
   // --------------------------------------------------------------
   // CONSTRUCT
@@ -57,8 +43,12 @@ class Server implements ServerInterface {
   /**
    * Server object constructor.
    *
-   * @param string $environment_id
-   *   The Profit environment to use.
+   * @param string $base_url
+   *   The servers base URL.
+   *   Should be something like:
+   *   @url
+   *   https://12345.afasonlineconnector.nl/profitservices
+   *   @endurl
    * @param string $user_id
    *   The username to use to login to Profit.
    * @param string $password
@@ -66,12 +56,10 @@ class Server implements ServerInterface {
    *
    * @return \Afas\Core\Server
    */
-  public function __construct($environment_id, $user_id, $password) {
-    $this->baseUrl = 'https://profitweb.afasonline.nl/profitservices';
+  public function __construct($base_url, $api_key) {
+    $this->baseUrl = $base_url;
     $this->uri = 'urn:Afas.Profit.Services';
-    $this->environmentId = $environment_id;
-    $this->userId = $user_id;
-    $this->password = $password;
+    $this->apiKey = $api_key;
   }
 
   // --------------------------------------------------------------
@@ -118,30 +106,16 @@ class Server implements ServerInterface {
   }
 
   /**
-   * Implements ServerInterface::getEnvironmentId().
+   * Implements ServerInterface::getApiKey().
    */
-  public function getEnvironmentId() {
-    return $this->environmentId;
+  public function getApiKey() {
+    return $this->apiKey;
   }
 
   /**
-   * Implements ServerInterface::getUserId().
+   * Implements ServerInterface::getApiKeyAsXML().
    */
-  public function getUserId() {
-    return $this->userId;
-  }
-
-  /**
-   * Implements ServerInterface::getPassword().
-   */
-  public function getPassword() {
-    return $this->password;
-  }
-
-  /**
-   * Implements ServerInterface::getLogonAs().
-   */
-  public function getLogonAs() {
-    return '';
+  public function getApiKeyAsXML() {
+    return '<token><version>1</version><data>' . $this->apiKey . '</data></token>';
   }
 }

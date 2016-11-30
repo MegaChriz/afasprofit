@@ -66,34 +66,18 @@ interface ServerInterface {
   public function getUri();
 
   /**
-   * Returns the Profit environment to connect to.
+   * Returns the Profit API key to use.
    *
    * @return string
-   *   The server's environment.
+   *   The server's api key.
    */
-  public function getEnvironmentId();
+  public function getApiKey();
 
   /**
-   * Returns the username to use to login to Profit.
+   * Returns the Profit API key to use as XML.
    *
    * @return string
-   *   The username.
+   *   The server's api key, generated as XML.
    */
-  public function getUserId();
-
-  /**
-   * Returns the password to use to login to Profit.
-   *
-   * @return string
-   *   The password.
-   */
-  public function getPassword();
-
-  /**
-   * Returns 'logonAs' variable.
-   *
-   * @return string
-   *   The 'logonAs' variable.
-   */
-  public function getLogonAs();
+  public function getApiKeyAsXML();
 }

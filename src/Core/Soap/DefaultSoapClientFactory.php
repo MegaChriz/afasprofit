@@ -7,7 +7,7 @@
 
 namespace Afas\Core\Soap;
 
-use Afas\Component\Soap\NTLMSoapClient;
+use Afas\Component\Soap\SoapClient;
 use Afas\Core\ServerInterface;
 
 /**
@@ -25,9 +25,7 @@ class DefaultSoapClientFactory implements SoapClientFactoryInterface {
       'trace' => 1,
       'style' => SOAP_RPC,
       'use' => SOAP_ENCODED,
-      'login' => $server->getUserId(),
-      'password' => $server->getPassword(),
     );
-    return new NTLMSoapClient(NULL, $options);
+    return new SoapClient(NULL, $options);
   }
 }

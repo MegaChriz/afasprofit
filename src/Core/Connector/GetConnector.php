@@ -118,6 +118,22 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    */
   protected $filterContainer;
 
+  /**
+   * The number of records to skip.
+   * -1 means no skipping.
+   *
+   * @var int
+   */
+  protected $skip = -1;
+
+  /**
+   * The number of records to take.
+   * -1 means all records taken.
+   *
+   * @var int
+   */
+  protected $take = -1;
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
@@ -139,9 +155,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
 
     // Set options.
     $options += array(
-      'Outputmode' => self::OUTPUTMODE_XML,
-      'Metadata' => self::METADATA_FALSE,
-      'Outputoptions' => self::OUTPUTOPTIONS_XML_MSDATA,
+      'Outputmode' => static::OUTPUTMODE_XML,
+      'Metadata' => static::METADATA_FALSE,
+      'Outputoptions' => static::OUTPUTOPTIONS_XML_MSDATA,
     );
     $options_str = '';
     foreach ($options as $option => $value) {
@@ -170,6 +186,22 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     $this->filterContainer = $filter_container;
   }
 
+  /**
+   * Sets a range to use.
+   *
+   * @param int $skip
+   *   The number of records to skip.
+   * @param int $take
+   *   (optional) The number of records to take.
+   *   Defaults to take all records.
+   *
+   * @return void
+   */
+  public function setRange($skip, $take = -1) {
+    $this->skip = $skip;
+    $this->take = $take;
+  }
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
@@ -181,7 +213,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    *   The location of the soap service.
    */
   public function getLocation() {
-    return $this->getServer()->getBaseUrl() . '/getconnector.asmx';
+    return $this->getServer()->getBaseUrl() . '/appconnectorget.asmx';
   }
 
   // --------------------------------------------------------------
@@ -196,6 +228,8 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     if (isset($this->filterContainer)) {
       $arguments['filtersXml'] = $this->filterContainer->compile();
     }
+    $arguments['skip'] = $this->skip;
+    $arguments['take'] = $this->take;
     return $arguments;
   }
 

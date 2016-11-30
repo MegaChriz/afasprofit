@@ -35,6 +35,13 @@ abstract class ConnectorBase implements ConnectorInterface {
    */
   private $server;
 
+  /**
+   * The last called function.
+   *
+   * @var string
+   */
+  private $lastFunction;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -83,7 +90,7 @@ abstract class ConnectorBase implements ConnectorInterface {
    *   An instance of Result.
    */
   public function getResult() {
-    return new Result($this->client->__getLastResponse());
+    return new Result($this->client->__getLastResponse(), $this->lastFunction);
   }
 
   /**
@@ -94,14 +101,10 @@ abstract class ConnectorBase implements ConnectorInterface {
    *
    * @return array
    *   A list of arguments.
-   * @todo server->$variable is not explicit.
    */
   protected function getSoapArguments() {
     return array(
-      'environmentId' => $this->server->getEnvironmentId(),
-      'userId' => $this->server->getUserId(),
-      'password' => $this->server->getPassword(),
-      'logonAs' => $this->server->getLogonAs(),
+      'token' => $this->server->getApiKeyAsXML(),
     );
   }
 
@@ -160,6 +163,7 @@ abstract class ConnectorBase implements ConnectorInterface {
     );
 
     // Finally, send the request!
+    $this->lastFunction = $function;
     $this->client->__soapCall($function, $soap_params, $options);
   }
 

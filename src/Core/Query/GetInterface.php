@@ -9,6 +9,19 @@ namespace Afas\Core\Query;
 
 interface GetInterface extends QueryInterface {
   /**
+   * Sets a range to use.
+   *
+   * @param int $offset
+   *   The number of records to skip.
+   * @param int $length
+   *   The number of records to take.
+   *
+   * @return Afas\Core\Query\GetInterface
+   *   Returns current instance.
+   */
+  public function range($offset, $length);
+
+  /**
    * Adds a single filter.
    *
    * @param string $field
@@ -18,7 +31,7 @@ interface GetInterface extends QueryInterface {
    * @param mixed $operator
    *   The comparison operator, such as =, <, or >=.
    *
-   * @return Afas\Core\Query\Get
+   * @return Afas\Core\Query\GetInterface
    *   Returns current instance.
    */
   public function filter($field, $value = NULL, $operator = '=');

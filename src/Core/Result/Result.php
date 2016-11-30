@@ -25,6 +25,13 @@ class Result implements ResultInterface {
    */
   protected $resultXML;
 
+  /**
+   * The last called function.
+   *
+   * @var string
+   */
+  private $lastFunction;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -34,9 +41,12 @@ class Result implements ResultInterface {
    *
    * @param string $result_xml
    *   The XML string result as returned by the soap client.
+   * @param string $last_function
+   *   The last called function.
    */
-  public function __construct($result_xml) {
+  public function __construct($result_xml, $last_function) {
     $this->resultXML = $result_xml;
+    $this->lastFunction = $last_function;
   }
 
   /**
@@ -47,7 +57,9 @@ class Result implements ResultInterface {
     $doc->loadXML($this->resultXML, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
-    $list = $doc->getElementsByTagName('GetDataResult');
+    // @todo More elegant way to solve this? If GetData is called, the result is in GetDataResult,
+    // if GetDataWithOptions is called, the result is in GetDataWithOptionsResult.
+    $list = $doc->getElementsByTagName($this->lastFunction . 'Result');
     $data = array();
     foreach ($list as $node) {
       foreach ($node->childNodes as $child) {
