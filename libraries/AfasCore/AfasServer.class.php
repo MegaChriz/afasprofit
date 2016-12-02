@@ -32,32 +32,18 @@ class AfasServer {
   private $name;
 
   /**
-   * Het IP-adres van AFAS Connector
-   * @var string $ip_address
-   * @access private
+   * The base url of the server.
+   *
+   * @var string
    */
-  private $ip_address;
+  private $baseUrl;
 
   /**
-   * De te gebruiken AFAS omgeving
-   * @var string $environment
-   * @access private
+   * The API key to use.
+   *
+   * @var string
    */
-  private $environment;
-
-  /**
-   * Gebruiker van de AFAS Connector
-   * @var string $user
-   * @access private
-   */
-  private $user;
-
-  /**
-   * Wachtwoord van de gebruiker van de AFAS Connector
-   * @var string $user
-   * @access private
-   */
-  private $password;
+  private $apiKey;
 
   // --------------------------------------------------------------
   // CONSTRUCT
@@ -68,10 +54,9 @@ class AfasServer {
    */
   protected function __construct($vars) {
     $this->name = $vars['name'];
-    $this->ip_address = $vars['host'];
-    $this->environment = $vars['environment'];
-    $this->user = $vars['user'];
-    $this->password = $vars['password'];
+    $this->baseUrl = $vars['host'];
+    $this->uri = 'urn:Afas.Profit.Services';
+    $this->apiKey = $vars['token'];
   }
 
   /**
@@ -146,9 +131,7 @@ class AfasServer {
     static $required = array(
       'name',
       'host',
-      'environment',
-      'user',
-      'password',
+      'token',
     );
     foreach ($required as $property_name) {
       if (!isset($vars[$property_name])) {
@@ -207,9 +190,45 @@ class AfasServer {
     return $this->name;
   }
 
-  // --------------------------------------------------------------
-  // SETTERS
-  // --------------------------------------------------------------
+  /**
+   * Returns the base url of the Profit server.
+   *
+   * @return string
+   *   The server's base url.
+   */
+  public function getBaseUrl() {
+    return $this->baseUrl;
+  }
+
+  /**
+   * Returns the uri of the Profit server.
+   *
+   * @return string
+   *   The server's uri.
+   */
+  public function getUri() {
+    return $this->uri;
+  }
+
+  /**
+   * Returns the Profit API key to use.
+   *
+   * @return string
+   *   The server's api key.
+   */
+  public function getApiKey() {
+    return $this->apiKey;
+  }
+
+  /**
+   * Returns the Profit API key to use as XML.
+   *
+   * @return string
+   *   The server's api key, generated as XML.
+   */
+  public function getApiKeyAsXML() {
+    return '<token><version>1</version><data>' . $this->apiKey . '</data></token>';
+  }
 
   // --------------------------------------------------------------
   // ACTION

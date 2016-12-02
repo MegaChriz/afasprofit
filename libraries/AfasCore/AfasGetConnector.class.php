@@ -34,6 +34,22 @@ class AfasGetConnector extends AfasConnector {
    */
   private $m_sMethod;
 
+  /**
+   * The number of records to skip.
+   * -1 means no skipping.
+   *
+   * @var int
+   */
+  protected $skip = -1;
+
+  /**
+   * The number of records to take.
+   * -1 means all records taken.
+   *
+   * @var int
+   */
+  protected $take = -1;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -135,9 +151,32 @@ class AfasGetConnector extends AfasConnector {
     unset($this->m_aOptions[$p_sName]);
   }
 
+  /**
+   * Sets a range to use.
+   *
+   * @param int $skip
+   *   The number of records to skip.
+   * @param int $take
+   *   (optional) The number of records to take.
+   *   Defaults to take all records.
+   *
+   * @return void
+   */
+  public function setRange($skip, $take = -1) {
+    $this->skip = $skip;
+    $this->take = $take;
+  }
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLocation() {
+    return $this->getServer()->getBaseUrl() . '/appconnectorget.asmx';
+  }
 
   /**
    * Returns Filters.
@@ -311,6 +350,10 @@ class AfasGetConnector extends AfasConnector {
     if (count($this->m_aOptions) > 0) {
       $p_aParams['options'] = $this->getOptionsXML();
     }
+
+    // Add skip and take.
+    $p_aParams['skip'] = $this->skip;
+    $p_aParams['take'] = $this->take;
   }
 
   // --------------------------------------------------------------

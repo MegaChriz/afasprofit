@@ -107,6 +107,13 @@ class AfasUpdateConnector extends AfasConnector implements iAfasElement {
   // --------------------------------------------------------------
 
   /**
+   * {@inheritdoc}
+   */
+  public function getLocation() {
+    return $this->getServer()->getBaseUrl() . '/appconnectorupdate.asmx';
+  }
+
+  /**
    * Returns Elements
    * @access public
    * @return array

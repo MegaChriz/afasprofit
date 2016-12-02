@@ -7,7 +7,7 @@
  * You can use this class to send out all type of requests.
  */
 
-class AfasConnector {
+abstract class AfasConnector {
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -23,42 +23,6 @@ class AfasConnector {
    * @access protected
    */
   protected $m_oSoapClient;
-
-  /**
-   * @var string $m_sLocation
-   * @access protected
-   */
-  protected $m_sLocation;
-
-  /**
-   * @var string $m_sURI
-   * @access protected
-   */
-  protected $m_sURI;
-
-  /**
-   * @var string $m_sEnvironment
-   * @access protected
-   */
-  protected $m_sEnvironment;
-
-  /**
-   * @var string $m_sUser
-   * @access protected
-   */
-  protected $m_sUser;
-
-  /**
-   * @var string $m_sPassword
-   * @access protected
-   */
-  protected $m_sPassword;
-
-  /**
-   * @var string $m_sLogonAs
-   * @access protected
-   */
-  protected $m_sLogonAs;
 
   // --------------------------------------------------------------
   // CONSTRUCT
@@ -85,60 +49,13 @@ class AfasConnector {
    * @return void
    */
   public function init() {
-    // Set default values
+    // Set default values.
     $this->m_oSoapClient = NULL;
-    $this->m_sLocation = "https://" . $this->m_oServer->ip_address . "/profitservices/";
-    $this->m_sURI = 'urn:Afas.Profit.Services';
-    $this->m_sEnvironment = $this->m_oServer->environment;
-    $this->m_sLogonAs = '';
-    $this->m_sUser = $this->m_oServer->user;
-    $this->m_sPassword = $this->m_oServer->password;
   }
 
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
-
-  /**
-   * Setter.
-   *
-   * @param string $p_sMember
-   * @param mixed $p_mValue
-   * @access public
-   * @return boolean
-   */
-  public function __set($p_sMember, $p_mValue) {
-    $p_sMember = strtolower($p_sMember);
-    switch ($p_sMember) {
-      case 'location':
-        $this->m_sLocation = (string) $p_mValue;
-        return TRUE;
-        break;
-      case 'uri':
-        $this->m_sURI = (string) $p_mValue;
-        return TRUE;
-        break;
-      case 'environment':
-      case 'environmentid':
-        $this->m_sEnvironment = (string) $p_mValue;
-        return TRUE;
-        break;
-      case 'user':
-      case 'userid':
-        $this->m_sUser = (string) $p_mValue;
-        return TRUE;
-        break;
-      case 'password':
-        $this->m_sPassword = (string) $p_mValue;
-        return TRUE;
-        break;
-      case 'logonas':
-        $this->m_sLogonAs = (string) $p_mValue;
-        return TRUE;
-        break;
-    }
-    return FALSE;
-  }
 
   /**
    * Load an existing item from an array.
@@ -158,32 +75,12 @@ class AfasConnector {
   // --------------------------------------------------------------
 
   /**
-   * Getter.
+   * Location of the soap service to call, usually an url.
    *
-   * @param string $p_sMember
-   * @access public
-   * @return mixed
+   * @return string
+   *   The location of the soap service.
    */
-  public function __get($p_sMember) {
-    $p_sMember = strtolower($p_sMember);
-    switch ($p_sMember) {
-      case 'location':
-        return $this->m_sLocation;
-      case 'uri':
-        return $this->m_sURI;
-      case 'environment':
-      case 'environmentid':
-        return $this->m_sEnvironment;
-      case 'user':
-      case 'userid':
-        return $this->m_sUser;
-      case 'password':
-        return $this->m_sPassword;
-      case 'logonas':
-        return $this->m_sLogonAs;
-    }
-    return NULL;
-  }
+  abstract public function getLocation();
 
   /**
    * Returns AfasServer-object.
@@ -224,20 +121,18 @@ class AfasConnector {
    * @return void
    */
   public function connect($p_aOptions = array()) {
-    // Setup options
+    // Setup options.
     $aOptions = array(
-      'location' => $this->m_sLocation,
-      'uri' => $this->m_sURI,
+      'location' => $this->getLocation(),
+      'uri' => $this->m_oServer->getUri(),
       'trace' => 1,
-      "style" => SOAP_RPC,
-      "use" => SOAP_ENCODED,
-      'login' => $this->m_sUser,
-      'password' => $this->m_sPassword,
+      'style' => SOAP_RPC,
+      'use' => SOAP_ENCODED,
     );
     // Merge with additional options
     $aOptions = array_merge($aOptions, $p_aOptions);
 
-    $this->m_oSoapClient = new NTLM_SoapClient(NULL, $aOptions);
+    $this->m_oSoapClient = new MSSoapClient(NULL, $aOptions);
   }
 
   /**
@@ -257,10 +152,7 @@ class AfasConnector {
 
     // Setup parameters.
     $aParams = array(
-      'environmentId' => $this->m_sEnvironment,
-      'userId' => $this->m_sUser,
-      'password' => $this->m_sPassword,
-      'logonAs' => $this->m_sLogonAs,
+      'token' => $this->m_oServer->getApiKeyAsXML(),
     );
     // Merge with additional parameters defined by subclasses.
     $this->_additionalParameters($aParams);
@@ -274,8 +166,8 @@ class AfasConnector {
 
     // Setup options.
     $aOptions = array(
-      'soapaction' => $this->m_sURI . '/' . $p_sFunction,
-      'uri' => $this->m_sURI,
+      'soapaction' => $this->m_oServer->getUri() . '/' . $p_sFunction,
+      'uri' => $this->m_oServer->getUri(),
     );
     // Merge with additional parameters defined by subclasses.
     $this->_additionalOptions($aOptions);

@@ -13,26 +13,23 @@
  *
  * Each server is described this way:
  * @code
- * 'OKERCKAA' => array(
- *   'host' => '192.168.1.1',
- *   'environment' => 'OKERCKAA',
- *   'user' => 'username',
- *   'password' => 'password',
- * );
+ * 'O12345AA' => array(
+ *   'name' => 'O12345AA',
+ *   'host' => 'https://12345.afasonlineconnector.nl/profitservices',
+ *   'token' => 'iYAiHnM80KDJXaUEgtthJKVl9H13ZF55LlbZrCACZ1nrxfQYYKih0jQ1Nvr3z0Hr',
+ * )
  * @endcode
  */
 $afas_conf['servers'] = array(
-  'OKERCKAA' => array(
-    'host' => '192.168.2.26',
-    'environment' => 'OKERCKAA',
-    'user' => 'administrator',
-    'password' => 'wingosta',
+  'O12345AA' => array(
+    'name' => 'O12345AA',
+    'host' => 'https://12345.afasonlineconnector.nl/profitservices',
+    'token' => 'iYAiHnM80KDJXaUEgtthJKVl9H13ZF55LlbZrCACZ1nrxfQYYKih0jQ1Nvr3z0Hr',
   ),
-  'OKERCKAB' => array(
-    'host' => '192.168.2.26',
-    'environment' => 'OKERCKAB',
-    'user' => 'administrator',
-    'password' => 'wingosta',
+  'O12345AB' => array(
+    'name' => 'O12345AB',
+    'host' => 'https://12345.afasonlineconnector.nl/profitservices',
+    'token' => 'cQzwPXwOa44qvQK5rFougrx7VjtRJwjxXTfM0hsn4ZSwxHD5RKssm1TYEfFG28wA',
   ),
 );
 
