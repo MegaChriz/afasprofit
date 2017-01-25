@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "symfony/dependency-injection": "2.7.*",
+        "symfony/dependency-injection": "~2.7",
         "openlss/lib-array2xml": "^0.0.10"
     },
     "require-dev": {
