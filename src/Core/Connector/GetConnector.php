@@ -207,10 +207,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Location of the soap service to call, usually an url.
-   *
-   * @return string
-   *   The location of the soap service.
+   * {@inheritdoc}
    */
   public function getLocation() {
     return $this->getServer()->getBaseUrl() . '/appconnectorget.asmx';

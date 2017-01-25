@@ -70,10 +70,7 @@ class UpdateConnector extends Connector {
   // --------------------------------------------------------------
 
   /**
-   * Location of the soap service to call, usually an url.
-   *
-   * @return string
-   *   The location of the soap service.
+   * {@inheritdoc}
    */
   public function getLocation() {
     return $this->getServer()->getBaseUrl() . '/appconnectorupdate.asmx';
