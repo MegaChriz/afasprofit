@@ -128,6 +128,6 @@ class Result implements ResultInterface {
       $data['AfasGetConnector'][$key] = [$data['AfasGetConnector'][$key]];
     }
 
-    return $data;
+    return $data['AfasGetConnector'][$key];
   }
 }
