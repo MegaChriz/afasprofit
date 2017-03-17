@@ -1,17 +1,15 @@
 <?php
 
-/**
- * @file
- * Definition of \Afas\Core\Result\Result.
- */
-
 namespace Afas\Core\Result;
 
 use \DOMDocument;
+use \DOMXPath;
 use LSS\XML2Array;
 
 /**
+ * Default class for processing results from Profit connectors.
  *
+ * Currently assumes that results come from a get connector.
  */
 class Result implements ResultInterface {
   // --------------------------------------------------------------
@@ -50,7 +48,7 @@ class Result implements ResultInterface {
   }
 
   /**
-   * Implements ResultInterface::asXML().
+   * {@inheritdoc}
    */
   public function asXML() {
     $doc = new DOMDocument();
@@ -72,10 +70,64 @@ class Result implements ResultInterface {
   }
 
   /**
-   * Implements ResultInterface::asArray().
+   * {@inheritdoc}
+   */
+  public function getHeaders() {
+    $headers = [];
+
+    // Get the schema from the XML.
+    $doc = new \DOMDocument();
+    $doc->preserveWhiteSpace = FALSE;
+    $doc->loadXML($this->asXML(), LIBXML_PARSEHUGE);
+    $schema = $doc->getElementsByTagName('schema')->item(0);
+
+    if ($schema) {
+      // Schema found. Get all elements.
+      $xpath = new \DOMXPath($doc);
+      $entries = $xpath->query('//xs:sequence/xs:element/@name', $schema);
+      foreach ($entries as $entry) {
+        $headers[] = $entry->nodeValue;
+      }
+    }
+
+    return $headers;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function asArray() {
-    $xml = $this->asXML();
-    return XML2Array::createArray($xml);
+    // Convert XML to array.
+    $data = XML2Array::createArray($this->asXML());
+
+    // Remove the metadata.
+    unset($data['AfasGetConnector']['xs:schema']);
+
+    if (empty($data['AfasGetConnector'])) {
+      return [];
+    }
+
+    // Check if only one data row was given back. If so, adjust array so the result becomes:
+    //
+    // AfasGetConnector =>
+    //   MyGetConnector =>
+    //     0 =>
+    //       column1 => value1
+    //       column2 => value2
+    //
+    // instead of:
+    //
+    // AfasGetConnector =>
+    //   MyGetConnector =>
+    //     column1 => value1
+    //     column2 => value2
+    $keys = array_keys($data['AfasGetConnector']);
+    $key = reset($keys);
+    if (!isset($data['AfasGetConnector'][$key][0])) {
+      // There is only one item, make sure that there is a 0 item.
+      $data['AfasGetConnector'][$key] = [$data['AfasGetConnector'][$key]];
+    }
+
+    return $data;
   }
 }

@@ -156,7 +156,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     // Set options.
     $options += array(
       'Outputmode' => static::OUTPUTMODE_XML,
-      'Metadata' => static::METADATA_FALSE,
+      'Metadata' => static::METADATA_TRUE,
       'Outputoptions' => static::OUTPUTOPTIONS_XML_MSDATA,
     );
     $options_str = '';
