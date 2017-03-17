@@ -48,4 +48,12 @@ interface GetInterface extends QueryInterface {
    *   Returns an new instance of FilterGroupInterface.
    */
   public function group($name = NULL);
+
+  /**
+   * Returns the used filter container.
+   *
+   * @return \Afas\Core\Filter\FilterContainerInterface
+   *   A filter container.
+   */
+  public function getFilterContainer();
 }

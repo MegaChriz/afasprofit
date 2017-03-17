@@ -23,7 +23,7 @@ class Get extends Query implements GetInterface {
   /**
    * A filter container.
    *
-   * @var FilterContainerInterface
+   * @var \Afas\Core\Filter\FilterContainerInterface
    *   An instance of FilterContainerInterface.
    */
   protected $filterContainer;
@@ -100,5 +100,16 @@ class Get extends Query implements GetInterface {
     $connector->setFilterContainer($this->filterContainer);
     $connector->setRange($this->offset, $this->length);
     return $connector->getData($this->connectorId);
+  }
+
+  // --------------------------------------------------------------
+  // GETTERS
+  // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFilterContainer() {
+    return $this->filterContainer;
   }
 }
