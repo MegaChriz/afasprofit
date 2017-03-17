@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Definition of \Afas\Core\Query\Insert.
- */
-
 namespace Afas\Core\Query;
 
 use Afas\Afas;

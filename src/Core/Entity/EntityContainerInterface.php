@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Entity\EntityContainerInterface.
- */
-
 namespace Afas\Core\Entity;
 
 /**

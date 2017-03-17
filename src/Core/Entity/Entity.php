@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Entity\Entity.
- */
-
 namespace Afas\Core\Entity;
 
 use \DOMDocument;

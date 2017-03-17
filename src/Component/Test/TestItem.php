@@ -1,14 +1,10 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Component\Test\TestItem.
- *
- * This class is used solely for playing with the list interface.
- */
-
 namespace Afas\Component\Test;
 
+/**
+ * This class is used solely for playing with the list interface.
+ */
 class TestItem {
   private $value;
 

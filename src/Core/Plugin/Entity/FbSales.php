@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Plugin\Entity\FbSales.
- */
-
 namespace Afas\Core\Plugin\Entity;
 
 use Afas\Core\Entity\EntityBase;

@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Component\Test\TestList.
- *
- * This class is used solely for playing with the list interface.
- */
-
 namespace Afas\Component\Test;
 
 use Afas\Component\ItemList\ItemList;
 
+/**
+ * This class is used solely for playing with the list interface.
+ */
 class TestList extends ItemList {
   /**
    * Numerically indexed array items.

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Soap\DefaultSoapClientFactory.
- */
-
 namespace Afas\Core\Soap;
 
 use Afas\Component\Soap\SoapClient;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Filter\FilterFactory.
- */
-
 namespace Afas\Core\Filter;
 
 use \Afas\Core\Filter\FilterFactoryInterface;

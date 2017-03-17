@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Component\ItemList\ListInterface.
- */
-
 namespace Afas\Component\ItemList;
 
 /**

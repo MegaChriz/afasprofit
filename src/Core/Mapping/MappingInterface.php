@@ -1,13 +1,10 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Mapping\MappingInterface.
- */
-
 namespace Afas\Core\Mapping;
 
-
+/**
+ *
+ */
 interface MappingInterface {
   /**
    * Returns mapping keys.

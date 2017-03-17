@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Definition of \Afas\Core\Query\QueryInterface.
- */
-
 namespace Afas\Core\Query;
 
 interface QueryInterface {

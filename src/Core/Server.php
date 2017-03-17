@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Definition of Afas\Core\Server.
- */
-
 namespace Afas\Core;
 
 use Afas\Core\Query\Get;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Definition of \Afas\Core\Query\GetInterface.
- */
-
 namespace Afas\Core\Query;
 
 interface GetInterface extends QueryInterface {

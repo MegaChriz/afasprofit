@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Component\ItemList\ItemList.
- */
-
 namespace Afas\Component\ItemList;
 
 abstract class ItemList implements \IteratorAggregate, ListInterface {

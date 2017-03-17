@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Connector\GetConnector.
- */
-
 namespace Afas\Core\Connector;
 
 use Afas\Core\Connector\ConnectorBase;

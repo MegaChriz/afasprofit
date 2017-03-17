@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Afas.
- */
-
 namespace Afas;
 
 use Afas\Core\DependencyInjection\ContainerNotInitializedException;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Definition of \Afas\Core\Soap\SoapClientFactoryInterface.
- */
-
 namespace Afas\Core\Soap;
 
 use Afas\Core\ServerInterface;

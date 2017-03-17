@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Connector\UpdateConnector.
- */
-
 namespace Afas\Core\Connector;
 
 use Afas\Component\Soap\SoapClientInterface;

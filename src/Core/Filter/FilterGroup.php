@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Filter\FilterGroup.
- */
-
 namespace Afas\Core\Filter;
 
 use Afas\Component\ItemList\ItemList;

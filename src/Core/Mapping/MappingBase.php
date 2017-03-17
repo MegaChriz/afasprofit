@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Mapping\MappingBase.
- */
-
 namespace Afas\Core\Mapping;
 
 /**

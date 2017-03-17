@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Component\Soap\SoapClientInterface.
- */
-
 namespace Afas\Component\Soap;
 
 /**
