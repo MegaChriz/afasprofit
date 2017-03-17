@@ -81,7 +81,7 @@ class UpdateConnector extends Connector {
   // --------------------------------------------------------------
 
   /**
-   * Sets a filter container.
+   * Sets an entity container.
    *
    * @param \Afas\Core\Entity\EntityContainerInterface $entity_container
    *   A container containing items to send to Profit.

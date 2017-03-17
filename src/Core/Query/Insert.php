@@ -14,7 +14,7 @@ use Afas\Core\Entity\EntityInterface;
 use Afas\Core\ServerInterface;
 
 /**
- * Get data from Profit.
+ * Send data to Profit.
  */
 class Insert extends Query implements InsertInterface {
   // --------------------------------------------------------------
