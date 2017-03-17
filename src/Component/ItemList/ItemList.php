@@ -51,7 +51,7 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
    * @return array
    *   A list of items.
    */
-  protected function getItems() {
+  public function getItems() {
     return $this->list;
   }
 
