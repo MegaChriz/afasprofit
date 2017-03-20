@@ -2,6 +2,7 @@
     "name": "megachriz/afasprofit",
     "description": "An API to connect to Afas Profit written in PHP.",
     "keywords": ["afas", "profit"],
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Youri van Koppen",
