@@ -13,12 +13,6 @@ use Symfony\Component\DependencyInjection\Container;
 // Bootstrap.
 require_once __DIR__ . '/../includes/bootstrap.php';
 
-// Create dependency container.
-// @todo set defaults somewhere.
-$container = new Container();
-$container->set('afas_soap_client_factory', new DefaultSoapClientFactory());
-Afas::setContainer($container);
-
 // Create AfasServer.
 $server = new Server();
 

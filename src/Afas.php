@@ -2,7 +2,8 @@
 
 namespace Afas;
 
-use Afas\Core\DependencyInjection\ContainerNotInitializedException;
+use Afas\Core\Soap\DefaultSoapClientFactory;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -37,14 +38,11 @@ class Afas {
   /**
    * Returns the currently active global container.
    *
-   * @throws \Drupal\Core\DependencyInjection\ContainerNotInitializedException
-   *
-   * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
-   *   The dependency injection container.
+   * @return \Symfony\Component\DependencyInjection\ContainerInterface
    */
   public static function getContainer() {
     if (static::$container === NULL) {
-      throw new ContainerNotInitializedException('\Afas::$container is not initialized yet. \Afas::setContainer() must be called with a real container.');
+      static::setDefaultContainer();
     }
     return static::$container;
   }
@@ -74,6 +72,16 @@ class Afas {
    */
   public static function service($id) {
     return static::getContainer()->get($id);
+  }
+
+  /**
+   * Instantiates a container with default services.
+   */
+  public static function setDefaultContainer() {
+    $container = new Container();
+    $container->set('afas_soap_client_factory', new DefaultSoapClientFactory());
+
+    static::setContainer($container);
   }
 
 }
