@@ -2,26 +2,23 @@
 
 namespace Afas\Core\Filter;
 
-use \Afas\Core\Filter\FilterFactoryInterface;
-use \Afas\Core\Filter\Filter;
-use \Afas\Core\Filter\FilterGroup;
-
 /**
- * Class FilterFactory
- * @package Afas\Core\Filter
+ * Factory for generating filters and filter groups.
  */
 class FilterFactory implements FilterFactoryInterface {
+
   /**
-   * Implements FilterFactoryInterface::createFilter().
+   * {@inheritdoc}
    */
   public function createFilter($field, $value = NULL, $operator = NULL) {
     return new Filter($field, $value, $operator);
   }
 
   /**
-   * Implements FilterFactoryInterface::createFilterGroup().
+   * {@inheritdoc}
    */
   public function createFilterGroup($name) {
     return new FilterGroup($name, $this);
   }
+
 }

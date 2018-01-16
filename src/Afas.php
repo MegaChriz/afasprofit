@@ -5,7 +5,11 @@ namespace Afas;
 use Afas\Core\DependencyInjection\ContainerNotInitializedException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Static Service Container wrapper.
+ */
 class Afas {
+
   /**
    * The currently active container object, or NULL if not initialized yet.
    *
@@ -36,6 +40,7 @@ class Afas {
    * @throws \Drupal\Core\DependencyInjection\ContainerNotInitializedException
    *
    * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+   *   The dependency injection container.
    */
   public static function getContainer() {
     if (static::$container === NULL) {
@@ -45,9 +50,10 @@ class Afas {
   }
 
   /**
-   * Returns TRUE if the container has been initialized, FALSE otherwise.
+   * Returns if the container has been initialized.
    *
    * @return bool
+   *   TRUE if the container has been initialized, FALSE otherwise.
    */
   public static function hasContainer() {
     return static::$container !== NULL;
@@ -62,10 +68,12 @@ class Afas {
    *
    * @param string $id
    *   The ID of the service to retrieve.
+   *
    * @return mixed
    *   The specified service.
    */
   public static function service($id) {
     return static::getContainer()->get($id);
   }
+
 }

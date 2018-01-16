@@ -2,14 +2,9 @@
 
 namespace Afas\Core\Filter;
 
-interface FilterInterface {
-  /**
-   * Returns XML string.
-   *
-   * @return string
-   *   XML generated string.
-   * @todo Maybe move to an other interface as FilterGroup implements this
-   * method too?
-   */
-  public function compile();
-}
+use Afas\Core\CompilableInterface;
+
+/**
+ * Interface for setting a filter for a Profit GetConnector.
+ */
+interface FilterInterface extends CompilableInterface {}

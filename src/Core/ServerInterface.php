@@ -2,7 +2,11 @@
 
 namespace Afas\Core;
 
+/**
+ * Interface for connecting a Profit server.
+ */
 interface ServerInterface {
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
@@ -14,7 +18,7 @@ interface ServerInterface {
    *   The Get connector to use.
    *
    * @return \Afas\Core\Query\Get
-   *   An instance of Get.
+   *   A get query.
    */
   public function get($connector_id);
 
@@ -23,9 +27,12 @@ interface ServerInterface {
    *
    * @param string $connector_id
    *   The Update connector to use.
+   * @param array $data
+   *   The data to insert.
+   * @param ??? $mapper
    *
    * @return \Afas\Core\Query\Insert
-   *   An instance of Insert.
+   *   An insert query.
    */
   public function insert($connector_id, array $data, $mapper = NULL);
 
@@ -34,9 +41,12 @@ interface ServerInterface {
    *
    * @param string $connector_id
    *   The Update connector to use.
+   * @param array $data
+   *   The data to update.
+   * @param ??? $mapper
    *
    * @return \Afas\Core\Query\Update
-   *   An instance of Update.
+   *   An update query.
    */
   public function update($connector_id, array $data, $mapper = NULL);
 
@@ -74,5 +84,6 @@ interface ServerInterface {
    * @return string
    *   The server's api key, generated as XML.
    */
-  public function getApiKeyAsXML();
+  public function getApiKeyAsXml();
+
 }

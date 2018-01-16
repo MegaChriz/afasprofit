@@ -2,15 +2,21 @@
 
 namespace Afas\Core\Filter;
 
+use Afas\Core\CompilableInterface;
+
 /**
- * Interface for filter container.
+ * Interface for a filter container.
  */
-interface FilterContainerInterface {
+interface FilterContainerInterface extends CompilableInterface, FilterableInterface, GroupableInterface {
+
   /**
-   * Return XML string.
+   * Sets the factory that generates the objects.
    *
-   * @return string
-   *   XML generated string.
+   * @param FilterFactoryInterface $factory
+   *   The factory that generates filter and filter group objects.
+   *
+   * @return void
    */
-  public function compile();
+  public function setFactory(FilterFactoryInterface $factory);
+
 }

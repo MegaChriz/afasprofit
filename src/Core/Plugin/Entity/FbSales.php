@@ -2,12 +2,13 @@
 
 namespace Afas\Core\Plugin\Entity;
 
-use Afas\Core\Entity\EntityBase;
+use Afas\Core\Entity\Entity;
 
 /**
- *
+ * Class for a FbSales entity.
  */
-class FbSales extends EntityBase {
+class FbSales extends Entity {
+
   /**
    * {@inheritdoc}
    */
@@ -26,4 +27,5 @@ class FbSales extends EntityBase {
   public function addLineItem(array $values = array()) {
     return $this->add('FbSalesLines', $values);
   }
+
 }

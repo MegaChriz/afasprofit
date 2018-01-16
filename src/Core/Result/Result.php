@@ -2,8 +2,8 @@
 
 namespace Afas\Core\Result;
 
-use \DOMDocument;
-use \DOMXPath;
+use DOMDocument;
+use DOMXPath;
 use LSS\XML2Array;
 
 /**
@@ -12,6 +12,7 @@ use LSS\XML2Array;
  * Currently assumes that results come from a get connector.
  */
 class Result implements ResultInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -50,7 +51,7 @@ class Result implements ResultInterface {
   /**
    * {@inheritdoc}
    */
-  public function asXML() {
+  public function asXml() {
     $doc = new DOMDocument();
     $doc->loadXML($this->resultXML, LIBXML_PARSEHUGE);
 
@@ -130,4 +131,5 @@ class Result implements ResultInterface {
 
     return $data['AfasGetConnector'][$key];
   }
+
 }

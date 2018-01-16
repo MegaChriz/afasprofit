@@ -6,6 +6,7 @@ namespace Afas\Core\Entity;
  * Interface for entity factory.
  */
 interface EntityFactoryInterface {
+
   /**
    * Creates an entity.
    *
@@ -18,4 +19,5 @@ interface EntityFactoryInterface {
    *   The created entity.
    */
   public function createEntity($entity_type, array $values = array());
+
 }

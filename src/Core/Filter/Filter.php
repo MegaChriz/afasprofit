@@ -2,10 +2,13 @@
 
 namespace Afas\Core\Filter;
 
-use \Afas\Core\Filter\FilterInterface;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 
+/**
+ * Class for setting a filter for a Profit GetConnector.
+ */
 class Filter implements FilterInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -59,7 +62,7 @@ class Filter implements FilterInterface {
   // --------------------------------------------------------------
 
   /**
-   * Filter object constructor.
+   * Constructs a new Filter object.
    *
    * @param string $field
    *   The name of the field to filter on.
@@ -71,8 +74,6 @@ class Filter implements FilterInterface {
    *   Defaults to:
    *   - static::OPERATOR_EQ if value is set;
    *   - NULL otherwise.
-   *
-   * @return \Afas\Core\Filter\Filter
    */
   public function __construct($field, $value = NULL, $operator = NULL) {
     if (!isset($operator) && isset($value)) {
@@ -313,4 +314,5 @@ class Filter implements FilterInterface {
     }
     throw new InvalidArgumentException('The operator "' . $operator . '" is not supported.');
   }
+
 }

@@ -3,21 +3,20 @@
 namespace Afas\Core\Filter;
 
 use Afas\Component\ItemList\ItemList;
-use Afas\Core\Filter\FilterContainerInterface;
-use Afas\Core\Filter\FilterGroupInterface;
-use Afas\Core\Filter\FilterFactoryInterface;
-use Afas\Core\Filter\FilterFactory;
 
 /**
  * Class containing filter groups.
  */
 class FilterContainer extends ItemList implements FilterContainerInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
 
   /**
-   * @var Afas\Core\Filter\FilterFactoryInterface $factory
+   * The filter factory.
+   *
+   * @var Afas\Core\Filter\FilterFactoryInterface
    */
   private $factory;
 
@@ -26,10 +25,10 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * FilterContainer object constructor.
+   * Constructs a new FilterContainer object.
    *
-   * @param FilterFactoryInterface $factory
-   *   (optional) The factory to use.
+   * @param \Afas\Core\Filter\FilterFactoryInterface $factory
+   *   (optional) The filter factory to use.
    *   Defaults to \Afas\Core\Filter\FilterFactory.
    */
   public function __construct(FilterFactoryInterface $factory = NULL) {
@@ -44,17 +43,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Adds a single filter.
-   *
-   * @param string $field
-   *   The name of the field to filter on.
-   * @param mixed $value
-   *   The value to test the field against.
-   * @param mixed $operator
-   *   The comparison operator, such as =, <, or >=.
-   *
-   * @return FilterContainer
-   *   Returns current instance.
+   * {@inheritdoc}
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $this->currentGroup()->filter($field, $value, $operator);
@@ -62,16 +51,15 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   }
 
   /**
-   * Adds a filter group.
-   *
-   * @param string $name
-   *   (optional) The name of the filter group.
-   *   Defaults to 'Filter N' where N is the number of filter groups currently
-   *   defined.
-   *
-   * @return FilterGroupInterface
-   *   Returns an new instance of FilterGroupInterface.
-   * @todo Avoid new keyword.
+   * {@inheritdoc}
+   */
+  public function removeFilter($index) {
+    $this->currentGroup()->removeFilter($index);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function group($name = NULL) {
     if (is_null($name)) {
@@ -83,28 +71,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   }
 
   /**
-   * Removes a filter.
-   *
-   * @param int $index
-   *   The id of the filter to remove.
-   *
-   * @return FilterContainer
-   *   Returns current instance.
-   */
-  public function removeFilter($index) {
-    $this->currentGroup()->removeFilter($index);
-    return $this;
-  }
-
-  /**
-   * Removes a filter group.
-   *
-   * @param string|FilterGroupInterface $group
-   *   Either the ID of the group to remove
-   *   or the group itself.
-   *
-   * @return FilterContainer
-   *   Returns current instance.
+   * {@inheritdoc}
    */
   public function removeGroup($group) {
     $name = NULL;
@@ -119,12 +86,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   }
 
   /**
-   * Sets the factory that generates the objects.
-   *
-   * @param FilterFactoryInterface $factory
-   *   The factory that generates filter and filter group objects.
-   *
-   * @return void
+   * {@inheritdoc}
    */
   public function setFactory(FilterFactoryInterface $factory) {
     $this->factory = $factory;
@@ -153,10 +115,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Return XML string.
-   *
-   * @return string
-   *   XML generated string.
+   * {@inheritdoc}
    */
   public function compile() {
     if ($this->count()) {
@@ -184,4 +143,5 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     }
     return $result;
   }
+
 }

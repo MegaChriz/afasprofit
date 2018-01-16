@@ -6,6 +6,7 @@ namespace Afas\Core\Filter;
  * Interface for factory's that create filters and filter groups.
  */
 interface FilterFactoryInterface {
+
   /**
    * Creates a filter.
    *
@@ -32,4 +33,5 @@ interface FilterFactoryInterface {
    *   A filter group.
    */
   public function createFilterGroup($name);
+
 }

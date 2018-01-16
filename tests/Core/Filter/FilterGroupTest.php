@@ -1,26 +1,27 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Filter\FilterGroupTest.
- */
-
-namespace Afas\Core\Filter;
+namespace Afas\Tests\Core\Filter;
 
 use Afas\Core\Filter\FilterGroup;
+use Afas\Tests\TestBase;
 
 /**
  * @coversDefaultClass \Afas\Core\Filter\FilterGroup
  * @group AfasCoreFilter
  */
-class FilterGroupTest extends \PHPUnit_Framework_TestCase {
+class FilterGroupTest extends TestBase {
+
   /**
-   * @var /Afas\Core\Filter\FilterGroup
+   * The filter group under test.
+   *
+   * @var \Afas\Core\Filter\FilterGroup
    */
   private $group;
 
   /**
-   * @var /Afas\Core\Filter\FilterContainerInterface
+   * A filter.
+   *
+   * @var \Afas\Core\Filter\FilterContainerInterface
    */
   private $filter;
 
@@ -68,4 +69,5 @@ class FilterGroupTest extends \PHPUnit_Framework_TestCase {
     $expected = '<Filter FilterId="my_name"></Filter>';
     $this->assertXmlStringEqualsXmlString($expected, $this->group->compile());
   }
+
 }

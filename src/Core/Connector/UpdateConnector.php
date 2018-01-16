@@ -8,10 +8,10 @@ use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\ServerInterface;
 
 /**
- * Class UpdateConnector.
- * @package Afas\Core\Connector
+ * Class for the Profit UpdateConnector.
  */
-class UpdateConnector extends Connector {
+class UpdateConnector extends Connector implements UpdateConnectorInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -36,7 +36,7 @@ class UpdateConnector extends Connector {
   // --------------------------------------------------------------
 
   /**
-   * Constructor.
+   * Constructs a new UpdateConnector object.
    *
    * @param \Afas\Component\Soap\SoapClientInterface $client
    *   A Soap Client.
@@ -46,8 +46,6 @@ class UpdateConnector extends Connector {
    *   The update connector to use.
    * @param \Afas\Core\Entity\EntityContainerInterface $entity_container
    *   (optional) A container containing items to send to Profit.
-   *
-   * @return \Afas\Core\Connector\ConnectorBase
    */
   public function __construct(SoapClientInterface $client, ServerInterface $server, $connector_type, EntityContainerInterface $entity_container = NULL) {
     parent::__construct($client, $server);
@@ -102,4 +100,5 @@ class UpdateConnector extends Connector {
     }
     return $arguments;
   }
+
 }

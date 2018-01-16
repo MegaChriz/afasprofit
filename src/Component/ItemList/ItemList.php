@@ -2,13 +2,17 @@
 
 namespace Afas\Component\ItemList;
 
+/**
+ * Base class for a list of items.
+ */
 abstract class ItemList implements \IteratorAggregate, ListInterface {
+
   /**
    * Numerically indexed array items.
    *
    * @var array
    */
-  private $list = array();
+  private $list = [];
 
   /**
    * Implements \IteratorAggregate::getIterator().
@@ -60,4 +64,5 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
     unset($this->list[$key]);
     return $this;
   }
+
 }

@@ -6,6 +6,7 @@ namespace Afas\Component\Soap;
  * Provides an interface for handling Soap Requests.
  */
 interface SoapClientInterface {
+
   /**
    * Performs A SOAP request.
    *
@@ -64,4 +65,5 @@ interface SoapClientInterface {
    *
    */
   public function __soapCall($function_name, $arguments, $options = array(), $input_headers = NULL, &$output_headers = NULL);
+
 }

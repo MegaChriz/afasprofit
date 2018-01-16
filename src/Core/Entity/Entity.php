@@ -2,11 +2,14 @@
 
 namespace Afas\Core\Entity;
 
-use \DOMDocument;
-use Afas\Core\Entity\EntityInterface;
+use DOMDocument;
 use Afas\Core\Mapping\MappingInterface;
 
+/**
+ * Base class for entities.
+ */
 class Entity implements EntityInterface, EntityContainerInterface, MappingInterface {
+
   /**
    * The entity type.
    *
@@ -90,9 +93,9 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   public function toArray() {}
 
   /**
-   * Implements EntityInterface::toXML().
+   * {@inheritdoc}
    */
-  public function toXML(DOMDocument $doc = NULL) {
+  public function toXml(DOMDocument $doc = NULL) {
     if (!isset($doc)) {
       $doc = new DOMDocument();
     }
@@ -248,4 +251,5 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
 
     return $doc->saveXML($root);
   }
+
 }

@@ -11,6 +11,7 @@ use Afas\Core\ServerInterface;
  * Get data from Profit.
  */
 class Get extends Query implements GetInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -25,6 +26,7 @@ class Get extends Query implements GetInterface {
 
   /**
    * The number of records to skip.
+   *
    * -1 means no skipping.
    *
    * @var int
@@ -33,6 +35,7 @@ class Get extends Query implements GetInterface {
 
   /**
    * The number of records to take.
+   *
    * -1 means all records taken.
    *
    * @var int
@@ -44,7 +47,7 @@ class Get extends Query implements GetInterface {
   // --------------------------------------------------------------
 
   /**
-   * Get object constructor.
+   * Constructs a new Get object.
    *
    * @param \Afas\Core\ServerInterface $server
    *   The server to send data to.
@@ -64,7 +67,7 @@ class Get extends Query implements GetInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements Afas\Core\Query\GetInterface::filter().
+   * {@inheritdoc}
    */
   public function range($offset, $length = -1) {
     $this->offset = $offset;
@@ -73,7 +76,7 @@ class Get extends Query implements GetInterface {
   }
 
   /**
-   * Implements Afas\Core\Query\GetInterface::filter().
+   * {@inheritdoc}
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $this->filterContainer->filter($field, $value, $operator);
@@ -81,14 +84,30 @@ class Get extends Query implements GetInterface {
   }
 
   /**
-   * Implements Afas\Core\Query\GetInterface::group().
+   * {@inheritdoc}
+   */
+  public function removeFilter($index) {
+    $this->filterContainer->removeFilter($index);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function group($name = NULL) {
     return $this->filterContainer->group($name);
   }
 
   /**
-   * Implements \Afas\Core\Query\QueryInterface::execute().
+   * {@inheritdoc}
+   */
+  public function removeGroup($group) {
+    $this->filterContainer->removeGroup($group);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function execute() {
     $connector = new GetConnector($this->client, $this->server);
@@ -107,4 +126,5 @@ class Get extends Query implements GetInterface {
   public function getFilterContainer() {
     return $this->filterContainer;
   }
+
 }

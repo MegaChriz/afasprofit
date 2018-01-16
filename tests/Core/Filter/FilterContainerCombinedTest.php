@@ -1,18 +1,17 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Filter\FilterContainerCombinedTest
- */
-
-namespace Afas\Core\Filter;
+namespace Afas\Tests\Core\Filter;
 
 use Afas\Core\Filter\FilterContainer;
+use Afas\Tests\TestBase;
 
 /**
+ * Tests filter container in combination with filter groups and filters.
+ *
  * @group AfasCoreFilter
  */
-class FilterContainerCombinedTest extends \PHPUnit_Framework_TestCase {
+class FilterContainerCombinedTest extends TestBase {
+
   /**
    * Tests if the right output is generated using a single filter.
    *
@@ -170,4 +169,5 @@ class FilterContainerCombinedTest extends \PHPUnit_Framework_TestCase {
     $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>';
     $this->assertXmlStringEqualsXmlString($expected, $container->compile());
   }
+
 }

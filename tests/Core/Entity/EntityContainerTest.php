@@ -1,28 +1,29 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Entity\EntityContainerTest
- */
+namespace Afas\Tests\Core\Entity;
 
-namespace Afas\Core\Entity;
-
-use \DOMDocument;
-use \PHPUnit_Framework_Assert;
-use \ReflectionMethod;
 use Afas\Core\Entity\EntityContainer;
+use Afas\Tests\TestBase;
+use DOMDocument;
+use PHPUnit_Framework_Assert;
+use ReflectionMethod;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\EntityContainer
  * @group AfasCoreEntity
  */
-class EntityContainerTest extends \PHPUnit_Framework_TestCase {
+class EntityContainerTest extends TestBase {
+
   /**
+   * The entity container under test.
+   *
    * @var \Afas\Core\Entity\EntityContainer
    */
   private $container;
 
   /**
+   * The entity.
+   *
    * @var \Afas\Core\Entity\EntityInterface
    */
   private $entity;
@@ -36,7 +37,7 @@ class EntityContainerTest extends \PHPUnit_Framework_TestCase {
     $this->entity = $this->getMock('Afas\Core\Entity\EntityInterface');
     $this->entity->expects($this->any())
       ->method('toXML')
-      ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXML']));
+      ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXml']));
 
     $factory = $this->getMock('Afas\Core\Entity\EntityFactoryInterface');
     $factory->expects($this->any())
@@ -47,7 +48,7 @@ class EntityContainerTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Callback function for \Afas\Core\Entity\EntityInterface::toXML().
+   * Callback function for \Afas\Core\Entity\EntityInterface::toXml().
    *
    * @param \DOMDocument $doc
    *   An instance of DOMDocument.
@@ -55,7 +56,7 @@ class EntityContainerTest extends \PHPUnit_Framework_TestCase {
    * @return \DOMNode
    *   An instance of DOMNode.
    */
-  public static function callbackEntityInterface__toXML(DOMDocument $doc) {
+  public static function callbackEntityInterface__toXml(DOMDocument $doc) {
     return $doc->createElement('Dummy');
   }
 
@@ -143,4 +144,5 @@ class EntityContainerTest extends \PHPUnit_Framework_TestCase {
     $container2 = new EntityContainer('DummyType2');
     $this->assertEquals('', (string) $container2);
   }
+
 }

@@ -5,7 +5,11 @@ namespace Afas\Core;
 use Afas\Core\Query\Get;
 use Afas\Core\Query\Update;
 
+/**
+ * Class for connecting a Profit server.
+ */
 class Server implements ServerInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -36,7 +40,7 @@ class Server implements ServerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Server object constructor.
+   * Constructs a new Server object.
    *
    * @param string $base_url
    *   The servers base URL.
@@ -44,12 +48,8 @@ class Server implements ServerInterface {
    *   @url
    *   https://12345.afasonlineconnector.nl/profitservices
    *   @endurl
-   * @param string $user_id
-   *   The username to use to login to Profit.
-   * @param string $password
-   *   The password to use to login to Profit.
-   *
-   * @return \Afas\Core\Server
+   * @param string $api_key
+   *   The API key to use.
    */
   public function __construct($base_url, $api_key) {
     $this->baseUrl = $base_url;
@@ -62,21 +62,21 @@ class Server implements ServerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements ServerInterface::get().
+   * {@inheritdoc}
    */
   public function get($connector_id) {
     return new Get($this, $connector_id);
   }
 
   /**
-   * Implements ServerInterface::insert().
+   * {@inheritdoc}
    */
   public function insert($connector_id, array $data, $mapper = NULL) {
     return new Insert($this, $connector_id, $data, $mapper);
   }
 
   /**
-   * Implements ServerInterface::update().
+   * {@inheritdoc}
    */
   public function update($connector_id, array $data, $mapper = NULL) {
     return new Update($this, $connector_id, $data, $mapper);
@@ -87,30 +87,31 @@ class Server implements ServerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements ServerInterface::getBaseUrl().
+   * {@inheritdoc}
    */
   public function getBaseUrl() {
     return $this->baseUrl;
   }
 
   /**
-   * Implements ServerInterface::getUri().
+   * {@inheritdoc}
    */
   public function getUri() {
     return $this->uri;
   }
 
   /**
-   * Implements ServerInterface::getApiKey().
+   * {@inheritdoc}
    */
   public function getApiKey() {
     return $this->apiKey;
   }
 
   /**
-   * Implements ServerInterface::getApiKeyAsXML().
+   * {@inheritdoc}
    */
-  public function getApiKeyAsXML() {
+  public function getApiKeyAsXml() {
     return '<token><version>1</version><data>' . $this->apiKey . '</data></token>';
   }
+
 }

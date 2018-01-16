@@ -71,4 +71,3 @@ $order->is_new = FALSE;
 $line_item = $order->add('FbSalesLines');
 // Or call a specific method for that.
 $line_item = $order->addLineItem();
-

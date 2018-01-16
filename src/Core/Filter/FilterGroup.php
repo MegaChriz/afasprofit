@@ -3,15 +3,14 @@
 namespace Afas\Core\Filter;
 
 use Afas\Component\ItemList\ItemList;
-use Afas\Core\Filter\FilterContainerInterface;
-use Afas\Core\Filter\FilterGroupInterface;
 
 /**
- * Class FilterGroup
- * @package Afas\Core\Filter
+ * Class for a group of filters.
+ *
  * @todo Maybe remove dependency on ItemList.
  */
 class FilterGroup extends ItemList implements FilterGroupInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -24,7 +23,9 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   private $name;
 
   /**
-   * @var FilterFactoryInterface $factory
+   * The filter factory.
+   *
+   * @var FilterFactoryInterface
    */
   private $factory;
 
@@ -33,14 +34,12 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * FilterGroup object constructor.
+   * Constructs a new FilterGroup object.
    *
    * @param string $name
    *   The name of this filter group.
    * @param \Afas\Core\Filter\FilterFactoryInterface $factory
    *   The factory to use for generating filter objects.
-   *
-   * @return \Afas\Core\Filter\FilterGroup
    */
   public function __construct($name, FilterFactoryInterface $factory) {
     $this->name = $name;
@@ -52,7 +51,7 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements FilterGroupInterface::filter().
+   * {@inheritdoc}
    */
   public function filter($field, $value = NULL, $operator = NULL) {
     $filter = $this->factory->createFilter($field, $value, $operator);
@@ -61,13 +60,7 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   }
 
   /**
-   * Removes a filter.
-   *
-   * @param int $index
-   *   The id of the filter to remove.
-   *
-   * @return FilterGroup
-   *   Returns current instance.
+   * {@inheritdoc}
    */
   public function removeFilter($index) {
     $this->removeItem($index);
@@ -79,7 +72,7 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements FilterGroupInterface::getName().
+   * {@inheritdoc}
    */
   public function getName() {
     return $this->name;
@@ -90,7 +83,7 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements FilterGroupInterface::compile().
+   * {@inheritdoc}
    */
   public function compile() {
     if ($this->count()) {
@@ -114,4 +107,5 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
   public function __toString() {
     return $this->compile();
   }
+
 }

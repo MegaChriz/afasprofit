@@ -5,13 +5,13 @@ namespace Afas\Core\Connector;
 use Afas\Component\Soap\SoapClientInterface;
 use Afas\Core\ServerInterface;
 use Afas\Core\Result\Result;
-use \SoapParam;
+use SoapParam;
 
 /**
- * Class ConnectorBase.
- * @package Afas\Core\Connector
+ * Base class for Profit connectors.
  */
 abstract class ConnectorBase implements ConnectorInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -42,14 +42,12 @@ abstract class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Constructor.
+   * Constructs a new ConnectorBase object.
    *
    * @param \Afas\Component\Soap\SoapClientInterface $client
    *   A Soap Client.
    * @param \Afas\Core\ServerInterface $server
    *   An Afas server.
-   *
-   * @return \Afas\Core\Connector\ConnectorBase
    */
   public function __construct(SoapClientInterface $client, ServerInterface $server) {
     $this->client = $client;
@@ -61,28 +59,14 @@ abstract class ConnectorBase implements ConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Returns the Server object.
-   *
-   * @return \Afas\Core\Server
-   *   The server that is used to send a request to.
+   * {@inheritdoc}
    */
   public function getServer() {
     return $this->server;
   }
 
   /**
-   * Location of the soap service to call, usually an url.
-   *
-   * @return string
-   *   The location of the soap service.
-   */
-  abstract public function getLocation();
-
-  /**
-   * Returns result.
-   *
-   * @return Afas\Core\Result\Result
-   *   An instance of Result.
+   * {@inheritdoc}
    */
   public function getResult() {
     return new Result($this->client->__getLastResponse(), $this->lastFunction);
@@ -169,8 +153,6 @@ abstract class ConnectorBase implements ConnectorInterface {
   /**
    * Outputs last response of soap client.
    *
-   * @return string
-   *   Response in XML format.
    * @todo Remove this method?
    */
   public function outputResponse() {
@@ -192,4 +174,5 @@ abstract class ConnectorBase implements ConnectorInterface {
     $output .= "\nDumping response:\n" . $this->client->__getLastResponse();
     return $output;
   }
+
 }

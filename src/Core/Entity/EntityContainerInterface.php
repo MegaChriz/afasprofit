@@ -2,10 +2,13 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Core\CompilableInterface;
+
 /**
- * Interface for entity container.
+ * Interface for the entity container.
  */
-interface EntityContainerInterface {
+interface EntityContainerInterface extends CompilableInterface {
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -42,18 +45,8 @@ interface EntityContainerInterface {
    * Returns all the objects that this container has.
    *
    * @return \Afas\Core\Entity\EntityInterface[]
+   *   An array of entities.
    */
   public function getObjects();
 
-  // --------------------------------------------------------------
-  // ACTION
-  // --------------------------------------------------------------
-
-  /**
-   * Return XML string.
-   *
-   * @return string
-   *   XML generated string.
-   */
-  public function compile();
 }

@@ -3,14 +3,15 @@
 namespace Afas\Core\Entity;
 
 /**
- * Class EntityFactory
- * @package Afas\Core\Entity
+ * Factory for generating entities.
  */
 class EntityFactory implements EntityFactoryInterface {
+
   /**
-   * Implements EntityFactoryInterface::createEntity().
+   * {@inheritdoc}
    */
   public function createEntity($entity_type, array $values = array()) {
     // @todo Find out how to create entities.
   }
+
 }

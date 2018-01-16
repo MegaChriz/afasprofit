@@ -2,12 +2,13 @@
 
 namespace Afas\Core\Plugin\Entity;
 
-use Afas\Core\Entity\EntityBase;
+use Afas\Core\Entity\Entity;
 
 /**
- *
+ * Class for a FbSalesLines entity.
  */
-class FbSalesLines extends EntityBase {
+class FbSalesLines extends Entity {
+
   /**
    * {@inheritdoc}
    */
@@ -28,4 +29,5 @@ class FbSalesLines extends EntityBase {
       'BiUn' => 'Stk',
     );
   }
+
 }

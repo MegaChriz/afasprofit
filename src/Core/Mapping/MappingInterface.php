@@ -3,9 +3,12 @@
 namespace Afas\Core\Mapping;
 
 /**
+ * Interface for mapping data.
  *
+ * @todo may be removed.
  */
 interface MappingInterface {
+
   /**
    * Returns mapping keys.
    *
@@ -16,4 +19,5 @@ interface MappingInterface {
    *   The keys to map to.
    */
   public function map($key);
+
 }

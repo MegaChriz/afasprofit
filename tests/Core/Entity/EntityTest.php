@@ -1,20 +1,18 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Entity\EntityTest
- */
+namespace Afas\Tests\Core\Entity;
 
-namespace Afas\Core\Entity;
-
-use \DOMDocument;
 use Afas\Core\Entity\Entity;
+use Afas\Core\Entity\EntityInterface;
+use Afas\Tests\TestBase;
+use DOMDocument;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\Entity
  * @group AfasCoreEntity
  */
-class EntityTest extends \PHPUnit_Framework_TestCase {
+class EntityTest extends TestBase {
+
   /**
    * The entity under test.
    *
@@ -122,11 +120,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::toXML
+   * @covers ::toXml
    */
-  public function testToXML() {
+  public function testToXml() {
     $doc = new DOMDocument();
-    $element = $this->entity->toXML($doc);
+    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -137,13 +135,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::toXML
+   * @covers ::toXml
    */
-  public function testToXMLWithEmptyFields() {
+  public function testToXmlWithEmptyFields() {
     $this->entity->setField('Qux', '');
     $this->entity->setField('Boo', NULL);
     $doc = new DOMDocument();
-    $element = $this->entity->toXML($doc);
+    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -156,12 +154,12 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::toXML
+   * @covers ::toXml
    */
-  public function testToXMLWithOneObject() {
+  public function testToXmlWithOneObject() {
     $this->entity->add('FooObject', ['Bar' => 'Baz']);
     $doc = new DOMDocument();
-    $element = $this->entity->toXML($doc);
+    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -181,15 +179,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::toXML
+   * @covers ::toXml
    */
-  public function testToXMLWithMultipleObjects() {
+  public function testToXmlWithMultipleObjects() {
     $this->entity->add('FooObject', ['Bar' => 'Baz']);
     $this->entity->add('QuxObject', ['ItCd' => 2]);
     $this->entity->add('BarObject', ['DbId' => 1234]);
     $this->entity->add('FooObject', ['Bar' => 'Norf']);
     $doc = new DOMDocument();
-    $element = $this->entity->toXML($doc);
+    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -228,9 +226,9 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers ::toXML
+   * @covers ::toXml
    */
-  public function testToXMLWithMultipleNestedObjects() {
+  public function testToXmlWithMultipleNestedObjects() {
     $object = $this->entity->add('FooObject', ['Bar' => 'Baz']);
     $object->add('BarObject', ['DbId' => 1234]);
 
@@ -257,7 +255,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
         </FooObject>
       </Objects>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $this->entity->toXML());
+    $this->assertXmlStringEqualsXmlString($expected, $this->entity->toXml());
   }
 
   /**
@@ -375,4 +373,5 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
     </DummyEntityType>';
     $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
   }
+
 }

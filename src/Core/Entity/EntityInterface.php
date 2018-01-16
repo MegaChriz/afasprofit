@@ -2,12 +2,13 @@
 
 namespace Afas\Core\Entity;
 
-use \DOMDocument;
+use DOMDocument;
 
 /**
- *
+ * Interface for entities.
  */
 interface EntityInterface {
+
   // --------------------------------------------------------------
   // CONSTANTS
   // --------------------------------------------------------------
@@ -92,7 +93,7 @@ interface EntityInterface {
    * @return \DOMNode
    *   An instance of DOMNode.
    */
-  public function toXML(DOMDocument $doc = NULL);
+  public function toXml(DOMDocument $doc = NULL);
 
   // --------------------------------------------------------------
   // SETTERS
@@ -106,6 +107,7 @@ interface EntityInterface {
    *   TRUE.
    *
    * @return self
+   *   An instance of this class.
    *
    * @see \Drupal\Core\Entity\EntityInterface::isNew()
    *
@@ -191,4 +193,5 @@ interface EntityInterface {
    *   In case of failures an exception is thrown.
    */
   public function delete();
+
 }

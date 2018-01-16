@@ -12,6 +12,7 @@ use Afas\Core\ServerInterface;
  * Send data to Profit.
  */
 class Insert extends Query implements InsertInterface {
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -23,6 +24,9 @@ class Insert extends Query implements InsertInterface {
    *   The server to send data to.
    * @param string $connector_id
    *   The name of the GetConnector.
+   * @param array $data
+   *   The data to insert.
+   * @param ??? $mapper
    */
   public function __construct(ServerInterface $server, $connector_id, array $data, $mapper = NULL) {
     $clientFactory = Afas::service('afas_soap_client_factory');
@@ -44,7 +48,7 @@ class Insert extends Query implements InsertInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements \Afas\Core\Query\QueryInterface::execute().
+   * {@inheritdoc}
    */
   public function execute() {
     $connector = new UpdateConnector($this->client, $this->server);
@@ -52,4 +56,5 @@ class Insert extends Query implements InsertInterface {
     $connector->sendRequest();
     return $connector->getResult();
   }
+
 }

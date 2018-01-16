@@ -6,12 +6,14 @@ use Afas\Component\Soap\SoapClient;
 use Afas\Core\ServerInterface;
 
 /**
- * Class DefaultSoapClientFactory
+ * Default factory for generating SoapClient instances.
+ *
  * @package Afas\Core\Soap
  */
 class DefaultSoapClientFactory implements SoapClientFactoryInterface {
+
   /**
-   * Implements SoapClientFactoryInterface::create().
+   * {@inheritdoc}
    */
   public function create(ServerInterface $server) {
     $options = array(
@@ -23,4 +25,5 @@ class DefaultSoapClientFactory implements SoapClientFactoryInterface {
     );
     return new SoapClient(NULL, $options);
   }
+
 }

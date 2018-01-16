@@ -2,15 +2,16 @@
 
 namespace Afas\Core\Entity;
 
-use \DOMDocument;
-use \Exception;
-use \InvalidArgumentException;
+use DOMDocument;
+use Exception;
+use InvalidArgumentException;
 use Afas\Component\ItemList\ItemList;
 
 /**
  * Class containing items to send to Profit.
  */
 class EntityContainer extends ItemList implements EntityContainerInterface {
+
   // --------------------------------------------------------------
   // PROPERTIES
   // --------------------------------------------------------------
@@ -23,7 +24,9 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   protected $connectorType;
 
   /**
-   * @var Afas\Core\Entity\EntityFactoryInterface $factory
+   * The entity factory.
+   *
+   * @var \Afas\Core\Entity\EntityFactoryInterface
    */
   private $factory;
 
@@ -32,8 +35,10 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * EntityContainer object constructor.
+   * Constructs a new EntityContainer object.
    *
+   * @param string $connector_type
+   *   The update connector to use.
    * @param \Afas\Core\Entity\EntityFactoryInterface $factory
    *   (optional) The factory to use.
    *   Defaults to \Afas\Core\Entity\EntityFactoryInterface.
@@ -51,7 +56,7 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Implements EntityContainerInterface::add().
+   * {@inheritdoc}
    */
   public function add($entity_type, array $values = array()) {
     $entity = $this->factory->createEntity($entity_type, $values);
@@ -60,21 +65,11 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   }
 
   /**
-   * Implements EntityContainerInterface::addObject().
+   * {@inheritdoc}
    */
   public function addObject(EntityInterface $entity) {
     $this->addItem($entity);
     return $this;
-  }
-
-  /**
-   * Overrides \Afas\Component\ItemList\ItemList::addItem
-   */
-  protected function addItem($item, $key = NULL) {
-    if (!($item instanceof EntityInterface)) {
-      throw new InvalidArgumentException('\Afas\Core\Entity\Entity\EntityContainer::addItem() only accepts instances of \Afas\Core\Entity\Entity\EntityInterface.');
-    }
-    return parent::addItem($item);
   }
 
   /**
@@ -89,12 +84,22 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
     $this->factory = $factory;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function addItem($item, $key = NULL) {
+    if (!($item instanceof EntityInterface)) {
+      throw new InvalidArgumentException('\Afas\Core\Entity\Entity\EntityContainer::addItem() only accepts instances of \Afas\Core\Entity\Entity\EntityInterface.');
+    }
+    return parent::addItem($item);
+  }
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
 
   /**
-   * Implements EntityContainerInterface::getObjects().
+   * {@inheritdoc}
    */
   public function getObjects() {
     return $this->getItems();
@@ -105,10 +110,7 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   // --------------------------------------------------------------
 
   /**
-   * Return XML string.
-   *
-   * @return string
-   *   XML generated string.
+   * {@inheritdoc}
    */
   public function compile() {
     if ($this->count()) {
@@ -149,4 +151,5 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
     }
     return $result;
   }
+
 }

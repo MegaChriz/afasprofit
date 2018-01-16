@@ -6,6 +6,7 @@ namespace Afas\Core\Mapping;
  * Base class for mapping classes.
  */
 abstract class MappingBase implements MappingInterface {
+
   /**
    * The defined mappings.
    *
@@ -24,4 +25,5 @@ abstract class MappingBase implements MappingInterface {
     }
     return [$key];
   }
+
 }

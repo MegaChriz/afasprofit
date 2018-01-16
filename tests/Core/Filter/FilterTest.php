@@ -1,19 +1,16 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Filter\FilterTest
- */
-
-namespace Afas\Core\Filter;
+namespace Afas\Tests\Core\Filter;
 
 use Afas\Core\Filter\Filter;
+use Afas\Tests\TestBase;
 
 /**
  * @coversDefaultClass \Afas\Core\Filter\Filter
  * @group AfasCoreFilter
  */
-class FilterTest extends \PHPUnit_Framework_TestCase {
+class FilterTest extends TestBase {
+
   /**
    * Test if an exception is thrown when a bad name is passed to Filter.
    *
@@ -82,9 +79,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
   /**
    * @covers ::__toString
    */
- public function testToString() {
-   $filter = new Filter('item_id');
-   $expected = '<Field FieldId="item_id" OperatorType="8" />';
-   $this->assertXmlStringEqualsXmlString($expected, (string) $filter);
- }
+  public function testToString() {
+    $filter = new Filter('item_id');
+    $expected = '<Field FieldId="item_id" OperatorType="8" />';
+    $this->assertXmlStringEqualsXmlString($expected, (string) $filter);
+  }
+
 }

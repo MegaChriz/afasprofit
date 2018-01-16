@@ -1,24 +1,27 @@
 <?php
 
-/**
- * @file
- * Contains \Afas\Core\Connector\GetConnectorTest.
- */
+namespace Afas\Tests\Core\Connector;
 
-namespace Afas\Core\Connector;
-
-use \PHPUnit_Framework_Assert;
+use Afas\Tests\TestBase;
+use Afas\Core\Connector\GetConnector;
+use PHPUnit_Framework_Assert;
 
 /**
  * @coversDefaultClass \Afas\Core\Connector\GetConnector
+ * @group AfasCoreConnector
  */
-class GetConnectorTest extends \PHPUnit_Framework_TestCase {
+class GetConnectorTest extends TestBase {
+
   /**
+   * The soap client.
+   *
    * @var \Afas\Component\Soap\SoapClientInterface
    */
   private $client;
 
   /**
+   * The profit server.
+   *
    * @var \Afas\Core\ServerInterface
    */
   private $server;
@@ -64,7 +67,7 @@ class GetConnectorTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @cover ::sendRequest
+   * @covers ::sendRequest
    */
   public function testSendRequest() {
     // First check if a request can be send without a filter container.
@@ -76,4 +79,5 @@ class GetConnectorTest extends \PHPUnit_Framework_TestCase {
     $connector->setFilterContainer($filter_container);
     $connector->sendRequest('GetData', 'dummy');
   }
+
 }

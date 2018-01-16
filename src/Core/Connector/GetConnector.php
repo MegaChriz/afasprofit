@@ -2,11 +2,13 @@
 
 namespace Afas\Core\Connector;
 
-use Afas\Core\Connector\ConnectorBase;
 use Afas\Core\Filter\FilterContainerInterface;
-use \DOMDocument;
 
+/**
+ * Class for the Profit GetConnector.
+ */
 class GetConnector extends ConnectorBase implements GetConnectorInterface {
+
   // --------------------------------------------------------------
   // CONSTANTS
   // --------------------------------------------------------------
@@ -109,12 +111,12 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    * A filter container.
    *
    * @var \Afas\Core\Filter\FilterContainerInterface
-   *   An instance of FilterContainerInterface.
    */
   protected $filterContainer;
 
   /**
    * The number of records to skip.
+   *
    * -1 means no skipping.
    *
    * @var int
@@ -123,6 +125,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
 
   /**
    * The number of records to take.
+   *
    * -1 means all records taken.
    *
    * @var int
@@ -134,17 +137,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Gets records from a Profit GetConnector.
-   *
-   * @param string $connector_id
-   *   The name of the GetConnector.
-   * @param array $options
-   *   Options for getting the data.
-   *
-   * @return \Afas\Core\Result\Result
-   *   The result of the call.
+   * {@inheritdoc}
    */
-  public function getData($connector_id, $options = array()) {
+  public function getData($connector_id, array $options = array()) {
     // Set connectorId.
     $arguments['connectorId'] = $connector_id;
 
@@ -170,27 +165,14 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Sets a filter container.
-   *
-   * @param \Afas\Core\Filter\FilterContainerInterface $filter_container
-   *   A container containing filters.
-   *
-   * @return void
+   * {@inheritdoc}
    */
   public function setFilterContainer(FilterContainerInterface $filter_container) {
     $this->filterContainer = $filter_container;
   }
 
   /**
-   * Sets a range to use.
-   *
-   * @param int $skip
-   *   The number of records to skip.
-   * @param int $take
-   *   (optional) The number of records to take.
-   *   Defaults to take all records.
-   *
-   * @return void
+   * {@inheritdoc}
    */
   public function setRange($skip, $take = -1) {
     $this->skip = $skip;
@@ -241,4 +223,5 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     $arguments['connectorId'] = $connector_id;
     $this->_sendRequest($function, $arguments);
   }
+
 }
