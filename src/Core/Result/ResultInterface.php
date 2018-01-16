@@ -8,6 +8,14 @@ namespace Afas\Core\Result;
 interface ResultInterface {
 
   /**
+   * Returns the raw result.
+   *
+   * @return string
+   *   The raw data result.
+   */
+  public function getRaw();
+
+  /**
    * Returns the result as XML.
    *
    * @return string

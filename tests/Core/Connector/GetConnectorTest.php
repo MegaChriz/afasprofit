@@ -2,38 +2,16 @@
 
 namespace Afas\Tests\Core\Connector;
 
-use Afas\Tests\TestBase;
 use Afas\Core\Connector\GetConnector;
+use Afas\Core\Filter\FilterContainerInterface;
+use Afas\Core\Result\GetConnectorResult;
 use PHPUnit_Framework_Assert;
 
 /**
  * @coversDefaultClass \Afas\Core\Connector\GetConnector
  * @group AfasCoreConnector
  */
-class GetConnectorTest extends TestBase {
-
-  /**
-   * The soap client.
-   *
-   * @var \Afas\Component\Soap\SoapClientInterface
-   */
-  private $client;
-
-  /**
-   * The profit server.
-   *
-   * @var \Afas\Core\ServerInterface
-   */
-  private $server;
-
-  /**
-   * Setups required dependencies for GetConnector class.
-   */
-  public function setUp() {
-    parent::setUp();
-    $this->client = $this->getMock('Afas\Component\Soap\SoapClientInterface');
-    $this->server = $this->getMock('Afas\Core\ServerInterface');
-  }
+class GetConnectorTest extends ConnectorTestBase {
 
   /**
    * @covers ::getData
@@ -41,14 +19,14 @@ class GetConnectorTest extends TestBase {
   public function testGetData() {
     $connector = new GetConnector($this->client, $this->server);
     $result = $connector->getData('alpha');
-    $this->assertInstanceOf('Afas\Core\Result\Result', $result);
+    $this->assertInstanceOf(GetConnectorResult::class, $result);
   }
 
   /**
    * @covers ::setFilterContainer
    */
   public function testSetFilterContainer() {
-    $filter_container = $this->getMock('Afas\Core\Filter\FilterContainerInterface');
+    $filter_container = $this->getMock(FilterContainerInterface::class);
     $connector = new GetConnector($this->client, $this->server);
     $connector->setFilterContainer($filter_container);
     $this->assertEquals($filter_container, PHPUnit_Framework_Assert::readAttribute($connector, 'filterContainer'));
@@ -75,7 +53,7 @@ class GetConnectorTest extends TestBase {
     $connector->sendRequest('GetData', 'dummy');
 
     // And now with it.
-    $filter_container = $this->getMock('Afas\Core\Filter\FilterContainerInterface');
+    $filter_container = $this->getMock(FilterContainerInterface::class);
     $connector->setFilterContainer($filter_container);
     $connector->sendRequest('GetData', 'dummy');
   }

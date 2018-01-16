@@ -21,7 +21,7 @@ interface GetConnectorInterface extends ConnectorInterface {
    * @param array $options
    *   Options for getting the data.
    *
-   * @return \Afas\Core\Result\Result
+   * @return \Afas\Core\Result\ResultInterface
    *   The result of the call.
    */
   public function getData($connector_id, array $options = array());

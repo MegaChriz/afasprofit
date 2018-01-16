@@ -4,7 +4,6 @@ namespace Afas\Core\Connector;
 
 use Afas\Component\Soap\SoapClientInterface;
 use Afas\Core\ServerInterface;
-use Afas\Core\Result\Result;
 use SoapParam;
 
 /**
@@ -66,10 +65,16 @@ abstract class ConnectorBase implements ConnectorInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Returns arguments needed to construct a new \Afas\Core\Result\ResultInterface.
+   *
+   * @return array
+   *   A list of arguments.
    */
-  public function getResult() {
-    return new Result($this->client->__getLastResponse(), $this->lastFunction);
+  protected function getResultArguments() {
+    return [
+      $this->client->__getLastResponse(),
+      $this->lastFunction,
+    ];
   }
 
   /**
@@ -111,7 +116,7 @@ abstract class ConnectorBase implements ConnectorInterface {
    * Sends a SOAP request.
    *
    * @param string $function
-   *   The soap function to call?
+   *   The soap function to call.
    * @param array $arguments
    *   (optional) The Soap arguments to send with the request.
    *   Defaults to the result of getSoapArguments().
@@ -121,7 +126,7 @@ abstract class ConnectorBase implements ConnectorInterface {
    *
    * @return void
    */
-  protected function _sendRequest($function, array $arguments = array(), array $options = array()) {
+  protected function soapSendRequest($function, array $arguments = array(), array $options = array()) {
     // Set action to call.
     // @todo Evaluate if this is still needed.
     //$this->client->setAction($function);

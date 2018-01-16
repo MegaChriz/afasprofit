@@ -74,12 +74,7 @@ class UpdateConnector extends Connector implements UpdateConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Sets an entity container.
-   *
-   * @param \Afas\Core\Entity\EntityContainerInterface $entity_container
-   *   A container containing items to send to Profit.
-   *
-   * @return void
+   * {@inheritdoc}
    */
   public function setEntityContainer(EntityContainerInterface $entity_container) {
     $this->entityContainer = $entity_container;
@@ -90,7 +85,7 @@ class UpdateConnector extends Connector implements UpdateConnectorInterface {
   // --------------------------------------------------------------
 
   /**
-   * Overrides Connector::getSoapArguments().
+   * {@inheritdoc}
    */
   protected function getSoapArguments() {
     $arguments = parent::getSoapArguments();

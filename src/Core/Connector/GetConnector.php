@@ -3,6 +3,7 @@
 namespace Afas\Core\Connector;
 
 use Afas\Core\Filter\FilterContainerInterface;
+use Afas\Core\Result\GetConnectorResult;
 
 /**
  * Class for the Profit GetConnector.
@@ -156,7 +157,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     $arguments['options'] = "<options>$options_str</options>";
 
     // Send request.
-    $this->_sendRequest('GetDataWithOptions', $arguments);
+    $this->soapSendRequest('GetDataWithOptions', $arguments);
     return $this->getResult();
   }
 
@@ -182,6 +183,14 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getResult() {
+    list($result_xml, $last_function) = $this->getResultArguments();
+    return new GetConnectorResult($result_xml, $last_function);
+  }
 
   /**
    * {@inheritdoc}
@@ -221,7 +230,7 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    */
   public function sendRequest($function, $connector_id) {
     $arguments['connectorId'] = $connector_id;
-    $this->_sendRequest($function, $arguments);
+    $this->soapSendRequest($function, $arguments);
   }
 
 }

@@ -7,6 +7,7 @@ An API to connect to Afas Profit written in PHP.
 Features:
 - Getting data from Profit GetConnectors.
 - Inserting data into Profit using Profit UpdateConnectors (in progress).
+- Getting files from Profit using Profit Subjectconnectors.
 
 ## Usage
 

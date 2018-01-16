@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body><GetSubjectAttachmentInfoResponse xmlns="urn:Afas.Profit.Services"><GetSubjectAttachmentInfoResult>&lt;SubjectAttachmentInfo&gt;
+  &lt;Attachment fileId="38D436288D83AFE2A62B407A84E76D98" filename="example.pdf" /&gt;
+&lt;/SubjectAttachmentInfo&gt;</GetSubjectAttachmentInfoResult></GetSubjectAttachmentInfoResponse></soap:Body></soap:Envelope>
