@@ -2,16 +2,22 @@
 
 An API to connect to Afas Profit written in PHP.
 
+Features:
+- Getting data from Profit GetConnectors.
+- Inserting data into Profit using Profit UpdateConnectors (in progress).
+
 ## Usage
 
-```PHP
-// Getting data from Profit.
-$server = new \Afas\Core\Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+Getting data from Profit:
+```php
+use Afas\Core\Server;
+
+// Initialize server.
+$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+
+// Get data from GetConnector 'Products', filter by 'sku'.
 $products = $server->get('Products')
   ->filter('sku', '2612')
   ->execute()
   ->asArray();
-
-// Inserting data into Profit.
-@todo
 ```
