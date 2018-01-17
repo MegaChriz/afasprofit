@@ -34,6 +34,22 @@ class SubjectConnectorTest extends ConnectorTestBase {
   }
 
   /**
+   * @covers ::getAttachmentInfo()
+   */
+  public function testEmptyGetAttachmentInfo() {
+    $this->client->expects($this->once())
+      ->method('__getLastResponse')
+      ->will($this->returnValue($this->getFileContents('SubjectConnector/GetSubjectAttachmentInfoResponse_empty.xml')));
+
+    $connector = new SubjectConnector($this->client, $this->server);
+    $result = $connector->getAttachmentInfo(7023);
+    $this->assertInstanceOf(SubjectConnectorResult::class, $result);
+
+    $expected = [];
+    $this->assertEquals($expected, $result->asArray());
+  }
+
+  /**
    * @covers ::getAttachment()
    */
   public function testGetAttachment() {
@@ -65,6 +81,22 @@ class SubjectConnectorTest extends ConnectorTestBase {
         'Data' => base64_encode($this->getFileContents('images/image.jpg')),
       ],
     ];
+    $this->assertEquals($expected, $result->asArray());
+  }
+
+  /**
+   * @covers ::getSubjectAttachmentData()
+   */
+  public function testEmptyGetSubjectAttachmentData() {
+    $this->client->expects($this->once())
+      ->method('__getLastResponse')
+      ->will($this->returnValue($this->getFileContents('SubjectConnector/GetSubjectAttachmentDataResponse_empty.xml')));
+
+    $connector = new SubjectConnector($this->client, $this->server);
+    $result = $connector->getSubjectAttachmentData(7023);
+    $this->assertInstanceOf(SubjectConnectorResult::class, $result);
+
+    $expected = [];
     $this->assertEquals($expected, $result->asArray());
   }
 
