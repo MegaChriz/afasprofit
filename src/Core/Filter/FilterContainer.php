@@ -16,7 +16,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   /**
    * The filter factory.
    *
-   * @var Afas\Core\Filter\FilterFactoryInterface
+   * @var \Afas\Core\Filter\FilterFactoryInterface
    */
   private $factory;
 
