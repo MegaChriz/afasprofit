@@ -53,7 +53,6 @@ abstract class ResultBase implements ResultInterface {
    */
   public function getRaw() {
     $doc = new DOMDocument();
-    file_put_contents('/tmp/' . $this->lastFunction . '.txt', $this->resultXml);
     $doc->loadXML($this->resultXml, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
@@ -107,12 +106,11 @@ abstract class ResultBase implements ResultInterface {
    *
    * @param DOMDocument|string $xml
    *   The XML to convert to an array.
-   *   Given by reference to save memory.
    *
    * @return array
    *   The raw array data.
    */
-  protected function getArrayData(&$xml) {
+  protected function getArrayData($xml) {
     return XML2Array::createArray($xml);
   }
 
