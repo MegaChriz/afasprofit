@@ -51,12 +51,23 @@ interface EntityInterface extends CompilableInterface {
    * Returns the value of a field.
    *
    * @param string $field_name
-   *   The name of the field that should be returned.
+   *   The name of the field.
    *
    * @return string|null
-   *   The field if it exists, or NULL otherwise.
+   *   The field value if it exists, or NULL otherwise.
    */
   public function getField($field_name);
+
+  /**
+   * Returns the value of an attribute.
+   *
+   * @param string $name
+   *   The name of the attribute.
+   *
+   * @return string|null
+   *   The attribute value if it exists, or NULL otherwise.
+   */
+  public function getAttribute($name);
 
   /**
    * Gets the field action.
@@ -67,14 +78,6 @@ interface EntityInterface extends CompilableInterface {
    * @todo Maybe move to ElementInterface.
    */
   public function getAction();
-
-  /**
-   * Converts the entity and all child entities to an array.
-   *
-   * @return mixed[]
-   *   An array, representing the data of this entity.
-   */
-  public function toArray();
 
   /**
    * Converts the entity and all child entities to XML.
@@ -116,6 +119,30 @@ interface EntityInterface extends CompilableInterface {
   public function removeField($field_name);
 
   /**
+   * Sets an attribute for the Element-element.
+   *
+   * @param string $name
+   *   The name of the attribute.
+   * @param string $value
+   *   The value of the attribute.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function setAttribute($name, $value);
+
+  /**
+   * Removes an attribute.
+   *
+   * @param string $name
+   *   The name of the attribute to remove.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function removeAttribute($name);
+
+  /**
    * Sets field action.
    *
    * @param string $action
@@ -127,19 +154,6 @@ interface EntityInterface extends CompilableInterface {
    * @todo Maybe move to ElementInterface.
    */
   public function setAction($action);
-
-  /**
-   * Loads data in from an array.
-   *
-   * @param array $data
-   *   The data to load in.
-   *
-   * @return $this
-   *   An instance of this class.
-   *
-   * @todo Maybe move to an other interface.
-   */
-  public function fromArray(array $data);
 
   // --------------------------------------------------------------
   // ACTION

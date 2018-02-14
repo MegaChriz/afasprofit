@@ -81,4 +81,12 @@ interface EntityContainerInterface extends CompilableInterface {
    */
   public function getAction();
 
+  /**
+   * Converts the entity and all child entities to an array.
+   *
+   * @return mixed[]
+   *   An array, representing the data of this entity.
+   */
+  public function toArray();
+
 }

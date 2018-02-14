@@ -28,6 +28,13 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   protected $fields = [];
 
   /**
+   * List of attributes.
+   *
+   * @var array
+   */
+  protected $attributes = [];
+
+  /**
    * List of objects.
    *
    * @var array
@@ -85,6 +92,16 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
+  public function getAttribute($name) {
+    if (isset($this->attributes[$name])) {
+      return $this->attributes[$name];
+    }
+    return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getObjects() {
     return $this->objects;
   }
@@ -94,6 +111,9 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
    */
   public function toArray() {
     $return = $this->fields;
+    if (count($this->attributes)) {
+      $return['@attributes'] = $this->attributes;
+    }
     foreach ($this->getObjects() as $object) {
       $return[$object->getEntityType()][] = $object->toArray();
     }
@@ -113,7 +133,11 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
 
     // Create Element.
     $element_xml = $doc->createElement('Element');
-    // @todo Attributes.
+    if (count($this->attributes) > 0) {
+      foreach ($this->attributes as $name => $value) {
+        $element_xml->setAttribute($name, $value);
+      }
+    }
 
     // Fields XML.
     if (count($this->fields) > 0) {
@@ -184,6 +208,20 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
+  public function setAttribute($name, $value) {
+    $this->attributes[$name] = (string) $value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeAttribute($name) {
+    unset($this->attributes[$name]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function addObject(EntityInterface $entity) {
     $this->objects[] = $entity;
     return $this;
@@ -198,8 +236,15 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
         $this->setField($key, $value);
       }
       elseif (is_array($value)) {
-        foreach ($value as $object_data) {
-          $this->add($key, $object_data);
+        if ($key == '@attributes') {
+          foreach ($value as $attribute_name => $attribute_value) {
+            $this->setAttribute($attribute_name, $attribute_value);
+          }
+        }
+        else {
+          foreach ($value as $object_data) {
+            $this->add($key, $object_data);
+          }
         }
       }
     }

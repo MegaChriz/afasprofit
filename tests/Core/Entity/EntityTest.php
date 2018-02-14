@@ -79,6 +79,19 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::getAttribute
+   */
+  public function testGetAttribute() {
+    $this->entity->fromArray([
+      '@attributes' => [
+        'Qux' => 1200,
+      ],
+    ]);
+
+    $this->assertEquals(1200, $this->entity->getAttribute('Qux'));
+  }
+
+  /**
    * @covers ::getObjects
    */
   public function testGetObjects() {
@@ -107,6 +120,22 @@ class EntityTest extends TestBase {
    */
   public function testToArray() {
     $this->assertEquals($this->values, $this->entity->toArray());
+  }
+
+  /**
+   * @covers ::toArray
+   * @covers ::setAttribute
+   */
+  public function testToArrayWithAttributes() {
+    $this->entity->setAttribute('DbId', 12345);
+
+    $expected = [
+      '@attributes' => [
+        'DbId' => 12345,
+      ],
+      'Foo' => 'Bar',
+    ];
+    $this->assertEquals($expected, $this->entity->toArray());
   }
 
   /**
@@ -280,12 +309,56 @@ class EntityTest extends TestBase {
 
   /**
    * @covers ::removeField
+   * @covers ::getField
    * @covers ::toArray
    */
   public function testRemoveField() {
     $this->entity->removeField('Foo');
+    $this->assertEquals(NULL, $this->entity->getField('Foo'));
     $array = $this->entity->toArray();
     $this->assertFalse(isset($array['Foo']));
+  }
+
+  /**
+   * @covers ::setAttribute
+   * @covers ::toArray
+   */
+  public function testSetAttribute() {
+    // Set a new value.
+    $this->entity->setAttribute('Baz', 'Qux');
+    $expected = [
+      '@attributes' => [
+        'Baz' => 'Qux',
+      ],
+    ] + $this->values;
+    $this->assertEquals($expected, $this->entity->toArray());
+
+    // Set an existing value.
+    $this->entity->setAttribute('Baz', 'Foo');
+    $expected = [
+      '@attributes' => [
+        'Baz' => 'Foo',
+      ],
+    ] + $this->values;
+    $this->assertEquals($expected, $this->entity->toArray());
+  }
+
+  /**
+   * @covers ::removeAttribute
+   * @covers ::getAttribute
+   * @covers ::toArray
+   */
+  public function testRemoveAttribute() {
+    // First, set an attribute.
+    $this->entity->setAttribute('Baz', 'Qux');
+    $array = $this->entity->toArray();
+    $this->assertTrue(isset($array['@attributes']));
+
+    // Now remove it.
+    $this->entity->removeAttribute('Baz');
+    $this->assertEquals(NULL, $this->entity->getAttribute('Baz'));
+    $array = $this->entity->toArray();
+    $this->assertFalse(isset($array['@attributes']));
   }
 
   /**

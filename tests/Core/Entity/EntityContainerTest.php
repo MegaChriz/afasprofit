@@ -182,6 +182,64 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::toArray
+   */
+  public function testToArray() {
+    $container = new EntityContainer('DummyType');
+    $object = $container->add('Dummy');
+    $expected = [
+      'Dummy' => [
+        [],
+      ],
+    ];
+    $this->assertEquals($expected, $container->toArray());
+
+    // Set a field.
+    $object->setField('Ab', 'Foo');
+    $expected = [
+      'Dummy' => [
+        [
+          'Ab' => 'Foo',
+        ],
+      ],
+    ];
+    $this->assertEquals($expected, $container->toArray());
+
+    // A second object.
+    $container->add('Dummy', [
+      'Cd' => 'Bar',
+    ]);
+    $expected = [
+      'Dummy' => [
+        [
+          'Ab' => 'Foo',
+        ],
+        [
+          'Cd' => 'Bar',
+        ],
+      ],
+    ];
+    $this->assertEquals($expected, $container->toArray());
+
+    // With two types of objects.
+    $container->add('Dummy2');
+    $expected = [
+      'Dummy' => [
+        [
+          'Ab' => 'Foo',
+        ],
+        [
+          'Cd' => 'Bar',
+        ],
+      ],
+      'Dummy2' => [
+        [],
+      ],
+    ];
+    $this->assertEquals($expected, $container->toArray());
+  }
+
+  /**
    * @covers ::compile
    */
   public function testCompileWithoutEntities() {
