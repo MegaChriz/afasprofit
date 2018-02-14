@@ -56,9 +56,6 @@ abstract class ResultBase implements ResultInterface {
     $doc->loadXML($this->resultXml, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
-    // @todo More elegant way to solve this? If GetData is called, the result is
-    // in GetDataResult, if GetDataWithOptions is called, the result is in
-    // GetDataWithOptionsResult.
     $list = $doc->getElementsByTagName($this->lastFunction . 'Result');
     $data = array();
     foreach ($list as $node) {

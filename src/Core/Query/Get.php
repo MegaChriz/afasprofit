@@ -2,7 +2,6 @@
 
 namespace Afas\Core\Query;
 
-use Afas\Afas;
 use Afas\Core\Connector\GetConnector;
 use Afas\Core\Filter\FilterContainer;
 use Afas\Core\ServerInterface;
@@ -17,10 +16,16 @@ class Get extends Query implements GetInterface {
   // --------------------------------------------------------------
 
   /**
+   * The name of the GetConnector.
+   *
+   * @var string
+   */
+  protected $connectorId;
+
+  /**
    * A filter container.
    *
    * @var \Afas\Core\Filter\FilterContainerInterface
-   *   An instance of FilterContainerInterface.
    */
   protected $filterContainer;
 
@@ -55,9 +60,7 @@ class Get extends Query implements GetInterface {
    *   The name of the GetConnector.
    */
   public function __construct(ServerInterface $server, $connector_id) {
-    $clientFactory = Afas::service('afas_soap_client_factory');
-    $this->client = $clientFactory->create($server);
-    $this->server = $server;
+    parent::__construct($server);
     $this->connectorId = $connector_id;
     $this->filterContainer = new FilterContainer();
   }
@@ -110,7 +113,7 @@ class Get extends Query implements GetInterface {
    * {@inheritdoc}
    */
   public function execute() {
-    $connector = new GetConnector($this->client, $this->server);
+    $connector = new GetConnector($this->getClient(), $this->server);
     $connector->setFilterContainer($this->filterContainer);
     $connector->setRange($this->offset, $this->length);
     return $connector->getData($this->connectorId);

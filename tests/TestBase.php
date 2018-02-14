@@ -7,7 +7,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * Base class for Afas Profit tests.
  */
-class TestBase extends PHPUnit_Framework_TestCase {
+abstract class TestBase extends PHPUnit_Framework_TestCase {
 
   /**
    * Returns the contents of one of the file resources.

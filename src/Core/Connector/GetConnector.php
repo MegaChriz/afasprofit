@@ -165,6 +165,19 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     return $this->getResult();
   }
 
+  /**
+   * Sends a SOAP request.
+   *
+   * @param string $function
+   *   The function to call.
+   * @param string $connector_id
+   *   The get-connector to use.
+   */
+  public function sendRequest($function, $connector_id) {
+    $arguments['connectorId'] = $connector_id;
+    $this->soapSendRequest($function, $arguments);
+  }
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -218,23 +231,6 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
     $arguments['skip'] = $this->skip;
     $arguments['take'] = $this->take;
     return $arguments;
-  }
-
-  // --------------------------------------------------------------
-  // ACTION
-  // --------------------------------------------------------------
-
-  /**
-   * Sends a SOAP request.
-   *
-   * @param string $function
-   *   The function to call.
-   * @param string $connector_id
-   *   The get-connector to use.
-   */
-  public function sendRequest($function, $connector_id) {
-    $arguments['connectorId'] = $connector_id;
-    $this->soapSendRequest($function, $arguments);
   }
 
 }

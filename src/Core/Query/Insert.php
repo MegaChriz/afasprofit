@@ -2,59 +2,26 @@
 
 namespace Afas\Core\Query;
 
-use Afas\Afas;
-use Afas\Core\Connector\UpdateConnector;
-use Afas\Core\Element\ElementContainer;
-use Afas\Core\Entity\EntityInterface;
 use Afas\Core\ServerInterface;
 
 /**
- * Send data to Profit.
+ * Inserting new data into Profit.
  */
-class Insert extends Query implements InsertInterface {
-
-  // --------------------------------------------------------------
-  // CONSTRUCT
-  // --------------------------------------------------------------
+class Insert extends UpdateBase implements InsertInterface {
 
   /**
-   * Insert object constructor.
+   * Constructs a new UpdateBase object.
    *
    * @param \Afas\Core\ServerInterface $server
    *   The server to send data to.
    * @param string $connector_id
-   *   The name of the GetConnector.
+   *   The name of the UpdateConnector.
    * @param array $data
    *   The data to insert.
-   * @param ??? $mapper
    */
-  public function __construct(ServerInterface $server, $connector_id, array $data, $mapper = NULL) {
-    $clientFactory = Afas::service('afas_soap_client_factory');
-    $this->client = $clientFactory->create($server);
-    $this->server = $server;
-    $this->connectorId = $connector_id;
-    if (!empty($mapper)) {
-      $this->mapper = $mapper;
-    }
-    // @todo ElementContainer doesn't exist yet.
-    // @todo rename to entity container?
-    $this->elementContainer = new ElementContainer($server, $mapper);
-    $this->elementContainer->setAction(EntityInterface::FIELDS_INSERT);
-    $this->elementContainer->fromArray($data);
-  }
-
-  // --------------------------------------------------------------
-  // ACTION
-  // --------------------------------------------------------------
-
-  /**
-   * {@inheritdoc}
-   */
-  public function execute() {
-    $connector = new UpdateConnector($this->client, $this->server);
-    $connector->setElementContainer($this->elementContainer);
-    $connector->sendRequest();
-    return $connector->getResult();
+  public function __construct(ServerInterface $server, $connector_id, array $data) {
+    parent::__construct($server, $connector_id);
+    $this->entityContainer->fromArray($data);
   }
 
 }

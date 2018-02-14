@@ -11,7 +11,7 @@ interface QueryInterface {
    * Runs the query against Profit.
    *
    * @return \Afas\Core\Result\ResultInterface|null
-   *   A prepared statement, or NULL if the query is not valid.
+   *   A result from a Profit connector call, or NULL if the query is not valid.
    */
   public function execute();
 

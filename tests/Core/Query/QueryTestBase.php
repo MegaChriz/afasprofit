@@ -1,15 +1,15 @@
 <?php
 
-namespace Afas\Tests\Core\Connector;
+namespace Afas\Tests\Core\Query;
 
 use Afas\Component\Soap\SoapClientInterface;
 use Afas\Core\ServerInterface;
 use Afas\Tests\TestBase;
 
 /**
- * Base class for connector tests.
+ * Base class for query tests.
  */
-abstract class ConnectorTestBase extends TestBase {
+abstract class QueryTestBase extends TestBase {
 
   /**
    * The soap client.
@@ -24,6 +24,13 @@ abstract class ConnectorTestBase extends TestBase {
    * @var \Afas\Core\ServerInterface
    */
   protected $server;
+
+  /**
+   * The query object under test.
+   *
+   * @var \Afas\Core\Query\QueryInterface
+   */
+  protected $query;
 
   /**
    * Setups required dependencies.

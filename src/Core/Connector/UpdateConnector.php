@@ -6,11 +6,12 @@ use Afas\Component\Soap\SoapClientInterface;
 use Afas\Core\Entity\EntityContainer;
 use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\ServerInterface;
+use Afas\Core\Result\UpdateConnectorResult;
 
 /**
  * Class for the Profit UpdateConnector.
  */
-class UpdateConnector extends Connector implements UpdateConnectorInterface {
+class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface {
 
   // --------------------------------------------------------------
   // PROPERTIES
@@ -65,8 +66,28 @@ class UpdateConnector extends Connector implements UpdateConnectorInterface {
   /**
    * {@inheritdoc}
    */
+  public function getResult() {
+    list($result_xml, $last_function) = $this->getResultArguments();
+    return new UpdateConnectorResult($result_xml, $last_function);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getLocation() {
     return $this->getServer()->getBaseUrl() . '/appconnectorupdate.asmx';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getSoapArguments() {
+    $arguments = parent::getSoapArguments();
+    $data = $this->entityContainer->compile();
+    if (!empty($data)) {
+      $arguments['dataXml'] = $data;
+    }
+    return $arguments;
   }
 
   // --------------------------------------------------------------
@@ -81,19 +102,21 @@ class UpdateConnector extends Connector implements UpdateConnectorInterface {
   }
 
   // --------------------------------------------------------------
-  // GETTERS
+  // ACTION
   // --------------------------------------------------------------
 
   /**
-   * {@inheritdoc}
+   * Executes update-connector.
+   *
+   * @param array $arguments
+   *   (optional) The request's arguments.
    */
-  protected function getSoapArguments() {
-    $arguments = parent::getSoapArguments();
-    $data = $this->entityContainer->compile();
-    if (!empty($data)) {
-      $arguments['dataXml'] = $data;
-    }
-    return $arguments;
+  public function execute(array $arguments = array()) {
+    $arguments += [
+      'connectorType' => $this->connectorType,
+      'connectorVersion' => 1,
+    ];
+    $this->soapSendRequest('Execute', $arguments);
   }
 
 }

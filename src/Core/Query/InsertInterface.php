@@ -5,4 +5,4 @@ namespace Afas\Core\Query;
 /**
  * Interface for insert queries.
  */
-interface InsertInterface extends QueryInterface {}
+interface InsertInterface extends UpdateBaseInterface {}
