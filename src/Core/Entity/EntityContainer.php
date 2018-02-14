@@ -2,15 +2,19 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Afas;
+use Afas\Component\ItemList\ItemList;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
-use Afas\Component\ItemList\ItemList;
 
 /**
  * Class containing items to send to Profit.
  */
 class EntityContainer extends ItemList implements EntityContainerInterface {
+
+  use ActionTrait;
+  use EntityCreateTrait;
 
   // --------------------------------------------------------------
   // PROPERTIES
@@ -23,13 +27,6 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    */
   protected $connectorType;
 
-  /**
-   * The entity factory.
-   *
-   * @var \Afas\Core\Entity\EntityFactoryInterface
-   */
-  private $factory;
-
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -39,30 +36,22 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    *
    * @param string $connector_type
    *   The update connector to use.
-   * @param \Afas\Core\Entity\EntityFactoryInterface $factory
-   *   (optional) The factory to use.
-   *   Defaults to \Afas\Core\Entity\EntityFactoryInterface.
+   * @param \Afas\Core\Entity\EntityManagerInterface $manager
+   *   (optional) The manager to use.
+   *   Defaults to \Afas\Core\Entity\EntityManager.
    */
-  public function __construct($connector_type, EntityFactoryInterface $factory = NULL) {
+  public function __construct($connector_type, EntityManagerInterface $manager = NULL) {
     $this->connectorType = $connector_type;
-    if (!isset($factory)) {
-      $factory = new EntityFactory();
+    if (!isset($manager)) {
+      $manager = Afas::service('afas.entity.manager');
     }
-    $this->setFactory($factory);
+    $this->setManager($manager);
+    $this->setAction(EntityInterface::FIELDS_INSERT);
   }
 
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
-
-  /**
-   * {@inheritdoc}
-   */
-  public function add($entity_type, array $values = array()) {
-    $entity = $this->factory->createEntity($entity_type, $values);
-    $this->addObject($entity);
-    return $entity;
-  }
 
   /**
    * {@inheritdoc}
@@ -75,13 +64,18 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   /**
    * Sets the factory that generates the objects.
    *
-   * @param \Afas\Core\Entity\EntityFactoryInterface $factory
-   *   The factory that generates entity objects.
-   *
-   * @return void
+   * @param \Afas\Core\Entity\EntityManagerInterface $manager
+   *   The entity manager.
    */
-  public function setFactory(EntityFactoryInterface $factory) {
-    $this->factory = $factory;
+  public function setManager(EntityManagerInterface $manager) {
+    $this->manager = $manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getManager() {
+    return $this->manager;
   }
 
   /**
@@ -89,9 +83,38 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    */
   protected function addItem($item, $key = NULL) {
     if (!($item instanceof EntityInterface)) {
-      throw new InvalidArgumentException('\Afas\Core\Entity\Entity\EntityContainer::addItem() only accepts instances of \Afas\Core\Entity\Entity\EntityInterface.');
+      throw new InvalidArgumentException('\Afas\Core\Entity\EntityContainer::addItem() only accepts instances of \Afas\Core\Entity\EntityInterface.');
     }
     return parent::addItem($item);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function fromArray(array $data) {
+    if ($this->isAssociative($data)) {
+      $item = $this->add($this->connectorType, $data);
+      $item->setAction($this->getAction());
+    }
+    else {
+      foreach ($data as $subdata) {
+        $item = $this->add($this->connectorType, $subdata);
+        $item->setAction($this->getAction());
+      }
+    }
+    return $this;
+  }
+
+  /**
+   * Checks if an array is associative.
+   */
+  protected function isAssociative($arr) {
+    foreach ($arr as $key => $value) {
+      if (is_string($key)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   // --------------------------------------------------------------
@@ -150,6 +173,19 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
       return '';
     }
     return $result;
+  }
+
+  // --------------------------------------------------------------
+  // UTIL
+  // --------------------------------------------------------------
+
+  /**
+   * Updates childs.
+   */
+  protected function updateChilds() {
+    foreach ($this->getItems() as $item) {
+      $item->setAction($this->getAction());
+    }
   }
 
 }

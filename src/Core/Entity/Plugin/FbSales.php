@@ -1,11 +1,16 @@
 <?php
 
-namespace Afas\Core\Plugin\Entity;
+namespace Afas\Core\Entity\Plugin;
 
 use Afas\Core\Entity\Entity;
+use Afas\Core\Entity\EntityInterface;
 
 /**
  * Class for a FbSales entity.
+ *
+ * @Entity (
+ *   id = "FbSales",
+ * )
  */
 class FbSales extends Entity {
 

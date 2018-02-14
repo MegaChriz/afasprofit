@@ -3,6 +3,7 @@
 namespace Afas;
 
 use Afas\Core\Soap\DefaultSoapClientFactory;
+use Afas\Core\Entity\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -39,6 +40,7 @@ class Afas {
    * Returns the currently active global container.
    *
    * @return \Symfony\Component\DependencyInjection\ContainerInterface
+   *   The current active container.
    */
   public static function getContainer() {
     if (static::$container === NULL) {
@@ -51,7 +53,7 @@ class Afas {
    * Returns if the container has been initialized.
    *
    * @return bool
-   *   TRUE if the container has been initialized, FALSE otherwise.
+   *   True if the container has been initialized, false otherwise.
    */
   public static function hasContainer() {
     return static::$container !== NULL;
@@ -80,6 +82,7 @@ class Afas {
   public static function setDefaultContainer() {
     $container = new Container();
     $container->set('afas_soap_client_factory', new DefaultSoapClientFactory());
+    $container->set('afas.entity.manager', new EntityManager());
 
     static::setContainer($container);
   }

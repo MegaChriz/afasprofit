@@ -10,12 +10,15 @@ use Afas\Core\Mapping\MappingInterface;
  */
 class Entity implements EntityInterface, EntityContainerInterface, MappingInterface {
 
+  use ActionTrait;
+  use EntityCreateTrait;
+
   /**
    * The entity type.
    *
    * @var string
    */
-  protected $entityTypeId;
+  protected $entityType;
 
   /**
    * List of fields.
@@ -32,6 +35,8 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   protected $objects = [];
 
   /**
+   * The mapper.
+   *
    * @var \Afas\Core\Mapping\MappingInterface
    */
   private $mapper;
@@ -49,11 +54,11 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
    *   The type of the entity to create.
    */
   public function __construct(array $values, $entity_type) {
-    $this->entityTypeId = $entity_type;
+    $this->entityType = $entity_type;
+
     // Set initial values.
-    foreach ($values as $key => $value) {
-      $this->setField($key, $value);
-    }
+    $this->fromArray($values);
+    $this->setAction(static::FIELDS_INSERT);
   }
 
   // --------------------------------------------------------------
@@ -63,20 +68,22 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
-  public function id() {}
+  public function getEntityType() {
+    return $this->entityType;
+  }
 
   /**
    * {@inheritdoc}
    */
-  public function isNew() {}
+  public function getField($field_name) {
+    if (isset($this->fields[$field_name])) {
+      return $this->fields[$field_name];
+    }
+    return NULL;
+  }
 
   /**
    * {@inheritdoc}
-   */
-  public function getField($field_name) {}
-
-  /**
-   * Implements EntityContainerInterface::getObjects().
    */
   public function getObjects() {
     return $this->objects;
@@ -85,12 +92,13 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
-  public function getAction() {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function toArray() {}
+  public function toArray() {
+    $return = $this->fields;
+    foreach ($this->getObjects() as $object) {
+      $return[$object->getEntityType()][] = $object->toArray();
+    }
+    return $return;
+  }
 
   /**
    * {@inheritdoc}
@@ -98,6 +106,9 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   public function toXml(DOMDocument $doc = NULL) {
     if (!isset($doc)) {
       $doc = new DOMDocument();
+      $root = $doc->createElement($this->entityType);
+      $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+      $doc->appendChild($root);
     }
 
     // Create Element.
@@ -155,11 +166,6 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
-  public function enforceIsNew($value = TRUE) {}
-
-  /**
-   * {@inheritdoc}
-   */
   public function setField($key, $value) {
     $keys = $this->map($key);
     foreach ($keys as $key) {
@@ -171,19 +177,12 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
-  public function removeField($field_name) {}
-
-  /**
-   * Implements EntityContainerInterface::add().
-   */
-  public function add($entity_type, array $values = array()) {
-    $entity = $this->factory->createEntity($entity_type, $values);
-    $this->addObject($entity);
-    return $entity;
+  public function removeField($field_name) {
+    unset($this->fields[$field_name]);
   }
 
   /**
-   * Implements EntityContainerInterface::addObject().
+   * {@inheritdoc}
    */
   public function addObject(EntityInterface $entity) {
     $this->objects[] = $entity;
@@ -193,12 +192,19 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
-  public function setAction($action) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function fromArray(array $data) {}
+  public function fromArray(array $data) {
+    foreach ($data as $key => $value) {
+      if (is_scalar($value)) {
+        $this->setField($key, $value);
+      }
+      elseif (is_array($value)) {
+        foreach ($value as $object_data) {
+          $this->add($key, $object_data);
+        }
+      }
+    }
+    return $this;
+  }
 
   /**
    * Sets mapper.
@@ -232,24 +238,34 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   public function delete() {}
 
   /**
-   * Return XML string.
-   *
-   * @return string
-   *   XML generated string.
+   * {@inheritdoc}
    */
   public function compile() {
     $doc = new DOMDocument();
 
     // Create root element.
-    $root = $doc->createElement($this->entityTypeId);
+    $root = $doc->createElement($this->entityType);
     $root->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
     $doc->appendChild($root);
 
     // Add entity XML.
-    $node = $this->toXML($doc);
+    $node = $this->toXml($doc);
     $root->appendChild($node);
 
     return $doc->saveXML($root);
+  }
+
+  // --------------------------------------------------------------
+  // UTIL
+  // --------------------------------------------------------------
+
+  /**
+   * Updates childs.
+   */
+  protected function updateChilds() {
+    foreach ($this->getObjects() as $object) {
+      $object->setAction($this->getAction());
+    }
   }
 
 }

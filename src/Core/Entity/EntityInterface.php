@@ -2,12 +2,13 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Core\CompilableInterface;
 use DOMDocument;
 
 /**
  * Interface for entities.
  */
-interface EntityInterface {
+interface EntityInterface extends CompilableInterface {
 
   // --------------------------------------------------------------
   // CONSTANTS
@@ -39,21 +40,12 @@ interface EntityInterface {
   // --------------------------------------------------------------
 
   /**
-   * Returns the identifier.
+   * Returns the type of this entity.
    *
-   * @return string|int|null
-   *   The entity identifier, or NULL if the object does not yet have an
-   *   identifier.
+   * @return string
+   *   This entity's type.
    */
-  public function id();
-
-  /**
-   * Returns whether the entity is new.
-   *
-   * @return bool
-   *   TRUE if the entity is new, or FALSE if the entity has already been saved.
-   */
-  public function isNew();
+  public function getEntityType();
 
   /**
    * Returns the value of a field.
@@ -98,22 +90,6 @@ interface EntityInterface {
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
-
-  /**
-   * Enforces an entity to be new.
-   *
-   * @param bool $value
-   *   (optional) Whether the entity should be forced to be new. Defaults to
-   *   TRUE.
-   *
-   * @return self
-   *   An instance of this class.
-   *
-   * @see \Drupal\Core\Entity\EntityInterface::isNew()
-   *
-   * @todo Rename?
-   */
-  public function enforceIsNew($value = TRUE);
 
   /**
    * Sets the value of a field.

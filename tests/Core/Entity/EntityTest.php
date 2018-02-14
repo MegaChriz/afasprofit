@@ -41,22 +41,31 @@ class EntityTest extends TestBase {
   }
 
   /**
-   * @covers ::id
+   * Returns XML.
+   *
+   * @return string
+   *   An XML string.
    */
-  public function testId() {
-    $this->assertSame($this->values['id'], $this->entity->id());
+  protected function getXml() {
+    $doc = new DOMDocument();
+    $element = $this->entity->toXml($doc);
+    return $doc->saveXML($element);
   }
 
   /**
-   * @covers ::isNew
-   * @covers ::enforceIsNew
+   * Asserts that two XML strings are equal wrapped with a root element.
+   *
+   * The root element has the namespace 'xsi' registered.
+   *
+   * @param string $expected
+   *   The expected XML string.
+   * @param string $actual
+   *   The actual XML string.
    */
-  public function testIsNew() {
-    // We provided an ID, so the entity is not new.
-    $this->assertFalse($this->entity->isNew());
-    // Force it to be new.
-    $this->assertSame($this->entity, $this->entity->enforceIsNew());
-    $this->assertTrue($this->entity->isNew());
+  protected function assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $actual) {
+    $expected = '<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $expected . '</Root>';
+    $actual = '<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $actual . '</Root>';
+    return $this->assertXmlStringEqualsXmlString($expected, $actual);
   }
 
   /**
@@ -66,7 +75,7 @@ class EntityTest extends TestBase {
     $this->assertEquals($this->values['Foo'], $this->entity->getField('Foo'));
 
     // Also ensure NULL is returned for non-existing fields.
-    $this->assertNull($entity->getField('NonExisting'));
+    $this->assertNull($this->entity->getField('NonExisting'));
   }
 
   /**
@@ -75,8 +84,8 @@ class EntityTest extends TestBase {
   public function testGetObjects() {
     // Create two objects.
     $objects = [
-      $this->getMock('Afas\Core\Entity\EntityInterface'),
-      $this->getMock('Afas\Core\Entity\EntityInterface'),
+      $this->getMock(EntityInterface::class),
+      $this->getMock(EntityInterface::class),
     ];
 
     foreach ($objects as $object) {
@@ -116,22 +125,19 @@ class EntityTest extends TestBase {
         ],
       ],
     ];
-    $this->assertEquals($expected, $entity->toArray());
+    $this->assertEquals($expected, $this->entity->toArray());
   }
 
   /**
    * @covers ::toXml
    */
   public function testToXml() {
-    $doc = new DOMDocument();
-    $element = $this->entity->toXml($doc);
-
     $expected = '<Element>
       <Fields Action="insert">
         <Foo>Bar</Foo>
       </Fields>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $doc->saveXML($element));
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
   }
 
   /**
@@ -140,8 +146,6 @@ class EntityTest extends TestBase {
   public function testToXmlWithEmptyFields() {
     $this->entity->setField('Qux', '');
     $this->entity->setField('Boo', NULL);
-    $doc = new DOMDocument();
-    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -150,7 +154,7 @@ class EntityTest extends TestBase {
         <Boo xsi:nil="true"/>
       </Fields>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $doc->saveXML($element));
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
   }
 
   /**
@@ -158,8 +162,6 @@ class EntityTest extends TestBase {
    */
   public function testToXmlWithOneObject() {
     $this->entity->add('FooObject', ['Bar' => 'Baz']);
-    $doc = new DOMDocument();
-    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -175,7 +177,7 @@ class EntityTest extends TestBase {
         </FooObject>
       </Objects>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $doc->saveXML($element));
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
   }
 
   /**
@@ -186,8 +188,6 @@ class EntityTest extends TestBase {
     $this->entity->add('QuxObject', ['ItCd' => 2]);
     $this->entity->add('BarObject', ['DbId' => 1234]);
     $this->entity->add('FooObject', ['Bar' => 'Norf']);
-    $doc = new DOMDocument();
-    $element = $this->entity->toXml($doc);
 
     $expected = '<Element>
       <Fields Action="insert">
@@ -222,7 +222,7 @@ class EntityTest extends TestBase {
         </BarObject>
       </Objects>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $doc->saveXML($element));
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
   }
 
   /**
@@ -255,7 +255,7 @@ class EntityTest extends TestBase {
         </FooObject>
       </Objects>
     </Element>';
-    $this->assertXmlStringEqualsXmlString($expected, $this->entity->toXml());
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
   }
 
   /**
@@ -342,7 +342,7 @@ class EntityTest extends TestBase {
     // Assert the object exists.
     $objects = $this->entity->getObjects();
     $object = current($objects);
-    $this->assertEquals('DummyItem', $object->getEntityTypeId());
+    $this->assertEquals('DummyItem', $object->getEntityType());
     $this->assertEquals('Baz', $object->getField('Bar'));
   }
 

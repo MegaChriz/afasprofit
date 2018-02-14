@@ -2,9 +2,12 @@
 
 namespace Afas\Tests\Core\Entity;
 
+use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityContainer;
+use Afas\Core\Entity\EntityManagerInterface;
 use Afas\Tests\TestBase;
 use DOMDocument;
+use InvalidArgumentException;
 use PHPUnit_Framework_Assert;
 use ReflectionMethod;
 
@@ -34,17 +37,17 @@ class EntityContainerTest extends TestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->entity = $this->getMock('Afas\Core\Entity\EntityInterface');
+    $this->entity = $this->getMock(EntityInterface::class);
     $this->entity->expects($this->any())
-      ->method('toXML')
+      ->method('toXml')
       ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXml']));
 
-    $factory = $this->getMock('Afas\Core\Entity\EntityFactoryInterface');
-    $factory->expects($this->any())
-      ->method('createEntity')
+    $manager = $this->getMock(EntityManagerInterface::class);
+    $manager->expects($this->any())
+      ->method('createInstance')
       ->will($this->returnValue($this->entity));
 
-    $this->container = new EntityContainer('DummyType', $factory);
+    $this->container = new EntityContainer('DummyType', $manager);
   }
 
   /**
@@ -79,23 +82,86 @@ class EntityContainerTest extends TestBase {
    * Ensure only EntityInterface objects can be added to the entity container.
    *
    * @covers ::addItem
-   * @expectedException InvalidArgumentException
    */
   public function testAddItem() {
-    $method = new ReflectionMethod('Afas\Core\Entity\EntityContainer', 'addItem');
+    $this->setExpectedException(InvalidArgumentException::class);
+    $method = new ReflectionMethod(EntityContainer::class, 'addItem');
     $method->setAccessible(TRUE);
     $method->invoke($this->container, 'Foo');
   }
 
   /**
-   * @covers ::setFactory
+   * @covers ::setAction
+   * @covers ::getAction
+   */
+  public function testSetAction() {
+    $this->assertSame($this->container, $this->container->setAction(EntityInterface::FIELDS_INSERT));
+    $this->assertSame(EntityInterface::FIELDS_INSERT, $this->container->getAction());
+    $this->assertSame($this->container, $this->container->setAction(EntityInterface::FIELDS_UPDATE));
+    $this->assertSame(EntityInterface::FIELDS_UPDATE, $this->container->getAction());
+    $this->assertSame($this->container, $this->container->setAction(EntityInterface::FIELDS_DELETE));
+    $this->assertSame(EntityInterface::FIELDS_DELETE, $this->container->getAction());
+  }
+
+  /**
+   * @covers ::setAction
+   */
+  public function testSetFailedAction() {
+    $this->setExpectedException(InvalidArgumentException::class);
+    $this->container->setAction('invalid');
+  }
+
+  /**
+   * @covers ::fromArray
+   * @covers ::compile
+   * @dataProvider fromArrayDataProvider
+   */
+  public function testFromArray($expected, array $data) {
+    $container = new EntityContainer('DummyType2');
+    $container->fromArray([
+      'Ab' => 'Foo',
+      'Cd' => 'Bar',
+    ]);
+    $expected = '<DummyType2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Element><Fields Action="insert"><Ab>Foo</Ab><Cd>Bar</Cd></Fields></Element></DummyType2>';
+    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  }
+
+  /**
+   * Data provider for ::testFromArray.
+   */
+  public function fromArrayDataProvider() {
+    return [
+      [
+        'expected' => '<DummyType2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Element><Fields Action="insert"><Ab>Foo</Ab><Cd>Bar</Cd></Fields></Element></DummyType2>',
+        'data' => [
+          'Ab' => 'Foo',
+          'Cd' => 'Bar',
+        ],
+      ],
+      [
+        'expected' => '<DummyType2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Element><Fields Action="insert"><Ab>Foo</Ab><Cd>Bar</Cd></Fields></Element><Element><Fields Action="insert"><Ab>Baz</Ab></Fields></Element></DummyType2>',
+        'data' => [
+          [
+            'Ab' => 'Foo',
+            'Cd' => 'Bar',
+          ],
+          [
+            'Ab' => 'Baz',
+          ],
+        ],
+      ],
+    ];
+  }
+
+  /**
+   * @covers ::setManager
    * @covers ::__construct
    */
-  public function testSetFactory() {
-    $factory = $this->getMock('Afas\Core\Entity\EntityFactoryInterface');
+  public function testSetManager() {
+    $manager = $this->getMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2');
-    $container->setFactory($factory);
-    $this->assertEquals($factory, PHPUnit_Framework_Assert::readAttribute($container, 'factory'));
+    $container->setManager($manager);
+    $this->assertEquals($manager, PHPUnit_Framework_Assert::readAttribute($container, 'manager'));
   }
 
   /**
@@ -104,8 +170,8 @@ class EntityContainerTest extends TestBase {
   public function testGetObjects() {
     // Create two objects.
     $objects = [
-      $this->getMock('Afas\Core\Entity\EntityInterface'),
-      $this->getMock('Afas\Core\Entity\EntityInterface'),
+      $this->getMock(EntityInterface::class),
+      $this->getMock(EntityInterface::class),
     ];
 
     foreach ($objects as $object) {

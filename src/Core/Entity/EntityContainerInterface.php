@@ -37,6 +37,30 @@ interface EntityContainerInterface extends CompilableInterface {
    */
   public function addObject(EntityInterface $entity);
 
+  /**
+   * Sets field action.
+   *
+   * @param string $action
+   *   The action to set.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function setAction($action);
+
+  /**
+   * Loads data in from an array.
+   *
+   * @param array $data
+   *   The data to load in.
+   *
+   * @return $this
+   *   An instance of this class.
+   *
+   * @todo Maybe move to an other interface.
+   */
+  public function fromArray(array $data);
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
@@ -48,5 +72,13 @@ interface EntityContainerInterface extends CompilableInterface {
    *   An array of entities.
    */
   public function getObjects();
+
+  /**
+   * Gets the field action.
+   *
+   * @return string
+   *   The field's action: insert, update or delete.
+   */
+  public function getAction();
 
 }
