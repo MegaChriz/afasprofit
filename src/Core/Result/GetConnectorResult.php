@@ -21,20 +21,25 @@ class GetConnectorResult extends ResultBase {
       return [];
     }
 
-    // Check if only one data row was given back. If so, adjust array so the result becomes:
-    //
-    // AfasGetConnector =>
-    //   MyGetConnector =>
-    //     0 =>
-    //       column1 => value1
-    //       column2 => value2
-    //
-    // instead of:
-    //
-    // AfasGetConnector =>
-    //   MyGetConnector =>
-    //     column1 => value1
-    //     column2 => value2
+    /*
+     * Check if only one data row was given back. If so, adjust array so the
+     * result becomes:
+     *
+     * @code
+     * AfasGetConnector =>
+     *   MyGetConnector =>
+     *     0 =>
+     *       column1 => value1
+     *       column2 => value2
+     *
+     * instead of:
+     *
+     * AfasGetConnector =>
+     *   MyGetConnector =>
+     *     column1 => value1
+     *     column2 => value2
+     * @endcode
+     */
     $keys = array_keys($data['AfasGetConnector']);
     $key = reset($keys);
     if (!isset($data['AfasGetConnector'][$key][0])) {

@@ -5,10 +5,7 @@
  * Psuedo-code for using a update-connector.
  */
 
-use Afas\Afas;
 use Afas\Core\Server;
-use Afas\Core\Soap\DefaultSoapClientFactory;
-use Symfony\Component\DependencyInjection\Container;
 
 // Bootstrap.
 require_once __DIR__ . '/../includes/bootstrap.php';

@@ -17,8 +17,5 @@ $list[] = 'item 3';
 $list[] = array();
 $list[] = new stdClass();
 
-foreach ($list as $key => $value) {
-  //print $value . '<br />';
-}
-
-print_p($list);die();
+print '<pre>';
+print_r($list);

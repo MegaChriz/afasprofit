@@ -56,8 +56,9 @@ abstract class ResultBase implements ResultInterface {
     $doc->loadXML($this->resultXml, LIBXML_PARSEHUGE);
 
     // Retrieve data result.
-    // @todo More elegant way to solve this? If GetData is called, the result is in GetDataResult,
-    // if GetDataWithOptions is called, the result is in GetDataWithOptionsResult.
+    // @todo More elegant way to solve this? If GetData is called, the result is
+    // in GetDataResult, if GetDataWithOptions is called, the result is in
+    // GetDataWithOptionsResult.
     $list = $doc->getElementsByTagName($this->lastFunction . 'Result');
     $data = array();
     foreach ($list as $node) {
@@ -104,7 +105,7 @@ abstract class ResultBase implements ResultInterface {
   /**
    * Converts XML to array.
    *
-   * @param DOMDocument|string $xml
+   * @param \DOMDocument|string $xml
    *   The XML to convert to an array.
    *
    * @return array

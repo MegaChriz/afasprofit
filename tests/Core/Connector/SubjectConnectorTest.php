@@ -4,7 +4,6 @@ namespace Afas\Tests\Core\Connector;
 
 use Afas\Core\Connector\SubjectConnector;
 use Afas\Core\Result\SubjectConnectorResult;
-use Afas\Tests\TestBase;
 
 /**
  * @coversDefaultClass \Afas\Core\Connector\SubjectConnector

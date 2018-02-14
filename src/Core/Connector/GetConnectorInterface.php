@@ -35,8 +35,6 @@ interface GetConnectorInterface extends ConnectorInterface {
    *
    * @param \Afas\Core\Filter\FilterContainerInterface $filter_container
    *   A container containing filters.
-   *
-   * @return void
    */
   public function setFilterContainer(FilterContainerInterface $filter_container);
 
@@ -48,8 +46,6 @@ interface GetConnectorInterface extends ConnectorInterface {
    * @param int $take
    *   (optional) The number of records to take.
    *   Defaults to take all records.
-   *
-   * @return void
    */
   public function setRange($skip, $take = -1);
 

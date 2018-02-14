@@ -14,8 +14,6 @@ interface FilterContainerInterface extends CompilableInterface, FilterableInterf
    *
    * @param FilterFactoryInterface $factory
    *   The factory that generates filter and filter group objects.
-   *
-   * @return void
    */
   public function setFactory(FilterFactoryInterface $factory);
 

@@ -29,12 +29,11 @@ interface ServerInterface {
    *   The Update connector to use.
    * @param array $data
    *   The data to insert.
-   * @param ??? $mapper
    *
    * @return \Afas\Core\Query\Insert
    *   An insert query.
    */
-  public function insert($connector_id, array $data, $mapper = NULL);
+  public function insert($connector_id, array $data);
 
   /**
    * Returns an update query object.
@@ -43,12 +42,11 @@ interface ServerInterface {
    *   The Update connector to use.
    * @param array $data
    *   The data to update.
-   * @param ??? $mapper
    *
    * @return \Afas\Core\Query\Update
    *   An update query.
    */
-  public function update($connector_id, array $data, $mapper = NULL);
+  public function update($connector_id, array $data);
 
   // --------------------------------------------------------------
   // GETTERS

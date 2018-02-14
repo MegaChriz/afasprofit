@@ -61,8 +61,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   const OUTPUTOPTIONS_XML_MSDATA_WITH_EMPTY_VALUES = 3;
 
   /**
-   * Outputoptions option: data is separated using semicolons; dates and numbers
-   * are formatted using locale settings.
+   * Outputoptions option: data is separated using semicolons.
+   *
+   * Dates and numbers are formatted using locale settings.
    *
    * Only has effect if output mode is text.
    *
@@ -71,8 +72,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   const OUTPUTOPTIONS_TXT_SEMICOLON_LC = 1;
 
   /**
-   * Outputoptions option: data is separated using tabs; dates and numbers are
-   * formatted using locale settings.
+   * Outputoptions option: data is separated using tabs.
+   *
+   * Dates and numbers are formatted using locale settings.
    *
    * Only has effect if output mode is text.
    *
@@ -81,8 +83,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   const OUTPUTOPTIONS_TXT_TAB_LC = 2;
 
   /**
-   * Outputoptions option: data is separated using semicolons; dates and numbers
-   * are formatted using international settings:
+   * Outputoptions option: data is separated using semicolons.
+   *
+   * Dates and numbers are formatted using international settings:
    * - dd-mm-yy for dates;
    * - dot for decimal separators.
    *
@@ -93,8 +96,9 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   const OUTPUTOPTIONS_TXT_SEMICOLON = 3;
 
   /**
-   * Outputoptions option: data is separated using tabs; dates and numbers are
-   * formatted using international settings:
+   * Outputoptions option: data is separated using tabs.
+   *
+   * Dates and numbers are formatted using international settings:
    * - dd-mm-yy for dates;
    * - dot for decimal separators.
    *

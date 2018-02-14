@@ -37,27 +37,6 @@ class Filter implements FilterInterface {
   protected $operator;
 
   // --------------------------------------------------------------
-  // CONSTANTS
-  // --------------------------------------------------------------
-
-  // Operators.
-  const OPERATOR_EQ               = 1; // Equal
-  const OPERATOR_GE               = 2; // Greater than or equal
-  const OPERATOR_LE               = 3; // Less than or equal
-  const OPERATOR_GT               = 4; // Greater than
-  const OPERATOR_LT               = 5; // Less than
-  const OPERATOR_CONTAINS         = 6; // Contains
-  const OPERATOR_NE               = 7; // Not equal
-  const OPERATOR_EMPTY            = 8; // Is empty
-  const OPERATOR_NOT_EMPTY        = 9; // Is not empty
-  const OPERATOR_STARTS_WITH      = 10; // Starts with
-  const OPERATOR_CONTAINS_NOT     = 11; // Does not contain
-  const OPERATOR_STARTS_NOT_WITH  = 12; // Starts not with
-  const OPERATOR_ENDS_WITH        = 13; // Ends with
-  const OPERATOR_ENDS_NOT_WITH    = 14; // Ends not with
-  const OPERATOR_QUICK            = 15; // Quickfilter
-
-  // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
 

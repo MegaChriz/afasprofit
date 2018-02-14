@@ -45,10 +45,7 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   }
 
   /**
-   * Returns the complete list.
-   *
-   * @return array
-   *   A list of items.
+   * {@inheritdoc}
    */
   public function getItems() {
     return $this->list;

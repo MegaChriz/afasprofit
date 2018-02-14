@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="afasprofit">
+  <description>Default PHP CodeSniffer configuration for Afas Profit API.</description>
+  <file>.</file>
+
+  <!--Exclude third party code.-->
+  <exclude-pattern>./vendor/*</exclude-pattern>
+  <exclude-pattern>./build/*</exclude-pattern>
+  <exclude-pattern>./docs/*</exclude-pattern>
+
+  <rule ref="Drupal">
+    <exclude name="Drupal.Commenting.InlineComment.SpacingAfter"/>
+    <exclude name="Drupal.Commenting.InlineComment.InvalidEndChar"/>
+  </rule>
+
+</ruleset>

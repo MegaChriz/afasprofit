@@ -14,8 +14,6 @@ interface UpdateConnectorInterface extends ConnectorInterface {
    *
    * @param \Afas\Core\Entity\EntityContainerInterface $entity_container
    *   A container containing items to send to Profit.
-   *
-   * @return void
    */
   public function setEntityContainer(EntityContainerInterface $entity_container);
 

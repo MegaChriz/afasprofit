@@ -3,6 +3,7 @@
 namespace Afas\Core;
 
 use Afas\Core\Query\Get;
+use Afas\Core\Query\Insert;
 use Afas\Core\Query\Update;
 
 /**

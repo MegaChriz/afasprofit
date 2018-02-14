@@ -65,7 +65,9 @@ abstract class ConnectorBase implements ConnectorInterface {
   }
 
   /**
-   * Returns arguments needed to construct a new \Afas\Core\Result\ResultInterface.
+   * Returns arguments needed to construct a new result.
+   *
+   * The result implements \Afas\Core\Result\ResultInterface.
    *
    * @return array
    *   A list of arguments.
@@ -123,8 +125,6 @@ abstract class ConnectorBase implements ConnectorInterface {
    * @param array $options
    *   (optional) An array of options to send with the request.
    *   Defaults to the result of getSoapOptions().
-   *
-   * @return void
    */
   protected function soapSendRequest($function, array $arguments = array(), array $options = array()) {
     // Set action to call.
