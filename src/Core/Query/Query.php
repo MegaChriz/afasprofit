@@ -34,7 +34,7 @@ abstract class Query implements QueryInterface {
    *   A Soap Client.
    */
   protected function getClient() {
-    return Afas::service('afas_soap_client_factory')->create($this->server);
+    return Afas::service('afas.soap_client_factory')->create($this->server);
   }
 
 }

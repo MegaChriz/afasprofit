@@ -2,9 +2,9 @@
 
 namespace Afas;
 
-use Afas\Core\Soap\DefaultSoapClientFactory;
 use Afas\Core\Entity\EntityManager;
-use Symfony\Component\DependencyInjection\Container;
+use Afas\Core\Soap\DefaultSoapClientFactory;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -80,9 +80,9 @@ class Afas {
    * Instantiates a container with default services.
    */
   public static function setDefaultContainer() {
-    $container = new Container();
-    $container->set('afas_soap_client_factory', new DefaultSoapClientFactory());
-    $container->set('afas.entity.manager', new EntityManager());
+    $container = new ContainerBuilder();
+    $container->register('afas.entity.manager', EntityManager::class);
+    $container->register('afas.soap_client_factory', DefaultSoapClientFactory::class);
 
     static::setContainer($container);
   }
