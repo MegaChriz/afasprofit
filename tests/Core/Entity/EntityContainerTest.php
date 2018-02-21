@@ -37,16 +37,25 @@ class EntityContainerTest extends TestBase {
   public function setUp() {
     parent::setUp();
 
+    // Create a mocked entity.
     $this->entity = $this->getMock(EntityInterface::class);
     $this->entity->expects($this->any())
       ->method('toXml')
       ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXml']));
+    $this->entity->expects($this->any())
+      ->method('validate')
+      ->will($this->returnValue([]));
+    $this->entity->expects($this->any())
+      ->method('getObjects')
+      ->will($this->returnValue([]));
 
+    // Create a mocked entity manager.
     $manager = $this->getMock(EntityManagerInterface::class);
     $manager->expects($this->any())
       ->method('createInstance')
       ->will($this->returnValue($this->entity));
 
+    // Create the entity container to test with.
     $this->container = new EntityContainer('DummyType', $manager);
   }
 
@@ -240,6 +249,13 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::getType
+   */
+  public function testGetType() {
+    $this->assertEquals('DummyType', $this->container->getType());
+  }
+
+  /**
    * @covers ::compile
    */
   public function testCompileWithoutEntities() {
@@ -267,6 +283,13 @@ class EntityContainerTest extends TestBase {
     // Also test if an empty string is returned when container is empty.
     $container2 = new EntityContainer('DummyType2');
     $this->assertEquals('', (string) $container2);
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testValidate() {
+    $this->assertInternalType('array', $this->container->validate());
   }
 
 }

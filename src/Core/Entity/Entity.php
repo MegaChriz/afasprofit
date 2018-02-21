@@ -2,13 +2,14 @@
 
 namespace Afas\Core\Entity;
 
-use DOMDocument;
+use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Mapping\MappingInterface;
+use DOMDocument;
 
 /**
  * Base class for entities.
  */
-class Entity implements EntityInterface, EntityContainerInterface, MappingInterface {
+class Entity implements EntityInterface, MappingInterface {
 
   use ActionTrait;
   use EntityCreateTrait;
@@ -62,11 +63,19 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
    */
   public function __construct(array $values, $entity_type) {
     $this->entityType = $entity_type;
+    $this->init();
 
     // Set initial values.
     $this->fromArray($values);
     $this->setAction(static::FIELDS_INSERT);
   }
+
+  /**
+   * Sets initial values.
+   *
+   * Can be used by subclasses to do some initialization upon object creation.
+   */
+  protected function init() {}
 
   // --------------------------------------------------------------
   // GETTERS
@@ -82,11 +91,35 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
   /**
    * {@inheritdoc}
    */
+  public function getType() {
+    return $this->getEntityType();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getField($field_name) {
     if (isset($this->fields[$field_name])) {
       return $this->fields[$field_name];
     }
     return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFields() {
+    return $this->fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function fieldExists($name) {
+    if (isset($this->fields[$name])) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
@@ -181,6 +214,13 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
     }
 
     return $element_xml;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validate() {
+    return [];
   }
 
   // --------------------------------------------------------------
@@ -286,6 +326,9 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
    * {@inheritdoc}
    */
   public function compile() {
+    // Validation *must* pass.
+    $this->mustValidate();
+
     $doc = new DOMDocument();
 
     // Create root element.
@@ -298,6 +341,19 @@ class Entity implements EntityInterface, EntityContainerInterface, MappingInterf
     $root->appendChild($node);
 
     return $doc->saveXML($root);
+  }
+
+  /**
+   * Validates the entity and throws an exception if validation fails.
+   *
+   * @throws \Afas\Core\Exception\EntityValidationException
+   *   When validation fails.
+   */
+  protected function mustValidate() {
+    $errors = $this->validate();
+    if (!empty($errors)) {
+      throw new EntityValidationException($this, $errors);
+    }
   }
 
   // --------------------------------------------------------------

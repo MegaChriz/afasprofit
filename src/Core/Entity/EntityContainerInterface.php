@@ -89,4 +89,27 @@ interface EntityContainerInterface extends CompilableInterface {
    */
   public function toArray();
 
+  /**
+   * Gets container's type.
+   *
+   * @return string
+   *   The container's type.
+   */
+  public function getType();
+
+  // --------------------------------------------------------------
+  // ACTION
+  // --------------------------------------------------------------
+
+  /**
+   * Validates/corrects the structure of this element.
+   *
+   * This should be implemented to ensure that the structure is valid before the
+   * data is send to Afas Profit.
+   *
+   * @return string[]
+   *   An array of error messages.
+   */
+  public function validate();
+
 }

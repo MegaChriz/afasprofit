@@ -2,13 +2,12 @@
 
 namespace Afas\Core\Entity;
 
-use Afas\Core\CompilableInterface;
 use DOMDocument;
 
 /**
  * Interface for entities.
  */
-interface EntityInterface extends CompilableInterface {
+interface EntityInterface extends EntityContainerInterface {
 
   // --------------------------------------------------------------
   // CONSTANTS
@@ -57,6 +56,26 @@ interface EntityInterface extends CompilableInterface {
    *   The field value if it exists, or NULL otherwise.
    */
   public function getField($field_name);
+
+  /**
+   * Returns all field values.
+   *
+   * @return array
+   *   An array of field values.
+   */
+  public function getFields();
+
+  /**
+   * Returns if a field exists.
+   *
+   * @param string $name
+   *   The name of the field to check.
+   *
+   * @return bool
+   *   True if the field exists.
+   *   False otherwise.
+   */
+  public function fieldExists($name);
 
   /**
    * Returns the value of an attribute.

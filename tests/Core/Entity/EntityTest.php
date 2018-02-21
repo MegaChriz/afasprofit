@@ -69,6 +69,20 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::getEntityType
+   */
+  public function testGetEntityType() {
+    $this->assertEquals('DummyEntityType', $this->entity->getEntityType());
+  }
+
+  /**
+   * @covers ::getType
+   */
+  public function testGetType() {
+    $this->assertEquals('DummyEntityType', $this->entity->getType());
+  }
+
+  /**
    * @covers ::getField
    */
   public function testGetField() {
@@ -76,6 +90,21 @@ class EntityTest extends TestBase {
 
     // Also ensure NULL is returned for non-existing fields.
     $this->assertNull($this->entity->getField('NonExisting'));
+  }
+
+  /**
+   * @covers ::getFields
+   */
+  public function testGetFields() {
+    $this->assertEquals($this->values, $this->entity->getFields());
+  }
+
+  /**
+   * @covers ::fieldExists
+   */
+  public function testFieldExists() {
+    $this->assertTrue($this->entity->fieldExists('Foo'));
+    $this->assertFalse($this->entity->fieldExists('Bar'));
   }
 
   /**
@@ -285,6 +314,13 @@ class EntityTest extends TestBase {
       </Objects>
     </Element>';
     $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testValidate() {
+    $this->assertInternalType('array', $this->entity->validate());
   }
 
   /**
