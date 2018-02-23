@@ -8,7 +8,7 @@
 use Afas\Core\Server;
 
 // Bootstrap.
-require_once __DIR__ . '/../includes/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Create AfasServer.
 $server = new Server();

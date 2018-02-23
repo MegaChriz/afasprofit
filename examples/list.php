@@ -8,7 +8,7 @@
 use Afas\Component\Test\TestList;
 
 // Bootstrap.
-require_once __DIR__ . '/../includes/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $list = new TestList();
 $list[] = 'item 1';
