@@ -12,6 +12,9 @@ interface ResultInterface {
    *
    * @return string
    *   The raw data result.
+   *
+   * @throws \Afas\Core\Exception\EmptyException
+   *   In case the data result was empty (not an error).
    */
   public function getRaw();
 

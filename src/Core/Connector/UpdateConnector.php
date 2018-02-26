@@ -51,7 +51,7 @@ class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface 
   public function __construct(SoapClientInterface $client, ServerInterface $server, $connector_type, EntityContainerInterface $entity_container = NULL) {
     parent::__construct($client, $server);
     $this->connectorType = $connector_type;
-    if (!isset($entity_container)) {
+    if (isset($entity_container)) {
       $this->entityContainer = $entity_container;
     }
     else {
@@ -106,10 +106,7 @@ class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface 
   // --------------------------------------------------------------
 
   /**
-   * Executes update-connector.
-   *
-   * @param array $arguments
-   *   (optional) The request's arguments.
+   * {@inheritdoc}
    */
   public function execute(array $arguments = array()) {
     $arguments += [
@@ -117,6 +114,7 @@ class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface 
       'connectorVersion' => 1,
     ];
     $this->soapSendRequest('Execute', $arguments);
+    return $this->getResult();
   }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Result;
 
+use Afas\Core\Exception\EmptyException;
 use DOMDocument;
 use DOMXPath;
 use LSS\XML2Array;
@@ -57,11 +58,15 @@ abstract class ResultBase implements ResultInterface {
 
     // Retrieve data result.
     $list = $doc->getElementsByTagName($this->lastFunction . 'Result');
-    $data = array();
+    $data = [];
     foreach ($list as $node) {
       foreach ($node->childNodes as $child) {
-        $data[] = array($child->nodeName => $child->nodeValue);
+        $data[] = [$child->nodeName => $child->nodeValue];
       }
+    }
+
+    if (!isset($data[0]['#text'])) {
+      throw new EmptyException();
     }
 
     return $data[0]['#text'];

@@ -15,6 +15,7 @@ class GetConnectorTest extends ConnectorTestBase {
 
   /**
    * @covers ::getData
+   * @covers ::getResult
    */
   public function testGetData() {
     $connector = new GetConnector($this->client, $this->server);
@@ -30,6 +31,15 @@ class GetConnectorTest extends ConnectorTestBase {
     $connector = new GetConnector($this->client, $this->server);
     $connector->setFilterContainer($filter_container);
     $this->assertEquals($filter_container, PHPUnit_Framework_Assert::readAttribute($connector, 'filterContainer'));
+  }
+
+  /**
+   * @covers ::setRange
+   */
+  public function testSetRange() {
+    $connector = new GetConnector($this->client, $this->server);
+    $connector->setRange(10);
+    $connector->setRange(0, 10);
   }
 
   /**

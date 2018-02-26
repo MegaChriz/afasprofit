@@ -17,4 +17,15 @@ interface UpdateConnectorInterface extends ConnectorInterface {
    */
   public function setEntityContainer(EntityContainerInterface $entity_container);
 
+  /**
+   * Executes update-connector.
+   *
+   * @param array $arguments
+   *   (optional) The request's arguments.
+   *
+   * @return \Afas\Core\Result\ResultInterface
+   *   The result of the call.
+   */
+  public function execute(array $arguments = array());
+
 }

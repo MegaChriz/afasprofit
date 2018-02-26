@@ -2,6 +2,8 @@
 
 namespace Afas\Core\Result;
 
+use Afas\Core\Exception\EmptyException;
+
 /**
  * Class for processing results from a Profit GetConnector.
  */
@@ -11,8 +13,14 @@ class GetConnectorResult extends ResultBase {
    * {@inheritdoc}
    */
   public function asArray() {
-    // Convert XML to array.
-    $data = $this->getArrayData($this->asXml());
+    try {
+      // Convert XML to array.
+      $data = $this->getArrayData($this->asXml());
+    }
+    catch (EmptyException $e) {
+      // Not an error.
+      return [];
+    }
 
     // Remove the metadata.
     unset($data['AfasGetConnector']['xs:schema']);

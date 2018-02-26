@@ -12,7 +12,8 @@ use Afas\Core\Result\SubjectConnectorResult;
 class SubjectConnectorTest extends ConnectorTestBase {
 
   /**
-   * @covers ::getAttachmentInfo()
+   * @covers ::getAttachmentInfo
+   * @covers ::getResult
    */
   public function testGetAttachmentInfo() {
     $this->client->expects($this->once())
@@ -33,7 +34,8 @@ class SubjectConnectorTest extends ConnectorTestBase {
   }
 
   /**
-   * @covers ::getAttachmentInfo()
+   * @covers ::getAttachmentInfo
+   * @covers ::getResult
    */
   public function testEmptyGetAttachmentInfo() {
     $this->client->expects($this->once())
@@ -49,7 +51,7 @@ class SubjectConnectorTest extends ConnectorTestBase {
   }
 
   /**
-   * @covers ::getAttachment()
+   * @covers ::getAttachment
    */
   public function testGetAttachment() {
     $this->client->expects($this->once())
@@ -63,7 +65,8 @@ class SubjectConnectorTest extends ConnectorTestBase {
   }
 
   /**
-   * @covers ::getSubjectAttachmentData()
+   * @covers ::getSubjectAttachmentData
+   * @covers ::getResult
    */
   public function testGetSubjectAttachmentData() {
     $this->client->expects($this->once())
@@ -84,7 +87,8 @@ class SubjectConnectorTest extends ConnectorTestBase {
   }
 
   /**
-   * @covers ::getSubjectAttachmentData()
+   * @covers ::getSubjectAttachmentData
+   * @covers ::getResult
    */
   public function testEmptyGetSubjectAttachmentData() {
     $this->client->expects($this->once())
