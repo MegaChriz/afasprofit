@@ -59,7 +59,10 @@ class SchemaManager {
    * @param string $update_connector
    *   The update connector whose definition to retrieve.
    *
-   * @throw \Afas\Core\Exception\SchemaNotFoundException
+   * @return array
+   *   A definition of the update connector.
+   *
+   * @throws \Afas\Core\Exception\SchemaNotFoundException
    *   In case the XSD file for the update connector could not be found.
    */
   public function getSchema($update_connector) {

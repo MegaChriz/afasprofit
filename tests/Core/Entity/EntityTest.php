@@ -241,6 +241,29 @@ class EntityTest extends TestBase {
   /**
    * @covers ::toXml
    */
+  public function testToXmlWithAttributes() {
+    $this->entity->setAttribute('Foo', 'Bar');
+
+    $expected = '<Element Foo="Bar">
+      <Fields Action="insert">
+        <Foo>Bar</Foo>
+      </Fields>
+    </Element>';
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
+
+    // Second attribute.
+    $this->entity->setAttribute('Baz', 'Qux');
+    $expected = '<Element Baz="Qux" Foo="Bar">
+      <Fields Action="insert">
+        <Foo>Bar</Foo>
+      </Fields>
+    </Element>';
+    $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
+  }
+
+  /**
+   * @covers ::toXml
+   */
   public function testToXmlWithMultipleObjects() {
     $this->entity->add('FooObject', ['Bar' => 'Baz']);
     $this->entity->add('QuxObject', ['ItCd' => 2]);
@@ -314,6 +337,22 @@ class EntityTest extends TestBase {
       </Objects>
     </Element>';
     $this->assertXmlStringEqualsXmlStringWithWrappedRootElement($expected, $this->getXml());
+  }
+
+  /**
+   * @covers ::toXml
+   */
+  public function testToXmlWithoutDom() {
+    $doc = new DOMDocument();
+    $element = $this->entity->toXml();
+    $doc->appendChild($doc->importNode($element, TRUE));
+
+    $expected = '<Element>
+      <Fields Action="insert">
+        <Foo>Bar</Foo>
+      </Fields>
+    </Element>';
+    $this->assertXmlStringEqualsXmlString($expected, $doc->saveXML());
   }
 
   /**
@@ -453,6 +492,22 @@ class EntityTest extends TestBase {
     $object = current($objects);
     $this->assertEquals('DummyItem', $object->getEntityType());
     $this->assertEquals('Baz', $object->getField('Bar'));
+  }
+
+  /**
+   * @covers ::fromArray
+   * @covers ::getField
+   */
+  public function testFromArrayWithAttributes() {
+    $values = [
+      '@attributes' => [
+        'Qux' => 'Foo',
+      ],
+    ];
+    $this->entity->fromArray($values);
+
+    $this->assertEquals('Foo', $this->entity->getAttribute('Qux'));
+    $this->assertEquals(NULL, $this->entity->getAttribute('NonExistingAttribute'));
   }
 
   /**

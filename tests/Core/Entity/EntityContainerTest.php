@@ -7,6 +7,7 @@ use Afas\Core\Entity\EntityContainer;
 use Afas\Core\Entity\EntityManagerInterface;
 use Afas\Tests\TestBase;
 use DOMDocument;
+use Exception;
 use InvalidArgumentException;
 use PHPUnit_Framework_Assert;
 use ReflectionMethod;
@@ -136,6 +137,25 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::fromArray
+   */
+  public function testFromArrayWithMultipleObjects() {
+    $container = new EntityContainer('DummyType2');
+    $container->fromArray([
+      [
+        'Ab' => 'Foo',
+        'Cd' => 'Bar',
+      ],
+      [
+        'Ab' => 'Qux',
+        'Ef' => 'Baz',
+      ],
+    ]);
+    $expected = '<DummyType2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Element><Fields Action="insert"><Ab>Foo</Ab><Cd>Bar</Cd></Fields></Element><Element><Fields Action="insert"><Ab>Qux</Ab><Ef>Baz</Ef></Fields></Element></DummyType2>';
+    $this->assertXmlStringEqualsXmlString($expected, $container->compile());
+  }
+
+  /**
    * Data provider for ::testFromArray.
    */
   public function fromArrayDataProvider() {
@@ -171,6 +191,26 @@ class EntityContainerTest extends TestBase {
     $container = new EntityContainer('DummyType2');
     $container->setManager($manager);
     $this->assertEquals($manager, PHPUnit_Framework_Assert::readAttribute($container, 'manager'));
+  }
+
+  /**
+   * @covers ::getManager
+   * @covers ::__construct
+   */
+  public function testGetManager() {
+    $manager = $this->getMock(EntityManagerInterface::class);
+    $container = new EntityContainer('DummyType2', $manager);
+    $this->assertEquals($manager, $container->getManager());
+  }
+
+  /**
+   * @covers ::getManager
+   * @covers ::__construct
+   */
+  public function testGetManagerWithPassingItToTheConstructor() {
+    $manager = $this->getMock(EntityManagerInterface::class);
+    $container = new EntityContainer('DummyType2');
+    $this->assertInstanceOf(EntityManagerInterface::class, $container->getManager());
   }
 
   /**
@@ -283,6 +323,20 @@ class EntityContainerTest extends TestBase {
     // Also test if an empty string is returned when container is empty.
     $container2 = new EntityContainer('DummyType2');
     $this->assertEquals('', (string) $container2);
+  }
+
+  /**
+   * @covers ::__toString
+   */
+  public function testToStringWithException() {
+    $container = $this->getMock(EntityContainer::class, ['compile'], [
+      'DummyType',
+    ]);
+    $container->expects($this->once())
+      ->method('compile')
+      ->will($this->throwException(new Exception()));
+
+    $this->assertEquals('', (string) $container);
   }
 
   /**

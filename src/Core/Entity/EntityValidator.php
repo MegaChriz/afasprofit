@@ -21,9 +21,8 @@ class EntityValidator implements EntityValidatorInterface {
   public function validate(EntityContainerInterface $container) {
     $errors = [];
 
-    $manager = Afas::service('afas.xsd_schema.manager');
     try {
-      $schema = $manager->getSchema($container->getType());
+      $schema = $this->getSchemaManager()->getSchema($container->getType());
     }
     catch (SchemaNotFoundException $exception) {
       // Schema is not found. Continue without validating schema.
@@ -35,6 +34,16 @@ class EntityValidator implements EntityValidatorInterface {
     }
 
     return $errors;
+  }
+
+  /**
+   * Returns the XSD schema manager.
+   *
+   * @return \Afas\Core\XSD\SchemaManager
+   *   The XSD schema manager.
+   */
+  protected function getSchemaManager() {
+    return Afas::service('afas.xsd_schema.manager');
   }
 
   /**
@@ -131,7 +140,9 @@ class EntityValidator implements EntityValidatorInterface {
     // Min length.
     if (isset($restrictions['minlength'])) {
       if (strlen($value) < $restrictions['minlength']) {
-        $errors[] = strtr("The property '!property' of '!type' must be at least !number chars long.", $common_args);
+        $errors[] = strtr("The property '!property' of '!type' must be at least !number chars long.", [
+          '!number' => $restrictions['minlength'],
+        ] + $common_args);
       }
     }
     // Max length.
