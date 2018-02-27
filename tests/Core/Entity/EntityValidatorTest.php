@@ -363,7 +363,7 @@ class EntityValidatorTest extends TestBase {
       [
         // Invalid long.
         ['Qux' => 12.5],
-        ["The property 'Qux' of type 'DummyEntityType' must a 'long'."],
+        ["The property 'Qux' of type 'DummyEntityType' must a round number."],
       ],
       [
         // Multiple errors.
@@ -377,7 +377,7 @@ class EntityValidatorTest extends TestBase {
         [
           "Unknown property 'FooBar' in 'DummyEntityType'.",
           "The property 'Baz' of type 'DummyEntityType' must numeric.",
-          "The property 'Qux' of type 'DummyEntityType' must a 'long'.",
+          "The property 'Qux' of type 'DummyEntityType' must a round number.",
         ],
       ],
     ];

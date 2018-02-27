@@ -167,7 +167,7 @@ class EntityValidator implements EntityValidatorInterface {
             $errors[] = strtr("The property '!property' of type '!type' must numeric.", $common_args);
           }
           elseif ($restrictions['type'] === 'long' && strpos((string) $value, '.') !== FALSE) {
-            $errors[] = strtr("The property '!property' of type '!type' must a 'long'.", $common_args);
+            $errors[] = strtr("The property '!property' of type '!type' must a round number.", $common_args);
           }
           break;
 
