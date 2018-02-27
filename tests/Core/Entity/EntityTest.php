@@ -6,6 +6,7 @@ use Afas\Core\Entity\Entity;
 use Afas\Core\Entity\EntityInterface;
 use Afas\Tests\TestBase;
 use DOMDocument;
+use InvalidArgumentException;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\Entity
@@ -452,6 +453,25 @@ class EntityTest extends TestBase {
   public function testAddObject() {
     $entity2 = new Entity([], 'Dummy2');
     $this->assertSame($this->entity, $this->entity->addObject($entity2));
+  }
+
+  /**
+   * @covers ::addObject
+   * @covers ::__construct
+   */
+  public function testAddObjectWithInvalidObject() {
+    $entity = $this->getMock(Entity::class, ['isValidChild'], [
+      $this->values,
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('isValidChild')
+      ->will($this->returnValue(FALSE));
+
+    $entity2 = new Entity([], 'Dummy2');
+
+    $this->setExpectedException(InvalidArgumentException::class);
+    $entity->addObject($entity2);
   }
 
   /**

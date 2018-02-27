@@ -5,6 +5,7 @@ namespace Afas\Core\Entity;
 use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Mapping\MappingInterface;
 use DOMDocument;
+use InvalidArgumentException;
 
 /**
  * Base class for entities.
@@ -263,6 +264,12 @@ class Entity implements EntityInterface, MappingInterface {
    * {@inheritdoc}
    */
   public function addObject(EntityInterface $entity) {
+    if (!$this->isValidChild($entity)) {
+      throw new InvalidArgumentException(strtr('!parent_type does not accept child objects of type !child_type.', [
+        '!parent_type' => $this->getType(),
+        '!type' => $entity->getType(),
+      ]));
+    }
     $this->objects[] = $entity;
     return $this;
   }

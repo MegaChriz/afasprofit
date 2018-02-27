@@ -63,6 +63,7 @@ abstract class PluginTestBase extends TestBase {
    * Creates the entity plugin to test.
    *
    * @return \Afas\Core\Entity\EntityInterface
+   *   The created entity.
    */
   abstract protected function createEntity();
 

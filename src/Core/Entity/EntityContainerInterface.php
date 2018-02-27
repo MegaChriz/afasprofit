@@ -74,6 +74,17 @@ interface EntityContainerInterface extends CompilableInterface {
   public function getObjects();
 
   /**
+   * Returns if the given entity could be a valid child.
+   *
+   * @param \Afas\Core\Entity\EntityInterface $entity
+   *   The entity to check.
+   *
+   * @return bool
+   *   True if the entity is a valid child, false otherwise.
+   */
+  public function isValidChild(EntityInterface $entity);
+
+  /**
    * Gets the field action.
    *
    * @return string

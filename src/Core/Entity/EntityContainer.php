@@ -58,6 +58,12 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    * {@inheritdoc}
    */
   public function addObject(EntityInterface $entity) {
+    if (!$this->isValidChild($entity)) {
+      throw new InvalidArgumentException(strtr('!parent_type does not accept child objects of type !child_type.', [
+        '!parent_type' => $this->getType(),
+        '!type' => $entity->getType(),
+      ]));
+    }
     $this->addItem($entity);
     return $this;
   }

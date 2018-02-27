@@ -89,6 +89,22 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::addObject
+   * @covers ::__construct
+   */
+  public function testAddObjectWithInvalidObject() {
+    $container = $this->getMock(EntityContainer::class, ['isValidChild'], [
+      'DummyType',
+    ]);
+    $container->expects($this->once())
+      ->method('isValidChild')
+      ->will($this->returnValue(FALSE));
+
+    $this->setExpectedException(InvalidArgumentException::class);
+    $container->addObject($this->entity);
+  }
+
+  /**
    * Ensure only EntityInterface objects can be added to the entity container.
    *
    * @covers ::addItem

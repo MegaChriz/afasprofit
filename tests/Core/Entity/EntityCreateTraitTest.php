@@ -41,6 +41,13 @@ class EntityCreateTraitTest extends TestBase {
   }
 
   /**
+   * @covers ::isValidChild
+   */
+  public function testIsValidChild() {
+    $this->assertTrue($this->trait->isValidChild($this->getMock(EntityInterface::class)));
+  }
+
+  /**
    * @covers ::getManager
    */
   public function testGetManager() {
