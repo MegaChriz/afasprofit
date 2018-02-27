@@ -125,6 +125,13 @@ class Entity implements EntityInterface, MappingInterface {
   /**
    * {@inheritdoc}
    */
+  public function getRequiredFields() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getAttribute($name) {
     if (isset($this->attributes[$name])) {
       return $this->attributes[$name];
@@ -216,13 +223,6 @@ class Entity implements EntityInterface, MappingInterface {
     return $element_xml;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function validate() {
-    return [];
-  }
-
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -311,6 +311,24 @@ class Entity implements EntityInterface, MappingInterface {
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validate() {
+    $errors = [];
+
+    foreach ($this->getRequiredFields() as $field) {
+      if (!$this->fieldExists($field)) {
+        $errors[] = strtr('!field is a required field for type !type.', [
+          '!field' => $field,
+          '!type' => $this->getType(),
+        ]);
+      }
+    }
+
+    return $errors;
+  }
 
   /**
    * {@inheritdoc}

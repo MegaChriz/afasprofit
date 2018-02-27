@@ -78,6 +78,14 @@ interface EntityInterface extends EntityContainerInterface {
   public function fieldExists($name);
 
   /**
+   * Returns a list of required fields.
+   *
+   * @return array
+   *   A list of field names for fields that are required.
+   */
+  public function getRequiredFields();
+
+  /**
    * Returns the value of an attribute.
    *
    * @param string $name

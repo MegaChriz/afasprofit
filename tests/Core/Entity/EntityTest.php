@@ -108,6 +108,13 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::getRequiredFields
+   */
+  public function testGetRequiredFields() {
+    $this->assertEquals([], $this->entity->getRequiredFields());
+  }
+
+  /**
    * @covers ::getAttribute
    */
   public function testGetAttribute() {
@@ -356,13 +363,6 @@ class EntityTest extends TestBase {
   }
 
   /**
-   * @covers ::validate
-   */
-  public function testValidate() {
-    $this->assertInternalType('array', $this->entity->validate());
-  }
-
-  /**
    * @covers ::setField
    * @covers ::toArray
    */
@@ -508,6 +508,33 @@ class EntityTest extends TestBase {
 
     $this->assertEquals('Foo', $this->entity->getAttribute('Qux'));
     $this->assertEquals(NULL, $this->entity->getAttribute('NonExistingAttribute'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testValidate() {
+    $this->assertInternalType('array', $this->entity->validate());
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testValidateWithRequiredFields() {
+    $entity = $this->getMock(Entity::class, ['getRequiredFields'], [
+      $this->values,
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('getRequiredFields')
+      ->will($this->returnValue(['Foo', 'Bar', 'Qux']));
+
+    // 'Foo' is already set.
+    $expected = [
+      'Bar is a required field for type DummyEntityType.',
+      'Qux is a required field for type DummyEntityType.',
+    ];
+    $this->assertEquals($expected, $entity->validate());
   }
 
   /**
