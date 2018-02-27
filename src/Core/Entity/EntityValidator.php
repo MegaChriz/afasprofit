@@ -127,7 +127,7 @@ class EntityValidator implements EntityValidatorInterface {
     $common_args = [
       '!property' => $name,
       '!type' => $entity->getEntityType(),
-      '!value' => $value,
+      '!value' => @(string) $value,
     ];
 
     if (!is_scalar($value)) {
