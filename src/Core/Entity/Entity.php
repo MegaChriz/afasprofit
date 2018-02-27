@@ -305,7 +305,7 @@ class Entity implements EntityInterface, MappingInterface {
     if ($this->mapper instanceof MappingInterface) {
       return $this->mapper->map($key);
     }
-    return array($key);
+    return [$key];
   }
 
   // --------------------------------------------------------------

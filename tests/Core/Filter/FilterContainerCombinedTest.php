@@ -27,83 +27,83 @@ class FilterContainerCombinedTest extends TestBase {
    * Data provider for testSingleFilter().
    */
   public function singleFilterOperatorProvider() {
-    return array(
-      array(
+    return [
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
         '=',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
         '==',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
         'eq',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="1">0</Field></Filter></Filters>',
         'equal',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="2">0</Field></Filter></Filters>',
         '>=',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="3">0</Field></Filter></Filters>',
         '<=',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="4">0</Field></Filter></Filters>',
         '>',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="5">0</Field></Filter></Filters>',
         '<',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="6">0</Field></Filter></Filters>',
         'contains',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="7">0</Field></Filter></Filters>',
         '!=',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="8" /></Filter></Filters>',
         'empty',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="9" /></Filter></Filters>',
         'not empty',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="10">0</Field></Filter></Filters>',
         'starts with',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="11">0</Field></Filter></Filters>',
         'contains not',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="12">0</Field></Filter></Filters>',
         'starts not with',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="13">0</Field></Filter></Filters>',
         'ends with',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="14">0</Field></Filter></Filters>',
         'ends not with',
-      ),
-      array(
+      ],
+      [
         '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="15">0</Field></Filter></Filters>',
         'quick',
-      ),
-    );
+      ],
+    ];
   }
 
   /**

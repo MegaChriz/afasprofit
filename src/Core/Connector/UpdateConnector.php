@@ -108,7 +108,7 @@ class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface 
   /**
    * {@inheritdoc}
    */
-  public function execute(array $arguments = array()) {
+  public function execute(array $arguments = []) {
     $arguments += [
       'connectorType' => $this->connectorType,
       'connectorVersion' => 1,

@@ -102,7 +102,7 @@ class Reader {
   public function getNamespaces(DOMXPath $xpath) {
     $query   = "//namespace::*";
     $entries = $xpath->query($query);
-    $nspaces = array();
+    $nspaces = [];
 
     foreach ($entries as $entry) {
       if ($entry->nodeValue == "http://www.w3.org/2001/XMLSchema") {
@@ -133,7 +133,7 @@ class Reader {
    * @return array
    *   The elements of the dom node, as array data.
    */
-  private function getElements(DOMNode $node = NULL, array &$array = array()) {
+  private function getElements(DOMNode $node = NULL, array &$array = []) {
     $query = "*";
     if ($node instanceof DOMNode) {
       $entries = $this->xpath->query($query, $node);
@@ -146,7 +146,7 @@ class Reader {
       switch ($entry->tagName) {
         case $this->xsdNs . ':element':
           $name = $entry->getAttribute('name');
-          $array[$name] = array();
+          $array[$name] = [];
 
           switch ($name) {
             case 'Fields':
@@ -184,7 +184,7 @@ class Reader {
    * @param array $possible_values
    *   The collected possible values for a field.
    */
-  private function readFields(DOMNode $node, array &$array, array &$descriptions = array(), array &$possible_values = array()) {
+  private function readFields(DOMNode $node, array &$array, array &$descriptions = [], array &$possible_values = []) {
     // Search for next element first.
     $query = "*";
     $entries = $this->xpath->query($query, $node);
@@ -209,7 +209,7 @@ class Reader {
       switch ($entry->tagName) {
         case $this->xsdNs . ':element':
           $name = $entry->getAttribute('name');
-          $array[$name] = array();
+          $array[$name] = [];
 
           // Title.
           $array[$name]['title'] = $name;

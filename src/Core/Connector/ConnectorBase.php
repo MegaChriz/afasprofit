@@ -89,9 +89,9 @@ abstract class ConnectorBase implements ConnectorInterface {
    *   A list of arguments.
    */
   protected function getSoapArguments() {
-    return array(
+    return [
       'token' => $this->server->getApiKeyAsXML(),
-    );
+    ];
   }
 
   /**
@@ -104,10 +104,10 @@ abstract class ConnectorBase implements ConnectorInterface {
    *   A list of arguments.
    */
   protected function getSoapOptions() {
-    return array(
+    return [
       'location' => $this->getLocation(),
       'uri' => $this->server->getUri(),
-    );
+    ];
   }
 
   // --------------------------------------------------------------
@@ -126,7 +126,7 @@ abstract class ConnectorBase implements ConnectorInterface {
    *   (optional) An array of options to send with the request.
    *   Defaults to the result of getSoapOptions().
    */
-  protected function soapSendRequest($function, array $arguments = array(), array $options = array()) {
+  protected function soapSendRequest($function, array $arguments = [], array $options = []) {
     // Set action to call.
     // @todo Evaluate if this is still needed.
     //$this->client->setAction($function);
@@ -135,16 +135,16 @@ abstract class ConnectorBase implements ConnectorInterface {
     $arguments += $this->getSoapArguments();
     // Convert arguments to Soap parameters.
     // @todo Don't create an instance of SoapParam here?
-    $soap_params = array();
+    $soap_params = [];
     foreach ($arguments as $key => $value) {
       $soap_params[] = new SoapParam($value, $key);
     }
 
     // Setup options.
     $options += $this->getSoapOptions();
-    $options += array(
+    $options += [
       'soapaction' => $this->server->getUri() . '/' . $function,
-    );
+    ];
 
     // Finally, send the request!
     $this->lastFunction = $function;

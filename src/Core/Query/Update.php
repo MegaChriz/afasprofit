@@ -26,7 +26,7 @@ class Update extends UpdateBase implements UpdateInterface {
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
    */
-  public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = array()) {
+  public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = []) {
     parent::__construct($server, $connector_id);
 
     if (!empty($attribute_keys)) {

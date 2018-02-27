@@ -24,7 +24,7 @@ interface EntityContainerInterface extends CompilableInterface {
    * @return \Afas\Core\Entity\EntityInterface
    *   The created entity.
    */
-  public function add($entity_type, array $values = array());
+  public function add($entity_type, array $values = []);
 
   /**
    * Adds a child object by giving an instance of EntityInterface.

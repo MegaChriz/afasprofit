@@ -26,6 +26,6 @@ interface UpdateConnectorInterface extends ConnectorInterface {
    * @return \Afas\Core\Result\ResultInterface
    *   The result of the call.
    */
-  public function execute(array $arguments = array());
+  public function execute(array $arguments = []);
 
 }

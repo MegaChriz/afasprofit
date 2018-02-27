@@ -24,7 +24,7 @@ interface GetConnectorInterface extends ConnectorInterface {
    * @return \Afas\Core\Result\ResultInterface
    *   The result of the call.
    */
-  public function getData($connector_id, array $options = array());
+  public function getData($connector_id, array $options = []);
 
   // --------------------------------------------------------------
   // SETTERS

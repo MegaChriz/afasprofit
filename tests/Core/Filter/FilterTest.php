@@ -34,14 +34,14 @@ class FilterTest extends TestBase {
    * Data provider for testBadFilterOperator().
    */
   public function badFilterOperatorProvider() {
-    return array(
-      array(16),
-      array('big explosion'),
-      array('><'),
-      array('?'),
-      array(TRUE),
-      array(FALSE),
-    );
+    return [
+      [16],
+      ['big explosion'],
+      ['><'],
+      ['?'],
+      [TRUE],
+      [FALSE],
+    ];
   }
 
   /**

@@ -144,16 +144,16 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   /**
    * {@inheritdoc}
    */
-  public function getData($connector_id, array $options = array()) {
+  public function getData($connector_id, array $options = []) {
     // Set connectorId.
     $arguments['connectorId'] = $connector_id;
 
     // Set options.
-    $options += array(
+    $options += [
       'Outputmode' => static::OUTPUTMODE_XML,
       'Metadata' => static::METADATA_TRUE,
       'Outputoptions' => static::OUTPUTOPTIONS_XML_MSDATA,
-    );
+    ];
     $options_str = '';
     foreach ($options as $option => $value) {
       $options_str .= "<$option>$value</$option>";

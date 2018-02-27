@@ -16,13 +16,13 @@ class DefaultSoapClientFactory implements SoapClientFactoryInterface {
    * {@inheritdoc}
    */
   public function create(ServerInterface $server) {
-    $options = array(
+    $options = [
       'location' => '',
       'uri' => $server->getUri(),
       'trace' => 1,
       'style' => SOAP_RPC,
       'use' => SOAP_ENCODED,
-    );
+    ];
     return new SoapClient(NULL, $options);
   }
 

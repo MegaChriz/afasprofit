@@ -16,7 +16,7 @@ trait EntityCreateTrait {
   /**
    * {@inheritdoc}
    */
-  public function add($entity_type, array $values = array()) {
+  public function add($entity_type, array $values = []) {
     $entity = $this->getManager()->createInstance($entity_type, $values);
     $this->addObject($entity);
     return $entity;
@@ -26,6 +26,14 @@ trait EntityCreateTrait {
    * {@inheritdoc}
    */
   abstract public function addObject(EntityInterface $entity);
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isValidChild(EntityInterface $entity) {
+    // Allow this entity to be added by default.
+    return TRUE;
+  }
 
   /**
    * Gets the entity manager.

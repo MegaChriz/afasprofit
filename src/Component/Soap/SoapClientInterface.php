@@ -64,6 +64,6 @@ interface SoapClientInterface {
   /**
    *
    */
-  public function __soapCall($function_name, $arguments, $options = array(), $input_headers = NULL, &$output_headers = NULL);
+  public function __soapCall($function_name, $arguments, $options = [], $input_headers = NULL, &$output_headers = NULL);
 
 }
