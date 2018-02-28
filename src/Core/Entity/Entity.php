@@ -3,6 +3,7 @@
 namespace Afas\Core\Entity;
 
 use Afas\Core\Exception\EntityValidationException;
+use Afas\Core\Exception\UndefinedParentException;
 use Afas\Core\Mapping\MappingInterface;
 use DOMDocument;
 use InvalidArgumentException;
@@ -42,6 +43,13 @@ class Entity implements EntityInterface, MappingInterface {
    * @var array
    */
   protected $objects = [];
+
+  /**
+   * The container to which the entity belongs.
+   *
+   * @var \Afas\Core\Entity\EntityContainerInterface|null
+   */
+  protected $parent;
 
   /**
    * The mapper.
@@ -150,6 +158,13 @@ class Entity implements EntityInterface, MappingInterface {
   /**
    * {@inheritdoc}
    */
+  public function containsObject(EntityInterface $entity) {
+    return isset($this->objects[spl_object_hash($entity)]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function toArray() {
     $return = $this->fields;
     if (count($this->attributes)) {
@@ -224,6 +239,16 @@ class Entity implements EntityInterface, MappingInterface {
     return $element_xml;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getParent() {
+    if (!$this->parent) {
+      throw new UndefinedParentException('This entity does not have a parent.');
+    }
+    return $this->parent;
+  }
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -267,10 +292,11 @@ class Entity implements EntityInterface, MappingInterface {
     if (!$this->isValidChild($entity)) {
       throw new InvalidArgumentException(strtr('!parent_type does not accept child objects of type !child_type.', [
         '!parent_type' => $this->getType(),
-        '!type' => $entity->getType(),
+        '!child_type' => $entity->getType(),
       ]));
     }
-    $this->objects[] = $entity;
+    $this->objects[spl_object_hash($entity)] = $entity;
+    $entity->setParent($this);
     return $this;
   }
 
@@ -313,6 +339,19 @@ class Entity implements EntityInterface, MappingInterface {
       return $this->mapper->map($key);
     }
     return [$key];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setParent(EntityContainerInterface $container) {
+    // Ensure that the parent contains this entity.
+    if (!$container->containsObject($this)) {
+      throw new InvalidArgumentException('The given entity container does not appear to contain this entity.');
+    }
+
+    $this->parent = $container;
+    return $this;
   }
 
   // --------------------------------------------------------------

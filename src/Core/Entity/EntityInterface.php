@@ -117,6 +117,17 @@ interface EntityInterface extends EntityContainerInterface {
    */
   public function toXml(DOMDocument $doc = NULL);
 
+  /**
+   * Returns the container that contains this entity.
+   *
+   * @return \Afas\Core\Entity\EntityContainerInterface
+   *   The entity container that contains this entity.
+   *
+   * @throws \Afas\Core\Exception\UndefinedParentException
+   *   In case the parent is not set.
+   */
+  public function getParent();
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
@@ -131,6 +142,9 @@ interface EntityInterface extends EntityContainerInterface {
    *
    * @return $this
    *   An instance of this class.
+   *
+   * @throws \InvalidArgumentException
+   *   In case an invalid value was given.
    */
   public function setField($field_name, $value);
 
@@ -178,9 +192,21 @@ interface EntityInterface extends EntityContainerInterface {
    * @return $this
    *   An instance of this class.
    *
-   * @todo Maybe move to ElementInterface.
+   * @throws \InvalidArgumentException
+   *   In case an invalid value was given.
    */
   public function setAction($action);
+
+  /**
+   * Sets the container that this entity belongs to.
+   *
+   * @param \Afas\Core\Entity\EntityContainerInterface $container
+   *   The container to which the entity belongs.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function setParent(EntityContainerInterface $container);
 
   // --------------------------------------------------------------
   // ACTION

@@ -61,10 +61,11 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
     if (!$this->isValidChild($entity)) {
       throw new InvalidArgumentException(strtr('!parent_type does not accept child objects of type !child_type.', [
         '!parent_type' => $this->getType(),
-        '!type' => $entity->getType(),
+        '!child_type' => $entity->getType(),
       ]));
     }
-    $this->addItem($entity);
+    $this->addItem($entity, spl_object_hash($entity));
+    $entity->setParent($this);
     return $this;
   }
 
@@ -92,7 +93,7 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
     if (!($item instanceof EntityInterface)) {
       throw new InvalidArgumentException('\Afas\Core\Entity\EntityContainer::addItem() only accepts instances of \Afas\Core\Entity\EntityInterface.');
     }
-    return parent::addItem($item);
+    return parent::addItem($item, $key);
   }
 
   /**
@@ -150,6 +151,26 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    */
   public function getType() {
     return $this->connectorType;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isValidChild(EntityInterface $entity) {
+    return $this->getType() === $entity->getType();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function containsObject(EntityInterface $entity) {
+    try {
+      $this->getItem(spl_object_hash($entity));
+    }
+    catch (Exception $e) {
+      return FALSE;
+    }
+    return TRUE;
   }
 
   // --------------------------------------------------------------

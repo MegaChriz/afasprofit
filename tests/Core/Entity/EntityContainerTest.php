@@ -18,6 +18,8 @@ use ReflectionMethod;
  */
 class EntityContainerTest extends TestBase {
 
+  use EntityCreateTrait;
+
   /**
    * The entity container under test.
    *
@@ -39,16 +41,10 @@ class EntityContainerTest extends TestBase {
     parent::setUp();
 
     // Create a mocked entity.
-    $this->entity = $this->getMock(EntityInterface::class);
+    $this->entity = $this->getMockedEntity();
     $this->entity->expects($this->any())
       ->method('toXml')
       ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXml']));
-    $this->entity->expects($this->any())
-      ->method('validate')
-      ->will($this->returnValue([]));
-    $this->entity->expects($this->any())
-      ->method('getObjects')
-      ->will($this->returnValue([]));
 
     // Create a mocked entity manager.
     $manager = $this->getMock(EntityManagerInterface::class);
@@ -77,7 +73,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::add
    */
   public function testAdd() {
-    $this->assertSame($this->entity, $this->container->add('Dummy'));
+    $this->assertSame($this->entity, $this->container->add('DummyType'));
   }
 
   /**
@@ -235,15 +231,15 @@ class EntityContainerTest extends TestBase {
   public function testGetObjects() {
     // Create two objects.
     $objects = [
-      $this->getMock(EntityInterface::class),
-      $this->getMock(EntityInterface::class),
+      $this->getMockedEntity(),
+      $this->getMockedEntity(),
     ];
 
     foreach ($objects as $object) {
       $this->container->addObject($object);
     }
 
-    $this->assertEquals($objects, $this->container->getObjects());
+    $this->assertEquals($objects, array_values($this->container->getObjects()));
   }
 
   /**
@@ -251,9 +247,9 @@ class EntityContainerTest extends TestBase {
    */
   public function testToArray() {
     $container = new EntityContainer('DummyType');
-    $object = $container->add('Dummy');
+    $object = $container->add('DummyType');
     $expected = [
-      'Dummy' => [
+      'DummyType' => [
         [],
       ],
     ];
@@ -262,7 +258,7 @@ class EntityContainerTest extends TestBase {
     // Set a field.
     $object->setField('Ab', 'Foo');
     $expected = [
-      'Dummy' => [
+      'DummyType' => [
         [
           'Ab' => 'Foo',
         ],
@@ -271,34 +267,17 @@ class EntityContainerTest extends TestBase {
     $this->assertEquals($expected, $container->toArray());
 
     // A second object.
-    $container->add('Dummy', [
+    $container->add('DummyType', [
       'Cd' => 'Bar',
     ]);
     $expected = [
-      'Dummy' => [
+      'DummyType' => [
         [
           'Ab' => 'Foo',
         ],
         [
           'Cd' => 'Bar',
         ],
-      ],
-    ];
-    $this->assertEquals($expected, $container->toArray());
-
-    // With two types of objects.
-    $container->add('Dummy2');
-    $expected = [
-      'Dummy' => [
-        [
-          'Ab' => 'Foo',
-        ],
-        [
-          'Cd' => 'Bar',
-        ],
-      ],
-      'Dummy2' => [
-        [],
       ],
     ];
     $this->assertEquals($expected, $container->toArray());
@@ -309,6 +288,32 @@ class EntityContainerTest extends TestBase {
    */
   public function testGetType() {
     $this->assertEquals('DummyType', $this->container->getType());
+  }
+
+  /**
+   * @covers ::isValidChild
+   */
+  public function testIsValidChild() {
+    // $this->entity is of the same type as $this->container, so should be good.
+    $this->assertTrue($this->container->isValidChild($this->entity));
+    // $entity2 is of a different type as $this->container, so should be rejected.
+    $entity2 = $this->getMockedEntity([
+      'getEntityType' => 'Dummy2',
+      'getType' => 'Dummy2',
+    ]);
+    $this->assertFalse($this->container->isValidChild($entity2));
+  }
+
+  /**
+   * @covers ::containsObject
+   */
+  public function testContainsObject() {
+    $subentity = $this->getMockedEntity();
+    $this->assertFalse($this->container->containsObject($subentity));
+
+    // Now add the subentity.
+    $this->container->addObject($subentity);
+    $this->assertTrue($this->container->containsObject($subentity));
   }
 
   /**

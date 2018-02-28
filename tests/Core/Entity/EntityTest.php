@@ -3,7 +3,9 @@
 namespace Afas\Tests\Core\Entity;
 
 use Afas\Core\Entity\Entity;
+use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\Entity\EntityInterface;
+use Afas\Core\Exception\UndefinedParentException;
 use Afas\Tests\TestBase;
 use DOMDocument;
 use InvalidArgumentException;
@@ -142,7 +144,19 @@ class EntityTest extends TestBase {
       $this->entity->addObject($object);
     }
 
-    $this->assertEquals($objects, $this->entity->getObjects());
+    $this->assertEquals($objects, array_values($this->entity->getObjects()));
+  }
+
+  /**
+   * @covers ::containsObject
+   */
+  public function testContainsObject() {
+    $subentity = $this->getMock(EntityInterface::class);
+    $this->assertFalse($this->entity->containsObject($subentity));
+
+    // Now add the subentity.
+    $this->entity->addObject($subentity);
+    $this->assertTrue($this->entity->containsObject($subentity));
   }
 
   /**
@@ -364,6 +378,34 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::getParent
+   * @covers ::add
+   */
+  public function testGetParentWithParent() {
+    $subentity = $this->entity->add('Dummy2');
+    $this->assertSame($this->entity, $subentity->getParent());
+  }
+
+  /**
+   * @covers ::getParent
+   * @covers ::addObject
+   */
+  public function testGetParentWithParentAndAddingObjectDirectly() {
+    $subentity = new Entity([], 'Dummy2');
+    $this->entity->addObject($subentity);
+    $this->assertSame($this->entity, $subentity->getParent());
+  }
+
+  /**
+   * @covers ::getParent
+   */
+  public function testGetParentWithoutParent() {
+    // A new entity does not have a parent.
+    $this->setExpectedException(UndefinedParentException::class);
+    $this->entity->getParent();
+  }
+
+  /**
    * @covers ::setField
    * @covers ::toArray
    */
@@ -528,6 +570,28 @@ class EntityTest extends TestBase {
 
     $this->assertEquals('Foo', $this->entity->getAttribute('Qux'));
     $this->assertEquals(NULL, $this->entity->getAttribute('NonExistingAttribute'));
+  }
+
+  /**
+   * @covers ::setParent
+   */
+  public function testSetParent() {
+    $container = $this->getMock(EntityContainerInterface::class);
+    $container->expects($this->once())
+      ->method('containsObject')
+      ->will($this->returnValue(TRUE));
+
+    $this->assertSame($this->entity, $this->entity->setParent($container));
+  }
+
+
+  /**
+   * @covers ::setParent
+   */
+  public function testSetInvalidParent() {
+    $subentity = new Entity([], 'Dummy2');
+    $this->setExpectedException(InvalidArgumentException::class);
+    $subentity->setParent($this->entity);
   }
 
   /**

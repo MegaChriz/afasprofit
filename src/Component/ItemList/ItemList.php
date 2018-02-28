@@ -8,7 +8,7 @@ namespace Afas\Component\ItemList;
 abstract class ItemList implements \IteratorAggregate, ListInterface {
 
   /**
-   * Numerically indexed array items.
+   * A list of array items.
    *
    * @var array
    */
@@ -31,6 +31,11 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   /**
    * Adds an item to the list.
    *
+   * @param mixed $item
+   *   The item to add to the list.
+   * @param scalar $key
+   *   The identifier of the item in the list.
+   *
    * @return self
    *   An instance of this class.
    */
@@ -45,6 +50,27 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   }
 
   /**
+   * Returns the given item from the list.
+   *
+   * @param scalar $key
+   *   The identifier of the item in the list.
+   *
+   * @return mixed
+   *   The item.
+   *
+   * @throws \Exception
+   *   In case the requested item does not exist in the list.
+   */
+  protected function getItem($key) {
+    if (!isset($this->list[$key])) {
+      throw new \Exception(strtr("Item with the key '!key' does not exist.", [
+        '!key' => @(string) $key,
+      ]));
+    }
+    return $this->list[$key];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getItems() {
@@ -53,6 +79,9 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
 
   /**
    * Removes an item from the list.
+   *
+   * @param scalar $key
+   *   The identifier of the item in the list.
    *
    * @return self
    *   An instance of this class.
