@@ -296,7 +296,8 @@ class EntityContainerTest extends TestBase {
   public function testIsValidChild() {
     // $this->entity is of the same type as $this->container, so should be good.
     $this->assertTrue($this->container->isValidChild($this->entity));
-    // $entity2 is of a different type as $this->container, so should be rejected.
+    // $entity2 is of a different type as $this->container, so should be
+    // rejected.
     $entity2 = $this->getMockedEntity([
       'getEntityType' => 'Dummy2',
       'getType' => 'Dummy2',

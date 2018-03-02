@@ -354,6 +354,34 @@ class Entity implements EntityInterface, MappingInterface {
     return $this;
   }
 
+  /**
+   * Sets data for a child object for which only one may exist.
+   *
+   * @param string $entity_type
+   *   The type of entity to set.
+   * @param array $values
+   *   The values to fill the entity with.
+   *
+   * @return \Afas\Core\Entity\EntityInterface
+   *   The created entity.
+   *
+   * @throws \InvalidArgumentException
+   *   In case an unexpected entity type was given.
+   */
+  protected function setSingleObjectData($entity_type, array $values) {
+    if (!is_string($entity_type)) {
+      throw new InvalidArgumentException('Specified entity type should be a string.');
+    }
+
+    $objects = $this->getObjectsOfType($entity_type);
+    if (empty($objects)) {
+      return $this->add($entity_type, $values);
+    }
+    $object = reset($objects);
+    $object->fromArray($values);
+    return $object;
+  }
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------

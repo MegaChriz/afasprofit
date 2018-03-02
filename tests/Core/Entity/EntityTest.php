@@ -584,7 +584,6 @@ class EntityTest extends TestBase {
     $this->assertSame($this->entity, $this->entity->setParent($container));
   }
 
-
   /**
    * @covers ::setParent
    */
