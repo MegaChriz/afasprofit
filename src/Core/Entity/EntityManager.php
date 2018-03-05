@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Afas;
 use Drupal\Component\Plugin\PluginManagerBase;
 use Drupal\Component\Plugin\FallbackPluginManagerInterface;
 
@@ -15,7 +16,7 @@ class EntityManager extends PluginManagerBase implements EntityManagerInterface,
    */
   protected function getDiscovery() {
     if (!$this->discovery) {
-      $this->discovery = new Discovery();
+      $this->discovery = Afas::service('afas.entity.discovery');
     }
     return $this->discovery;
   }
@@ -25,7 +26,7 @@ class EntityManager extends PluginManagerBase implements EntityManagerInterface,
    */
   protected function getFactory() {
     if (!$this->factory) {
-      $this->factory = new EntityFactory($this->getDiscovery(), EntityInterface::class);
+      $this->factory = new EntityFactory($this, EntityInterface::class);
     }
     return $this->factory;
   }

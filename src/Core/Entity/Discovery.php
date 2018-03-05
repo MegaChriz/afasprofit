@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Component\classtools\Iterator\Filter\AbstractClassFilter;
 use Drupal\Component\Plugin\Discovery\StaticDiscovery;
 use Symfony\Component\Finder\Finder;
 use hanneskod\classtools\Iterator\ClassIterator;
@@ -19,10 +20,23 @@ class Discovery extends StaticDiscovery {
       'class' => Entity::class,
     ]);
 
-    $finder = new Finder();
-    $iterator = new ClassIterator($finder->in(__DIR__ . '/Plugin'));
+    $this->indexDir(__DIR__ . '/Plugin');
+  }
 
-    foreach ($iterator->getClassMap() as $class_name => $file_info) {
+  /**
+   * Scans a directory for class files and registers these as plugins.
+   *
+   * @param string $path
+   *   The directory to explore.
+   */
+  public function indexDir($dir) {
+    $finder = new Finder();
+    $iterator = new ClassIterator($finder->in($dir));
+
+    // Filter out abstract classes.
+    $abstract = $iterator->filter(new AbstractClassFilter());
+
+    foreach ($iterator->not($abstract) as $class_name => $file_info) {
       $path = explode('\\', $class_name);
       $plugin_id = array_pop($path);
 

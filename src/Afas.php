@@ -2,6 +2,7 @@
 
 namespace Afas;
 
+use Afas\Core\Entity\Discovery;
 use Afas\Core\Entity\EntityManager;
 use Afas\Core\Entity\EntityValidator;
 use Afas\Core\Locale\CountryManager;
@@ -84,6 +85,7 @@ class Afas {
    */
   public static function setDefaultContainer() {
     $container = new ContainerBuilder();
+    $container->register('afas.entity.discovery', Discovery::class);
     $container->register('afas.entity.manager', EntityManager::class);
     $container->register('afas.entity.validator', EntityValidator::class);
     $container->register('afas.country.manager', CountryManager::class);
