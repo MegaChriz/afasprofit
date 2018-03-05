@@ -41,7 +41,7 @@ class KnProvApplication extends Entity {
    *
    * @var string
    */
-  const PRINT          = 'A';
+  const PROV_PRINT     = 'A';
   const PRINT_EMAIL    = 'B';
   const EMAIL          = 'E';
   const PRINT_EDI      = 'P';
@@ -88,7 +88,7 @@ class KnProvApplication extends Entity {
     switch ($key) {
       case 'VaPt':
         switch ($value) {
-          case static::PRINT:
+          case static::PROV_PRINT:
           case static::PRINT_EMAIL:
           case static::EMAIL:
           case static::PRINT_EDI:
