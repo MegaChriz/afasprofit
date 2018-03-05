@@ -19,7 +19,7 @@ abstract class TestBase extends PHPUnit_Framework_TestCase {
    *   The file contents.
    */
   protected function getFileContents($file) {
-    $filename = __DIR__ . '/resources/' . $file;
+    $filename = dirname(__DIR__) . '/resources/' . $file;
 
     // Check if the file exists.
     if (!is_file($filename)) {

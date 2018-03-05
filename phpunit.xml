@@ -13,7 +13,7 @@
 >
   <testsuites>
     <testsuite name="Afas Core">
-      <directory>./tests/</directory>
+      <directory>./tests/src/</directory>
     </testsuite>
   </testsuites>
 

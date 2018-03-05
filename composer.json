@@ -34,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Afas\\Tests\\": "tests/"
+            "Afas\\Tests\\": "tests/src/"
         }
     }
 }
