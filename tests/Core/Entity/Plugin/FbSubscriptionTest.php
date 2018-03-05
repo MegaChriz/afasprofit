@@ -50,7 +50,6 @@ class FbSubscriptionTest extends PluginTestBase {
 
     return [
       [
-        // When inserting an order, DbId should be required.
         array_values($default_errors),
       ],
       [

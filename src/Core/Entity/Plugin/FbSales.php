@@ -4,11 +4,26 @@ namespace Afas\Core\Entity\Plugin;
 
 use Afas\Core\Entity\Entity;
 use Afas\Core\Entity\EntityInterface;
+use InvalidArgumentException;
 
 /**
  * Class for a FbSales entity.
  */
 class FbSales extends Entity {
+
+  // --------------------------------------------------------------
+  // CONSTANTS
+  // --------------------------------------------------------------
+
+  /**
+   * Values for 'DeCo' (deliver conditions).
+   *
+   * @var string
+   */
+  const DELIVER_PARTLY         = 0;
+  const DELIVER_RULE_COMPLETE  = 1;
+  const DELIVER_ORDER_COMPLETE = 2;
+  const DELIVER_NONE           = 3;
 
   // --------------------------------------------------------------
   // GETTERS
@@ -24,6 +39,29 @@ class FbSales extends Entity {
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setField($key, $value) {
+    switch ($key) {
+      case 'DeCo':
+        switch ($value) {
+          case static::DELIVER_PARTLY:
+          case static::DELIVER_RULE_COMPLETE:
+          case static::DELIVER_ORDER_COMPLETE:
+          case static::DELIVER_NONE:
+            break;
+
+          default:
+            throw new InvalidArgumentException(strtr('Invalid value for DeCo: !value', [
+              '!value' => @(string) $value,
+            ]));
+        }
+    }
+
+    return parent::setField($key, $value);
+  }
 
   /**
    * Adds a line item.

@@ -5,6 +5,7 @@ namespace Afas\Tests\Core\Entity\Plugin;
 use Afas\Core\Entity\Entity;
 use Afas\Core\Entity\Plugin\FbSales;
 use Afas\Core\Entity\Plugin\FbSalesLines;
+use InvalidArgumentException;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\Plugin\FbSales
@@ -25,6 +26,22 @@ class FbSalesTest extends PluginTestBase {
   public function testIsValidChild() {
     $this->assertFalse($this->entity->isValidChild(new Entity([], 'DummyEntity')));
     $this->assertTrue($this->entity->isValidChild(new Entity([], 'FbSalesLines')));
+  }
+
+  /**
+   * @covers ::setField
+   */
+  public function testSetDeCo() {
+    $this->entity->setField('DeCo', FbSales::DELIVER_ORDER_COMPLETE);
+    $this->assertEquals(FbSales::DELIVER_ORDER_COMPLETE, $this->entity->getField('DeCo'));
+  }
+
+  /**
+   * @covers ::setField
+   */
+  public function testSetInvalidDeCo() {
+    $this->setExpectedException(InvalidArgumentException::class);
+    $this->entity->setField('DeCo', 18);
   }
 
   /**
