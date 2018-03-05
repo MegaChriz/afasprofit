@@ -21,6 +21,9 @@
     "require-dev": {
         "phpunit/phpunit": "~4.8"
     },
+    "suggest": {
+        "kzykhys/php-csv-parser": "To use the getListFromCsv() method from the service 'afas.country.manager'."
+    },
     "minimum-stability": "beta",
     "prefer-stable": true,
     "autoload": {

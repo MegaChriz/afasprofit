@@ -4,6 +4,7 @@ namespace Afas;
 
 use Afas\Core\Entity\EntityManager;
 use Afas\Core\Entity\EntityValidator;
+use Afas\Core\Locale\CountryManager;
 use Afas\Core\Soap\DefaultSoapClientFactory;
 use Afas\Core\XSD\SchemaManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -85,6 +86,7 @@ class Afas {
     $container = new ContainerBuilder();
     $container->register('afas.entity.manager', EntityManager::class);
     $container->register('afas.entity.validator', EntityValidator::class);
+    $container->register('afas.country.manager', CountryManager::class);
     $container->register('afas.soap_client_factory', DefaultSoapClientFactory::class);
     $container->register('afas.xsd_schema.manager', SchemaManager::class);
 
