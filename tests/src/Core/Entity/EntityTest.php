@@ -7,6 +7,8 @@ use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Exception\UndefinedParentException;
+use Afas\Core\Mapping\MappingBase;
+use Afas\Core\Mapping\MappingInterface;
 use Afas\Tests\TestBase;
 use DOMDocument;
 use InvalidArgumentException;
@@ -427,6 +429,29 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::setField
+   * @covers ::toArray
+   */
+  public function testSetFieldWithMapping() {
+    $entity = $this->getMock(Entity::class, ['map'], [
+      [],
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('map')
+      ->with('Foo')
+      ->will($this->returnValue(['Bar', 'Baz']));
+
+    $entity->setField('Foo', 'Qux');
+
+    $expected = [
+      'Bar' => 'Qux',
+      'Baz' => 'Qux',
+    ];
+    $this->assertEquals($expected, $entity->toArray());
+  }
+
+  /**
    * @covers ::removeField
    * @covers ::getField
    * @covers ::toArray
@@ -571,6 +596,47 @@ class EntityTest extends TestBase {
 
     $this->assertEquals('Foo', $this->entity->getAttribute('Qux'));
     $this->assertEquals(NULL, $this->entity->getAttribute('NonExistingAttribute'));
+  }
+
+  /**
+   * @covers ::setMapper
+   * @covers ::map
+   */
+  public function testMapping() {
+    $mapper = $this->getMock(MappingInterface::class);
+    $mapper->expects($this->once())
+      ->method('map')
+      ->with('Foo')
+      ->will($this->returnValue(['Bar']));
+
+    $this->assertEquals($this->entity, $this->entity->setMapper($mapper));
+
+    // Assert that 'Foo' is being mapped to 'Bar'.
+    $this->assertEquals(['Bar'], $this->entity->map('Foo'));
+  }
+
+  /**
+   * @covers ::setMapper
+   * @covers ::map
+   */
+  public function testMappingWithBaseClass() {
+    $mapper = $this->getMockForAbstractClass(MappingBase::class);
+    $mapper->expects($this->once())
+      ->method('getMappings')
+      ->will($this->returnValue([
+        'Foo' => 'Bar',
+        'Baz' => 'Qux',
+      ]));
+
+    $this->assertEquals($this->entity, $this->entity->setMapper($mapper));
+
+    // Assert that 'Foo' is being mapped to 'Bar'.
+    $this->assertEquals(['Bar'], $this->entity->map('Foo'));
+    // Assert that 'Baz' is being mapped to 'Qux'.
+    $this->assertEquals(['Qux'], $this->entity->map('Baz'));
+
+    // Assert that 'Qux' stays 'Qux'.
+    $this->assertEquals(['Qux'], $this->entity->map('Qux'));
   }
 
   /**

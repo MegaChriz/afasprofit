@@ -8,20 +8,30 @@ namespace Afas\Core\Mapping;
 abstract class MappingBase implements MappingInterface {
 
   /**
-   * The defined mappings.
-   *
-   * Subclasses should override this variable to add in their mappings.
+   * A list of mappings.
    *
    * @var array
    */
-  protected $mappings = [];
+  protected $cachedMappings;
 
   /**
-   * Implements MappingInterface::map().
+   * Returns aliases for Profit fields.
+   *
+   * @return array
+   *   A list of mappings.
+   */
+  abstract protected function getMappings();
+
+  /**
+   * {@inheritdoc}
    */
   public function map($key) {
-    if (isset($this->mappings[$key])) {
-      return (array) $this->mapping[$key];
+    if (!isset($this->cachedMappings)) {
+      $this->cachedMappings = $this->getMappings();
+    }
+
+    if (isset($this->cachedMappings[$key])) {
+      return (array) $this->cachedMappings[$key];
     }
     return [$key];
   }

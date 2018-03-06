@@ -11,7 +11,7 @@ use InvalidArgumentException;
 /**
  * Base class for entities.
  */
-class Entity implements EntityInterface, MappingInterface {
+class Entity implements EntityWithMappingInterface {
 
   use ActionTrait;
   use EntityCreateTrait;
@@ -325,10 +325,11 @@ class Entity implements EntityInterface, MappingInterface {
   }
 
   /**
-   * Sets mapper.
+   * {@inheritdoc}
    */
   public function setMapper(MappingInterface $mapper) {
     $this->mapper = $mapper;
+    return $this;
   }
 
   /**

@@ -5,6 +5,7 @@ namespace Afas;
 use Afas\Core\Entity\Discovery;
 use Afas\Core\Entity\EntityManager;
 use Afas\Core\Entity\EntityValidator;
+use Afas\Core\Mapping\EntityMappingFactory;
 use Afas\Core\Locale\CountryManager;
 use Afas\Core\Soap\DefaultSoapClientFactory;
 use Afas\Core\XSD\SchemaManager;
@@ -87,6 +88,7 @@ class Afas {
     $container = new ContainerBuilder();
     $container->register('afas.entity.discovery', Discovery::class);
     $container->register('afas.entity.manager', EntityManager::class);
+    $container->register('afas.entity.mapping_factory', EntityMappingFactory::class);
     $container->register('afas.entity.validator', EntityValidator::class);
     $container->register('afas.country.manager', CountryManager::class);
     $container->register('afas.soap_client_factory', DefaultSoapClientFactory::class);

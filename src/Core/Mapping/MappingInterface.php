@@ -4,8 +4,6 @@ namespace Afas\Core\Mapping;
 
 /**
  * Interface for mapping data.
- *
- * @todo may be removed.
  */
 interface MappingInterface {
 

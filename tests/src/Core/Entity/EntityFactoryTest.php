@@ -5,8 +5,12 @@ namespace Afas\Tests\Core\Entity;
 use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\Discovery;
 use Afas\Core\Entity\EntityFactory;
+use Afas\Core\Entity\EntityWithMappingInterface;
 use Afas\Core\Entity\Plugin\FbSales;
+use Afas\Tests\resources\Entity\EntityFactoryMock;
+use Afas\Tests\resources\Entity\DummyEntity;
 use Afas\Tests\TestBase;
+use LogicException;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\EntityFactory
@@ -27,8 +31,7 @@ class EntityFactoryTest extends TestBase {
   public function setUp() {
     parent::setUp();
 
-    $discovery = new Discovery();
-    $this->factory = new EntityFactory($discovery, EntityInterface::class);
+    $this->factory = new EntityFactory(new Discovery(), EntityInterface::class);
   }
 
   /**
@@ -49,6 +52,38 @@ class EntityFactoryTest extends TestBase {
       'values' => [],
       'entity_type' => 'FbSales',
     ]));
+  }
+
+  /**
+   * @covers ::createInstance
+   */
+  public function testCreateInstanceWithoutMapping() {
+    $factory = new EntityFactoryMock(new Discovery(), EntityInterface::class);
+
+    $entity = $factory->createInstance('Entity', [
+      'values' => [],
+      'entity_type' => 'DummyEntityType',
+    ]);
+
+    $this->assertInstanceOf(DummyEntity::class, $entity);
+    $this->assertNotInstanceOf(EntityWithMappingInterface::class, $entity);
+  }
+
+  /**
+   * Ensures that in the previous test DummyEntity::setMapper() is not called.
+   *
+   * @covers ::createInstance
+   */
+  public function testCreateInstanceWithoutMappingException() {
+    $factory = new EntityFactoryMock(new Discovery(), EntityInterface::class);
+
+    $entity = $factory->createInstance('Entity', [
+      'values' => [],
+      'entity_type' => 'DummyEntityType',
+    ]);
+
+    $this->setExpectedException(LogicException::class);
+    $entity->setMapper();
   }
 
 }
