@@ -2,6 +2,8 @@
 
 namespace Afas\Tests\Core\Entity;
 
+use Afas\Core\Entity\Discovery;
+use Afas\Core\Entity\EntityFactory;
 use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityManager;
 use Afas\Tests\TestBase;
@@ -26,6 +28,30 @@ class EntityManagerTest extends TestBase {
     parent::setUp();
 
     $this->entityManager = new EntityManager();
+  }
+
+  /**
+   * @covers ::getDiscovery
+   */
+  public function testGetDiscovery() {
+    // First call.
+    $discovery = $this->callProtectedMethod($this->entityManager, 'getDiscovery');
+    $this->assertInstanceOf(Discovery::class, $discovery);
+
+    // Second call should return same instance.
+    $this->assertSame($discovery, $this->callProtectedMethod($this->entityManager, 'getDiscovery'));
+  }
+
+  /**
+   * @covers ::getFactory
+   */
+  public function testGetFactory() {
+    // First call.
+    $factory = $this->callProtectedMethod($this->entityManager, 'getFactory');
+    $this->assertInstanceOf(EntityFactory::class, $factory);
+
+    // Second call should return same instance.
+    $this->assertSame($factory, $this->callProtectedMethod($this->entityManager, 'getFactory'));
   }
 
   /**

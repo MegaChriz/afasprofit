@@ -5,6 +5,7 @@ namespace Afas\Tests\Core\Entity;
 use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityContainer;
 use Afas\Core\Entity\EntityManagerInterface;
+use Afas\Core\Exception\EntityValidationException;
 use Afas\Tests\TestBase;
 use DOMDocument;
 use Exception;
@@ -226,6 +227,31 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::isAssociative
+   */
+  public function testIsAssociative() {
+    // Single entity data.
+    $entity_data = [
+      'Foo' => 'Bar',
+      'Baz' => 'Qux',
+    ];
+    $this->assertTrue($this->callProtectedMethod($this->container, 'isAssociative', [$entity_data]));
+
+    // Array of entity data.
+    $entities_data = [
+      [
+        'Foo' => 'Bar',
+        'Baz' => 'Qux',
+      ],
+      [
+        'Foo' => 'Bar2',
+        'Baz' => 'Qux2',
+      ],
+    ];
+    $this->assertFalse($this->callProtectedMethod($this->container, 'isAssociative', [$entities_data]));
+  }
+
+  /**
    * @covers ::getObjects
    */
   public function testGetObjects() {
@@ -366,6 +392,31 @@ class EntityContainerTest extends TestBase {
    */
   public function testValidate() {
     $this->assertInternalType('array', $this->container->validate());
+  }
+
+  /**
+   * @covers ::mustValidate
+   */
+  public function testMustValidate() {
+    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue([]));
+
+    $this->assertNull($this->callProtectedMethod($container, 'mustValidate'));
+  }
+
+  /**
+   * @covers ::mustValidate
+   */
+  public function testMustValidateException() {
+    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue(['An error.']));
+
+    $this->setExpectedException(EntityValidationException::class);
+    $this->callProtectedMethod($container, 'mustValidate');
   }
 
 }

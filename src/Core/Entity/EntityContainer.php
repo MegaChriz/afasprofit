@@ -115,8 +115,14 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
 
   /**
    * Checks if an array is associative.
+   *
+   * @param array $arr
+   *   The array to check.
+   *
+   * @returns bool
+   *   True if the array is associative, false otherwise.
    */
-  protected function isAssociative($arr) {
+  protected function isAssociative(array $arr) {
     foreach ($arr as $key => $value) {
       if (is_string($key)) {
         return TRUE;

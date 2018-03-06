@@ -5,6 +5,7 @@ namespace Afas\Tests\Core\Entity;
 use Afas\Core\Entity\Entity;
 use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\Entity\EntityInterface;
+use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Exception\UndefinedParentException;
 use Afas\Tests\TestBase;
 use DOMDocument;
@@ -594,6 +595,53 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::setSingleObjectData
+   * @covers ::getObjects
+   */
+  public function testSetSingleObjectData() {
+    $subentity = $this->callProtectedMethod($this->entity, 'setSingleObjectData', [
+      'Dummy2',
+      ['Foo' => 'Bar', 'Baz' => 'Qux'],
+    ]);
+
+    // Assert type.
+    $this->assertInstanceOf(EntityInterface::class, $subentity);
+    $this->assertEquals('Dummy2', $subentity->getType());
+
+    // Assert fields.
+    $this->assertEquals('Bar', $subentity->getField('Foo'));
+    $this->assertEquals('Qux', $subentity->getField('Baz'));
+
+    // Assert that the object was added.
+    $objects = $this->entity->getObjects();
+    $this->assertSame($subentity, reset($objects));
+
+    // Change value of 'Foo'.
+    $this->callProtectedMethod($this->entity, 'setSingleObjectData', [
+      'Dummy2',
+      ['Foo' => 'Corge'],
+    ]);
+
+    // Assert that 'Foo' was changed, but 'Baz' was not.
+    $this->assertEquals('Corge', $subentity->getField('Foo'));
+    $this->assertEquals('Qux', $subentity->getField('Baz'));
+
+    // Assert that there is only one object.
+    $this->assertCount(1, $this->entity->getObjects());
+  }
+
+  /**
+   * @covers ::setSingleObjectData
+   */
+  public function testSetSingleObjectDataException() {
+    $this->setExpectedException(InvalidArgumentException::class);
+    $this->callProtectedMethod($this->entity, 'setSingleObjectData', [
+      45,
+      ['Foo' => 'Bar', 'Baz' => 'Qux'],
+    ]);
+  }
+
+  /**
    * @covers ::validate
    */
   public function testValidate() {
@@ -646,6 +694,37 @@ class EntityTest extends TestBase {
       </Element>
     </DummyEntityType>';
     $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
+  }
+
+  /**
+   * @covers ::mustValidate
+   */
+  public function testMustValidate() {
+    $entity = $this->getMock(Entity::class, ['validate'], [
+      $this->values,
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue([]));
+
+    $this->assertNull($this->callProtectedMethod($entity, 'mustValidate'));
+  }
+
+  /**
+   * @covers ::mustValidate
+   */
+  public function testMustValidateException() {
+    $entity = $this->getMock(Entity::class, ['validate'], [
+      $this->values,
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue(['An error.']));
+
+    $this->setExpectedException(EntityValidationException::class);
+    $this->callProtectedMethod($entity, 'mustValidate');
   }
 
 }

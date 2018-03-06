@@ -422,4 +422,11 @@ class EntityValidatorTest extends TestBase {
     $this->assertEquals($expected, $validator->validate($entity_container));
   }
 
+  /**
+   * @covers ::getSchemaManager
+   */
+  public function testGetSchemaManager() {
+    $this->assertInstanceOf(SchemaManager::class, $this->callProtectedMethod($this->validator, 'getSchemaManager'));
+  }
+
 }
