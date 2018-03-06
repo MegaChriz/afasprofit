@@ -26,7 +26,7 @@ class Discovery extends StaticDiscovery {
   /**
    * Scans a directory for class files and registers these as plugins.
    *
-   * @param string $path
+   * @param string $dir
    *   The directory to explore.
    */
   public function indexDir($dir) {
