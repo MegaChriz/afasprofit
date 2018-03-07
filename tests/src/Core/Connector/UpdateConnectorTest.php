@@ -59,7 +59,7 @@ class UpdateConnectorTest extends ConnectorTestBase {
   public function testExecute() {
     $this->client->expects($this->once())
       ->method('__getLastResponse')
-      ->will($this->returnValue($this->getFileContents('UpdateConnector/ExecuteResponse.xml')));
+      ->will($this->returnValue($this->getFileContents('UpdateConnector/ExecuteResponse_empty.xml')));
 
     $connector = new UpdateConnector($this->client, $this->server, 'FbSales');
     $result = $connector->execute();
