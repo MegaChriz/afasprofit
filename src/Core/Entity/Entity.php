@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Component\Utility\ArrayHelper;
 use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Exception\UndefinedParentException;
 use Afas\Core\Mapping\MappingInterface;
@@ -315,8 +316,15 @@ class Entity implements EntityWithMappingInterface {
           }
         }
         else {
-          foreach ($value as $object_data) {
-            $this->add($key, $object_data);
+          if (ArrayHelper::isAssociative($value)) {
+            $item = $this->add($key, $value);
+            $item->setAction($this->getAction());
+          }
+          else {
+            foreach ($value as $object_data) {
+              $item = $this->add($key, $object_data);
+              $item->setAction($this->getAction());
+            }
           }
         }
       }

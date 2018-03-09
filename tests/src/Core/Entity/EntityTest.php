@@ -564,22 +564,55 @@ class EntityTest extends TestBase {
   public function testFromArray() {
     $values = [
       'Qux' => 'Foo',
-      'DummyItem' => [
-        0 => [
-          'Bar' => 'Baz',
-        ],
-      ],
     ];
     $this->entity->fromArray($values);
 
     // Assert the field exists.
     $this->assertEquals('Foo', $this->entity->getField('Qux'));
+  }
+
+  /**
+   * @covers ::fromArray
+   * @covers ::getField
+   */
+  public function testFromArrayWithSingleObject() {
+    $values = [
+      'DummyItem' => [
+        'Bar' => 'Baz',
+      ],
+    ];
+    $this->entity->fromArray($values);
 
     // Assert the object exists.
     $objects = $this->entity->getObjects();
     $object = current($objects);
     $this->assertEquals('DummyItem', $object->getEntityType());
     $this->assertEquals('Baz', $object->getField('Bar'));
+  }
+
+  /**
+   * @covers ::fromArray
+   * @covers ::getField
+   */
+  public function testFromArrayWithMultipleObjects() {
+    $values = [
+      'DummyItem' => [
+        [
+          'Bar' => 'Baz',
+        ],
+        [
+          'Bar' => 'Qux',
+        ],
+      ],
+    ];
+    $this->entity->fromArray($values);
+
+    // Assert the object exists.
+    $objects = array_values($this->entity->getObjects());
+    $this->assertEquals('DummyItem', $objects[0]->getEntityType());
+    $this->assertEquals('Baz', $objects[0]->getField('Bar'));
+    $this->assertEquals('DummyItem', $objects[1]->getEntityType());
+    $this->assertEquals('Qux', $objects[1]->getField('Bar'));
   }
 
   /**
