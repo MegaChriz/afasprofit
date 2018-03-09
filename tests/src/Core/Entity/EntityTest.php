@@ -508,6 +508,24 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::setAttribute
+   * @covers ::compile
+   */
+  public function testSetAttributeWithBoolean() {
+    $this->entity->setAttribute('Baz', TRUE);
+    $this->entity->setAttribute('Qux', FALSE);
+
+    $expected = '<DummyEntityType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element Baz="1" Qux="0">
+        <Fields Action="insert">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Element>
+    </DummyEntityType>';
+    $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
+  }
+
+  /**
    * @covers ::removeAttribute
    * @covers ::getAttribute
    * @covers ::toArray
@@ -669,6 +687,17 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::unsetMapper
+   * @covers ::map
+   */
+  public function testMappingWithoutMapper() {
+    $this->assertSame($this->entity, $this->entity->unsetMapper());
+
+    // Assert that 'Foo' is being mapped to 'Bar'.
+    $this->assertEquals(['Foo'], $this->entity->map('Foo'));
+  }
+
+  /**
    * @covers ::setMapper
    * @covers ::map
    */
@@ -690,6 +719,28 @@ class EntityTest extends TestBase {
 
     // Assert that 'Qux' stays 'Qux'.
     $this->assertEquals(['Qux'], $this->entity->map('Qux'));
+  }
+
+  /**
+   * @covers ::setField
+   * @covers ::compile
+   */
+  public function testCreateEntityWithDefaultMapping() {
+    $entity = new Entity([
+      '@attributes' => [
+        'customer_id' => 100001,
+      ],
+      'order_id' => 'test001',
+    ], 'FbSales');
+
+    $expected = '<FbSales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element DbId="100001">
+        <Fields Action="insert">
+          <OrNu>test001</OrNu>
+        </Fields>
+      </Element>
+    </FbSales>';
+    $this->assertXmlStringEqualsXmlString($expected, $entity->compile());
   }
 
   /**

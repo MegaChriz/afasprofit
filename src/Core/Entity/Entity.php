@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Entity;
 
+use Afas\Afas;
 use Afas\Component\Utility\ArrayHelper;
 use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Exception\UndefinedParentException;
@@ -73,11 +74,16 @@ class Entity implements EntityWithMappingInterface {
    */
   public function __construct(array $values, $entity_type) {
     $this->entityType = $entity_type;
+
+    // Setup mapper.
+    $this->setMapper(Afas::service('afas.entity.mapping_factory')->createForEntity($this));
+
+    // Let subclasses perform initialization.
     $this->init();
 
     // Set initial values.
-    $this->fromArray($values);
     $this->setAction(static::FIELDS_INSERT);
+    $this->fromArray($values);
   }
 
   /**
@@ -278,8 +284,15 @@ class Entity implements EntityWithMappingInterface {
   /**
    * {@inheritdoc}
    */
-  public function setAttribute($name, $value) {
-    $this->attributes[$name] = (string) $value;
+  public function setAttribute($key, $value) {
+    $keys = $this->map($key);
+    foreach ($keys as $key) {
+      if (is_bool($value)) {
+        $value = (int) $value;
+      }
+      $this->attributes[$key] = (string) $value;
+    }
+    return $this;
   }
 
   /**
@@ -340,6 +353,14 @@ class Entity implements EntityWithMappingInterface {
    */
   public function setMapper(MappingInterface $mapper) {
     $this->mapper = $mapper;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function unsetMapper() {
+    $this->mapper = NULL;
     return $this;
   }
 

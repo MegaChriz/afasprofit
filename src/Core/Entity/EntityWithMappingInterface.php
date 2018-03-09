@@ -20,4 +20,12 @@ interface EntityWithMappingInterface extends EntityInterface, MappingInterface {
    */
   public function setMapper(MappingInterface $mapper);
 
+  /**
+   * Unsets mapper.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function unsetMapper();
+
 }
