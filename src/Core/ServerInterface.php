@@ -29,11 +29,13 @@ interface ServerInterface {
    *   The Update connector to use.
    * @param array $data
    *   The data to insert.
+   * @param array $attribute_keys
+   *   (optional) The keys belonging to attributes.
    *
    * @return \Afas\Core\Query\Insert
    *   An insert query.
    */
-  public function insert($connector_id, array $data);
+  public function insert($connector_id, array $data, array $attribute_keys = []);
 
   /**
    * Returns an update query object.
@@ -42,11 +44,28 @@ interface ServerInterface {
    *   The Update connector to use.
    * @param array $data
    *   The data to update.
+   * @param array $attribute_keys
+   *   (optional) The keys belonging to attributes.
    *
    * @return \Afas\Core\Query\Update
    *   An update query.
    */
-  public function update($connector_id, array $data);
+  public function update($connector_id, array $data, array $attribute_keys = []);
+
+  /**
+   * Returns an update query object.
+   *
+   * @param string $connector_id
+   *   The Update connector to use.
+   * @param array $data
+   *   The data to delete.
+   * @param array $attribute_keys
+   *   (optional) The keys belonging to attributes.
+   *
+   * @return \Afas\Core\Query\Delete
+   *   A delete query.
+   */
+  public function delete($connector_id, array $data, array $attribute_keys = []);
 
   // --------------------------------------------------------------
   // GETTERS

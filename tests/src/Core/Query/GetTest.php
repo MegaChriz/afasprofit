@@ -19,14 +19,16 @@ class GetTest extends QueryTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->query = $this->getMock(Get::class, ['getClient'], [
-      $this->server,
-      'Dummy',
-    ]);
+    $this->query = $this->createQuery(Get::class);
+  }
 
-    $this->query->expects($this->any())
-      ->method('getClient')
-      ->will($this->returnValue($this->client));
+  /**
+   * @covers ::__construct
+    * @covers ::getFilterContainer
+   */
+  public function testConstruct() {
+    $query = $this->createQuery(Get::class);
+    $this->assertNull($this->query->getFilterContainer()->compile());
   }
 
   /**

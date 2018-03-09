@@ -5,6 +5,7 @@ namespace Afas\Core;
 use Afas\Core\Query\Get;
 use Afas\Core\Query\Insert;
 use Afas\Core\Query\Update;
+use Afas\Core\Query\Delete;
 
 /**
  * Class for connecting a Profit server.
@@ -72,15 +73,22 @@ class Server implements ServerInterface {
   /**
    * {@inheritdoc}
    */
-  public function insert($connector_id, array $data, $mapper = NULL) {
-    return new Insert($this, $connector_id, $data, $mapper);
+  public function insert($connector_id, array $data, array $attribute_keys = []) {
+    return new Insert($this, $connector_id, $data);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function update($connector_id, array $data, $mapper = NULL) {
-    return new Update($this, $connector_id, $data, $mapper);
+  public function update($connector_id, array $data, array $attribute_keys = []) {
+    return new Update($this, $connector_id, $data, $attribute_keys);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function delete($connector_id, array $data, array $attribute_keys = []) {
+    return new Delete($this, $connector_id, $data, $attribute_keys);
   }
 
   // --------------------------------------------------------------

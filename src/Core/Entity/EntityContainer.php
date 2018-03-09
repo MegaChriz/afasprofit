@@ -146,9 +146,12 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    * {@inheritdoc}
    */
   public function toArray() {
+    $return = [];
+
     foreach ($this->getObjects() as $object) {
       $return[$object->getEntityType()][] = $object->toArray();
     }
+
     return $return;
   }
 

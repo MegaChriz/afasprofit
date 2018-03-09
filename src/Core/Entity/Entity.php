@@ -196,9 +196,9 @@ class Entity implements EntityWithMappingInterface {
     }
 
     // Fields XML.
+    $fields_xml = $doc->createElement('Fields');
+    $fields_xml->setAttribute('Action', $this->getAction());
     if (count($this->fields) > 0) {
-      $fields_xml = $doc->createElement('Fields');
-      $fields_xml->setAttribute('Action', $this->getAction());
       foreach ($this->fields as $field_name => $field_value) {
         $field_xml = $doc->createElement($field_name);
         if ($field_value === '' || is_null($field_value)) {
@@ -210,8 +210,8 @@ class Entity implements EntityWithMappingInterface {
         }
         $fields_xml->appendChild($field_xml);
       }
-      $element_xml->appendChild($fields_xml);
     }
+    $element_xml->appendChild($fields_xml);
 
     // Objects XML.
     if (count($this->objects) > 0) {
