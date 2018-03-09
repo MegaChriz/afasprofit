@@ -45,7 +45,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetAutoMailbox() {
-    $this->assertEquals('', $this->entity->getField('PbAd'));
+    $this->assertEquals(0, $this->entity->getField('PbAd'));
 
     // When the phrase 'postbus' is used in the street name, it is assumed
     // to be a mailbox address.

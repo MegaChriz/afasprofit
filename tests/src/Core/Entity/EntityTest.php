@@ -430,6 +430,26 @@ class EntityTest extends TestBase {
 
   /**
    * @covers ::setField
+   * @covers ::compile
+   */
+  public function testSetFieldWithBoolean() {
+    $this->entity->setField('Baz', TRUE);
+    $this->entity->setField('Qux', FALSE);
+
+    $expected = '<DummyEntityType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="insert">
+          <Foo>Bar</Foo>
+          <Baz>1</Baz>
+          <Qux>0</Qux>
+        </Fields>
+      </Element>
+    </DummyEntityType>';
+    $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
+  }
+
+  /**
+   * @covers ::setField
    * @covers ::toArray
    */
   public function testSetFieldWithMapping() {

@@ -260,6 +260,9 @@ class Entity implements EntityWithMappingInterface {
   public function setField($key, $value) {
     $keys = $this->map($key);
     foreach ($keys as $key) {
+      if (is_bool($value)) {
+        $value = (int) $value;
+      }
       $this->fields[$key] = (string) $value;
     }
     return $this;
