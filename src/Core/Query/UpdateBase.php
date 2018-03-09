@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Query;
 
+use Afas\Component\Utility\ArrayHelper;
 use Afas\Core\Connector\UpdateConnector;
 use Afas\Core\Entity\EntityContainer;
 use Afas\Core\ServerInterface;
@@ -47,7 +48,7 @@ class UpdateBase extends Query implements UpdateBaseInterface {
     $this->entityContainer = new EntityContainer($connector_id);
 
     if (!empty($attribute_keys)) {
-      if ($this->isAssociative($data)) {
+      if (ArrayHelper::isAssociative($data)) {
         $this->convertAttributes($data, $attribute_keys);
       }
       else {
@@ -98,18 +99,6 @@ class UpdateBase extends Query implements UpdateBaseInterface {
    */
   public function getEntityContainer() {
     return $this->entityContainer;
-  }
-
-  /**
-   * Checks if an array is associative.
-   */
-  protected function isAssociative($arr) {
-    foreach ($arr as $key => $value) {
-      if (is_string($key)) {
-        return TRUE;
-      }
-    }
-    return FALSE;
   }
 
 }

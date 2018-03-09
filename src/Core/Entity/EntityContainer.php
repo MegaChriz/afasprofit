@@ -4,6 +4,7 @@ namespace Afas\Core\Entity;
 
 use Afas\Afas;
 use Afas\Component\ItemList\ItemList;
+use Afas\Component\Utility\ArrayHelper;
 use Afas\Core\Exception\EntityValidationException;
 use DOMDocument;
 use Exception;
@@ -100,7 +101,7 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    * {@inheritdoc}
    */
   public function fromArray(array $data) {
-    if ($this->isAssociative($data)) {
+    if (ArrayHelper::isAssociative($data)) {
       $item = $this->add($this->connectorType, $data);
       $item->setAction($this->getAction());
     }
@@ -111,24 +112,6 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
       }
     }
     return $this;
-  }
-
-  /**
-   * Checks if an array is associative.
-   *
-   * @param array $arr
-   *   The array to check.
-   *
-   * @returns bool
-   *   True if the array is associative, false otherwise.
-   */
-  protected function isAssociative(array $arr) {
-    foreach ($arr as $key => $value) {
-      if (is_string($key)) {
-        return TRUE;
-      }
-    }
-    return FALSE;
   }
 
   // --------------------------------------------------------------

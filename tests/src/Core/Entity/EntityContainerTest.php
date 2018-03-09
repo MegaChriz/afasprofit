@@ -227,31 +227,6 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
-   * @covers ::isAssociative
-   */
-  public function testIsAssociative() {
-    // Single entity data.
-    $entity_data = [
-      'Foo' => 'Bar',
-      'Baz' => 'Qux',
-    ];
-    $this->assertTrue($this->callProtectedMethod($this->container, 'isAssociative', [$entity_data]));
-
-    // Array of entity data.
-    $entities_data = [
-      [
-        'Foo' => 'Bar',
-        'Baz' => 'Qux',
-      ],
-      [
-        'Foo' => 'Bar2',
-        'Baz' => 'Qux2',
-      ],
-    ];
-    $this->assertFalse($this->callProtectedMethod($this->container, 'isAssociative', [$entities_data]));
-  }
-
-  /**
    * @covers ::getObjects
    */
   public function testGetObjects() {
