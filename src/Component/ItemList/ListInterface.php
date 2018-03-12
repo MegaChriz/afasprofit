@@ -8,6 +8,14 @@ namespace Afas\Component\ItemList;
 interface ListInterface extends \Countable, \Traversable {
 
   /**
+   * Returns the first item in this list.
+   *
+   * @return mixed
+   *   The first item in this list.
+   */
+  public function first();
+
+  /**
    * Returns the complete list.
    *
    * @return array

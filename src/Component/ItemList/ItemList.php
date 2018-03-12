@@ -29,6 +29,13 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function first() {
+    return reset($this->list);
+  }
+
+  /**
    * Adds an item to the list.
    *
    * @param mixed $item
