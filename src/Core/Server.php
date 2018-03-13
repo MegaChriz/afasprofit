@@ -74,7 +74,7 @@ class Server implements ServerInterface {
    * {@inheritdoc}
    */
   public function insert($connector_id, array $data, array $attribute_keys = []) {
-    return new Insert($this, $connector_id, $data);
+    return new Insert($this, $connector_id, $data, $attribute_keys);
   }
 
   /**
