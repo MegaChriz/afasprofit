@@ -31,7 +31,6 @@ class UpdateTest extends QueryTestBase {
     $this->assertInstanceOf(UpdateConnectorResult::class, $result);
   }
 
-
   /**
    * @covers ::__construct
    * @covers \Afas\Core\Query\UpdateBase::__construct

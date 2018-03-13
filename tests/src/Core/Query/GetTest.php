@@ -24,7 +24,7 @@ class GetTest extends QueryTestBase {
 
   /**
    * @covers ::__construct
-    * @covers ::getFilterContainer
+   * @covers ::getFilterContainer
    */
   public function testConstruct() {
     $query = $this->createQuery(Get::class);

@@ -89,7 +89,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
       'HmNr' => 'HmNr is a required field for type KnBasicAddressAdr.',
       'ZpCd' => 'ZpCd is a required field for type KnBasicAddressAdr.',
       'CoId' => 'CoId is a required field for type KnBasicAddressAdr.',
-      'Rs' => "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to true."
+      'Rs' => "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to true.",
     ];
 
     return [

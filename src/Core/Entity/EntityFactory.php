@@ -2,7 +2,6 @@
 
 namespace Afas\Core\Entity;
 
-use Afas\Afas;
 use Drupal\Component\Plugin\Factory\DefaultFactory;
 
 /**

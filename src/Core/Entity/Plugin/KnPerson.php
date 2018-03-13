@@ -139,7 +139,8 @@ class KnPerson extends Relation {
         // When updating or deleting, autonumbering doesn't make sense.
         $this->removeField('AutoNum');
 
-        // When updating, either 'BcCo' or 'SoSe' is required if there is no match method.
+        // When updating, either 'BcCo' or 'SoSe' is required if there is no
+        // match method.
         if (!$this->getField('BcCo') && !$this->getField('SoSe') && !$this->getField('MatchPer')) {
           $errors[] = "When updating a person either 'BcCo' or 'SoSe' must be set if there is no match method (MatchPer) specified.";
         }
