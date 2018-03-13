@@ -25,6 +25,14 @@ abstract class KnSalesRelation extends Entity {
     $this->setField('PfId', '*****');
     // VAT duty is required when relation is a customer.
     $this->setField('VaDu', '1');
+
+    // Required fields which may default to zero, according to the Profit
+    // documentation.
+    $this->setField('PrLi', '0');
+    $this->setField('PrFc', '0');
+    $this->setField('ClPc', '0');
+    $this->setField('PrPt', '0');
+    $this->setField('Krli', '0');
   }
 
   // --------------------------------------------------------------
@@ -39,6 +47,11 @@ abstract class KnSalesRelation extends Entity {
       'IsDb',
       'CuId',
       'PfId',
+      'PrLi',
+      'PrFc',
+      'ClPc',
+      'PrPt',
+      'KrLi',
     ];
   }
 

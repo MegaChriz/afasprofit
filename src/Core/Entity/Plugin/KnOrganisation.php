@@ -120,6 +120,32 @@ class KnOrganisation extends Relation {
           $this->removeField('BcCo');
         }
         break;
+
+      case static::FIELDS_UPDATE:
+      case static::FIELDS_DELETE:
+        // When updating or deleting, autonumbering doesn't make sense.
+        $this->removeField('AutoNum');
+
+        // Identication of an organisation is required.
+        $id_fields = [
+          'BcCo',
+          'CcNr',
+          'FiNr',
+        ];
+        $found = FALSE;
+        foreach ($id_fields as $id_field) {
+          if ($this->getField($id_field)) {
+            // Identification is okay. Break out of the loop.
+            $found = TRUE;
+            break;
+          }
+        }
+        if (!$found) {
+          $errors[] = strtr('When updating or deleting an organisation, one of the following fields is required: !fields.', [
+            '!fields' => implode(', ', $id_fields),
+          ]);
+        }
+        break;
     }
 
     if ($this->getAction() == static::FIELDS_INSERT && !$this->fieldExists('MatchOga')) {
@@ -129,17 +155,20 @@ class KnOrganisation extends Relation {
     elseif ($this->getField('BcCo')) {
       // If a organisation ID is given, then match on this field.
       $this->setField('MatchOga', static::MATCH_BCCO);
-      $this->setField('AutoNum', FALSE);
     }
     elseif ($this->getField('CcNr')) {
       // If an organisation's KVK is given, then match on this field.
       $this->setField('MatchOga', static::MATCH_KVK);
-      $this->setField('AutoNum', FALSE);
+      if ($this->fieldExists('AutoNum')) {
+        $this->setField('AutoNum', FALSE);
+      }
     }
     elseif ($this->getField('FiNr')) {
       // If an organisation's FISC is given, then match on this field.
       $this->setField('MatchOga', static::MATCH_FISC);
-      $this->setField('AutoNum', FALSE);
+      if ($this->fieldExists('AutoNum')) {
+        $this->setField('AutoNum', FALSE);
+      }
     }
 
     return $errors;

@@ -18,7 +18,7 @@ class KnBasicAddressAdr extends Entity {
    * {@inheritdoc}
    */
   public function init() {
-    // By default the address is mailbox address.
+    // By default the address is a mailbox address.
     $this->setField('PbAd', FALSE);
     // The city name should by default be resolved by the zip code.
     $this->setField('ResZip', TRUE);
@@ -40,6 +40,7 @@ class KnBasicAddressAdr extends Entity {
           'Ad',
           'HmNr',
           'ZpCd',
+          'CoId',
         ];
     }
 
@@ -87,6 +88,26 @@ class KnBasicAddressAdr extends Entity {
     }
 
     return parent::setField($key, $value);
+  }
+
+  // --------------------------------------------------------------
+  // ACTION
+  // --------------------------------------------------------------
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validate() {
+    $errors = parent::validate();
+
+    // When 'ResZip' is set to true, 'Rs' becomes required.
+    if ($this->getField('ResZip') && !$this->fieldExists('Rs')) {
+      $errors[] = strtr("The field 'Rs' is required in a !type object when the field 'ResZip' is set to true.", [
+        '!type' => $this->getType(),
+      ]);
+    }
+
+    return $errors;
   }
 
 }

@@ -85,12 +85,68 @@ class KnOrganisationTest extends PluginTestBase {
         ],
       ],
       [
+        [
+          'When updating or deleting an organisation, one of the following fields is required: BcCo, CcNr, FiNr.',
+        ],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnOrganisation::FIELDS_UPDATE,
+            ],
+          ],
+        ],
+      ],
+      [
         [],
         [
           [
             'method' => 'setAction',
             'args' => [
               KnOrganisation::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'BcCo',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnOrganisation::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'CcNr',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnOrganisation::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'FiNr',
+              12345,
             ],
           ],
         ],
@@ -132,6 +188,23 @@ class KnOrganisationTest extends PluginTestBase {
   }
 
   /**
+   * @covers ::validate
+   * @dataProvider dataProviderSetDefaultMatchOga
+   */
+  public function testAutoNumberingOnOff($expected, array $values, $action = NULL) {
+    $this->entity->fromArray($values);
+    $this->entity->setField('MatchOga', KnOrganisation::MATCH_NEW);
+    $this->entity->validate();
+
+    if ($expected == KnOrganisation::MATCH_NEW) {
+      $this->assertSame('1', $this->entity->getField('AutoNum'));
+    }
+    else {
+      $this->assertSame('0', $this->entity->getField('AutoNum'));
+    }
+  }
+
+  /**
    * Data provider for testSetDefaultMatchOga().
    */
   public function dataProviderSetDefaultMatchOga() {
@@ -166,6 +239,42 @@ class KnOrganisationTest extends PluginTestBase {
         KnOrganisation::FIELDS_UPDATE,
       ],
     ];
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testKeepAutoNumWhenInserting() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnOrganisation::FIELDS_INSERT);
+    $this->entity->validate();
+
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testNoAutoNumWhenUpdating() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnOrganisation::FIELDS_UPDATE);
+    $this->entity->validate();
+
+    $this->assertFalse($this->entity->fieldExists('AutoNum'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testNoAutoNumWhenDeleting() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnOrganisation::FIELDS_DELETE);
+    $this->entity->validate();
+
+    $this->assertFalse($this->entity->fieldExists('AutoNum'));
   }
 
 }

@@ -4,6 +4,7 @@ namespace Afas\Tests\Core\Entity\Plugin;
 
 use Afas\Core\Entity\Entity;
 use Afas\Core\Entity\Plugin\KnContact;
+use InvalidArgumentException;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\Plugin\KnContact
@@ -44,6 +45,32 @@ class KnContactTest extends PluginTestBase {
     $address = new Entity([], 'KnBasicAddressAdr');
     $this->entity->addObject($address);
     $this->assertNull($this->entity->getPerson());
+  }
+
+  /**
+   * @covers ::setField
+   */
+  public function testSetViKc() {
+    $values = [
+      'AFD',
+      'PRS',
+      'AFL',
+      'ORG',
+      'PER',
+    ];
+
+    foreach ($values as $value) {
+      $this->entity->setField('ViKc', $value);
+      $this->assertEquals($value, $this->entity->getField('ViKc'));
+    }
+  }
+
+  /**
+   * @covers ::setField
+   */
+  public function testSetInvalidViKc() {
+    $this->setExpectedException(InvalidArgumentException::class, 'Invalid value for ViKc: RAD');
+    $this->entity->setField('ViKc', 'RAD');
   }
 
   /**
@@ -104,6 +131,73 @@ class KnContactTest extends PluginTestBase {
             'method' => 'add',
             'args' => [
               'KnPerson',
+            ],
+          ],
+        ],
+      ],
+      [
+        [
+          'When updating or deleting a contact, one of the following fields is required: BcCoPer, CdId, ExAd.',
+        ],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnContact::FIELDS_UPDATE,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnContact::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'BcCoPer',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnContact::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'CdId',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnContact::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'ExAd',
+              'Billing department',
             ],
           ],
         ],

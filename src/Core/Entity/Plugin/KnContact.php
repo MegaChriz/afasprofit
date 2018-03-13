@@ -3,6 +3,7 @@
 namespace Afas\Core\Entity\Plugin;
 
 use Afas\Core\Entity\EntityInterface;
+use InvalidArgumentException;
 
 /**
  * Class for a KnContact entity.
@@ -43,6 +44,30 @@ class KnContact extends Relation {
   // --------------------------------------------------------------
 
   /**
+   * {@inheritdoc}
+   */
+  public function setField($key, $value) {
+    switch ($key) {
+      case 'ViKc':
+        switch ($value) {
+          case 'AFD':
+          case 'PRS':
+          case 'AFL':
+          case 'ORG':
+          case 'PER':
+            break;
+
+          default:
+            throw new InvalidArgumentException(strtr('Invalid value for ViKc: !value', [
+              '!value' => @(string) $value,
+            ]));
+        }
+    }
+
+    return parent::setField($key, $value);
+  }
+
+  /**
    * Sets person data.
    *
    * @param array $values
@@ -68,6 +93,32 @@ class KnContact extends Relation {
     // Check that at max one person exists.
     if (count($this->getObjectsOfType('KnPerson')) > 1) {
       $errors[] = 'A KnContact object may not contain more than one KnPerson object.';
+    }
+
+    switch ($this->getAction()) {
+      case static::FIELDS_UPDATE:
+      case static::FIELDS_DELETE:
+        // Identication of a contact is required.
+        $id_fields = [
+          'BcCoPer',
+          'CdId',
+          'ExAd',
+        ];
+        $found = FALSE;
+        foreach ($id_fields as $id_field) {
+          if ($this->getField($id_field)) {
+            // Identification is okay. Break out of the loop.
+            $found = TRUE;
+            break;
+          }
+        }
+        if (!$found) {
+          $errors[] = strtr('When updating or deleting a contact, one of the following fields is required: !fields.', [
+            '!fields' => implode(', ', $id_fields),
+          ]);
+        }
+
+        break;
     }
 
     return $errors;

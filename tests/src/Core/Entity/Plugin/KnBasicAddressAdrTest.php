@@ -22,7 +22,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    */
   public function testGetRequiredFieldsWhenInserting() {
     $this->entity->setAction(KnBasicAddressAdr::FIELDS_INSERT);
-    $this->assertEquals(['Ad', 'HmNr', 'ZpCd'], $this->entity->getRequiredFields());
+    $this->assertEquals(['Ad', 'HmNr', 'ZpCd', 'CoId'], $this->entity->getRequiredFields());
   }
 
   /**
@@ -30,7 +30,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    */
   public function testGetRequiredFieldsWhenUpdating() {
     $this->entity->setAction(KnBasicAddressAdr::FIELDS_UPDATE);
-    $this->assertEquals(['Ad', 'HmNr', 'ZpCd'], $this->entity->getRequiredFields());
+    $this->assertEquals(['Ad', 'HmNr', 'ZpCd', 'CoId'], $this->entity->getRequiredFields());
   }
 
   /**
@@ -88,6 +88,8 @@ class KnBasicAddressAdrTest extends PluginTestBase {
       'Ad' => 'Ad is a required field for type KnBasicAddressAdr.',
       'HmNr' => 'HmNr is a required field for type KnBasicAddressAdr.',
       'ZpCd' => 'ZpCd is a required field for type KnBasicAddressAdr.',
+      'CoId' => 'CoId is a required field for type KnBasicAddressAdr.',
+      'Rs' => "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to true."
     ];
 
     return [
@@ -101,9 +103,27 @@ class KnBasicAddressAdrTest extends PluginTestBase {
             'method' => 'fromArray',
             'args' => [
               [
+                'ResZip' => FALSE,
                 'Ad' => 'Mainstreet',
                 'HmNr' => '123',
                 'ZpCd' => '1234 AB',
+                'CoId' => 'NL',
+              ],
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'fromArray',
+            'args' => [
+              [
+                'Ad' => 'Mainstreet',
+                'HmNr' => '123',
+                'ZpCd' => '1234 AB',
+                'Rs' => 'SomeCity',
                 'CoId' => 'NL',
               ],
             ],

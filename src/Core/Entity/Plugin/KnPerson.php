@@ -118,6 +118,11 @@ class KnPerson extends Relation {
           // Ignore exceptions on which the parent is not set.
         }
 
+        // Don't allow 'BcCo' to be set when inserting a person.
+        if ($this->getField('BcCo')) {
+          $this->removeField('BcCo');
+        }
+
         // Set default value for birth name if not set.
         if (!$this->getField('SpNm')) {
           $this->setField('SpNm', FALSE);
@@ -127,7 +132,17 @@ class KnPerson extends Relation {
         if (!$this->getField('ViGe')) {
           $this->setField('ViGe', 'O');
         }
+        break;
 
+      case static::FIELDS_UPDATE:
+      case static::FIELDS_DELETE:
+        // When updating or deleting, autonumbering doesn't make sense.
+        $this->removeField('AutoNum');
+
+        // When updating, either 'BcCo' or 'SoSe' is required if there is no match method.
+        if (!$this->getField('BcCo') && !$this->getField('SoSe') && !$this->getField('MatchPer')) {
+          $errors[] = "When updating a person either 'BcCo' or 'SoSe' must be set if there is no match method (MatchPer) specified.";
+        }
         break;
     }
 
@@ -138,12 +153,13 @@ class KnPerson extends Relation {
     elseif ($this->getField('BcCo')) {
       // If a person ID is given, then match on this field.
       $this->setField('MatchPer', static::MATCH_BCCO);
-      $this->setField('AutoNum', FALSE);
     }
     elseif ($this->getField('SoSe')) {
       // If a person's BSN is given, then match on this field.
       $this->setField('MatchPer', static::MATCH_BSN);
-      $this->setField('AutoNum', FALSE);
+      if ($this->fieldExists('AutoNum')) {
+        $this->setField('AutoNum', FALSE);
+      }
     }
 
     return $errors;

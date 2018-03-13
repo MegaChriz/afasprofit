@@ -70,7 +70,75 @@ class KnPersonTest extends PluginTestBase {
           ],
         ],
       ],
+      [
+        [
+          "When updating a person either 'BcCo' or 'SoSe' must be set if there is no match method (MatchPer) specified.",
+        ],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnPerson::FIELDS_UPDATE,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnPerson::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'BcCo',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnPerson::FIELDS_UPDATE,
+            ],
+          ],
+          [
+            'method' => 'setField',
+            'args' => [
+              'SoSe',
+              12345,
+            ],
+          ],
+        ],
+      ],
     ];
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testNoBcCoWhenInserting() {
+    $this->entity->setField('BcCo', 12345);
+    $this->entity->validate();
+    $this->assertFalse($this->entity->fieldExists('BcCo'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testBcCoWhenUpdating() {
+    $this->entity->setField('BcCo', 12345);
+    $this->entity->setAction(KnPerson::FIELDS_UPDATE);
+    $this->entity->validate();
+    $this->assertTrue($this->entity->fieldExists('BcCo'));
   }
 
   /**
@@ -85,6 +153,23 @@ class KnPersonTest extends PluginTestBase {
     $this->entity->fromArray($values);
     $this->entity->validate();
     $this->assertEquals($expected, $this->entity->getField('MatchPer'));
+  }
+
+  /**
+   * @covers ::validate
+   * @dataProvider dataProviderSetDefaultMatchPer
+   */
+  public function testAutoNumberingOnOff($expected, array $values, $action = NULL) {
+    $this->entity->fromArray($values);
+    $this->entity->setField('MatchPer', KnPerson::MATCH_NEW);
+    $this->entity->validate();
+
+    if ($expected == KnPerson::MATCH_NEW) {
+      $this->assertSame('1', $this->entity->getField('AutoNum'));
+    }
+    else {
+      $this->assertSame('0', $this->entity->getField('AutoNum'));
+    }
   }
 
   /**
@@ -155,6 +240,42 @@ class KnPersonTest extends PluginTestBase {
     ]);
 
     $this->assertEquals([], $this->entity->validate());
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testKeepAutoNumWhenInserting() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnPerson::FIELDS_INSERT);
+    $this->entity->validate();
+
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testNoAutoNumWhenUpdating() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnPerson::FIELDS_UPDATE);
+    $this->entity->validate();
+
+    $this->assertFalse($this->entity->fieldExists('AutoNum'));
+  }
+
+  /**
+   * @covers ::validate
+   */
+  public function testNoAutoNumWhenDeleting() {
+    $this->entity->setField('AutoNum', TRUE);
+    $this->assertTrue($this->entity->fieldExists('AutoNum'));
+    $this->entity->setAction(KnPerson::FIELDS_DELETE);
+    $this->entity->validate();
+
+    $this->assertFalse($this->entity->fieldExists('AutoNum'));
   }
 
 }
