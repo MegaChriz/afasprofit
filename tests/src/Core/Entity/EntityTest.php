@@ -867,6 +867,54 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::compile
+   * @covers ::isValidationEnabled
+   */
+  public function testCompileWithValidation() {
+    $entity = $this->getMock(Entity::class, ['validate'], [
+      [],
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue(['An error.']));
+
+    $this->setExpectedException(EntityValidationException::class);
+    $entity->compile();
+  }
+
+  /**
+   * @covers ::compile
+   * @covers ::enableValidation
+   * @covers ::disableValidation
+   * @covers ::isValidationEnabled
+   */
+  public function testCompileWithAndWithoutValidation() {
+    $entity = $this->getMock(Entity::class, ['validate'], [
+      [],
+      'DummyEntityType',
+    ]);
+    $entity->expects($this->once())
+      ->method('validate')
+      ->will($this->returnValue(['An error.']));
+
+    // Disable validation.
+    $entity->disableValidation();
+
+    $expected = '<DummyEntityType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="insert"/>
+      </Element>
+    </DummyEntityType>';
+    $this->assertXmlStringEqualsXmlString($expected, $entity->compile());
+
+    // Enable validation.
+    $entity->enableValidation();
+    $this->setExpectedException(EntityValidationException::class);
+    $entity->compile();
+  }
+
+  /**
    * @covers ::mustValidate
    */
   public function testMustValidate() {

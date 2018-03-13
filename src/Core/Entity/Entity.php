@@ -4,7 +4,6 @@ namespace Afas\Core\Entity;
 
 use Afas\Afas;
 use Afas\Component\Utility\ArrayHelper;
-use Afas\Core\Exception\EntityValidationException;
 use Afas\Core\Exception\UndefinedParentException;
 use Afas\Core\Mapping\MappingInterface;
 use DOMDocument;
@@ -17,6 +16,7 @@ class Entity implements EntityWithMappingInterface {
 
   use ActionTrait;
   use EntityCreateTrait;
+  use MustValidateTrait;
 
   /**
    * The entity type.
@@ -451,8 +451,10 @@ class Entity implements EntityWithMappingInterface {
    * {@inheritdoc}
    */
   public function compile() {
-    // Validation *must* pass.
-    $this->mustValidate();
+    if ($this->isValidationEnabled()) {
+      // Validation *must* pass.
+      $this->mustValidate();
+    }
 
     $doc = new DOMDocument();
 
@@ -466,19 +468,6 @@ class Entity implements EntityWithMappingInterface {
     $root->appendChild($node);
 
     return $doc->saveXML($root);
-  }
-
-  /**
-   * Validates the entity and throws an exception if validation fails.
-   *
-   * @throws \Afas\Core\Exception\EntityValidationException
-   *   When validation fails.
-   */
-  protected function mustValidate() {
-    $errors = $this->validate();
-    if (!empty($errors)) {
-      throw new EntityValidationException($this, $errors);
-    }
   }
 
   // --------------------------------------------------------------

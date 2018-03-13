@@ -5,7 +5,6 @@ namespace Afas\Core\Entity;
 use Afas\Afas;
 use Afas\Component\ItemList\ItemList;
 use Afas\Component\Utility\ArrayHelper;
-use Afas\Core\Exception\EntityValidationException;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
@@ -17,6 +16,7 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
 
   use ActionTrait;
   use EntityCreateTrait;
+  use MustValidateTrait;
 
   // --------------------------------------------------------------
   // PROPERTIES
@@ -173,8 +173,10 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    * {@inheritdoc}
    */
   public function compile() {
-    // Validation *must* pass.
-    $this->mustValidate();
+    if ($this->isValidationEnabled()) {
+      // Validation *must* pass.
+      $this->mustValidate();
+    }
 
     if ($this->count()) {
       $doc = new DOMDocument();
@@ -220,19 +222,6 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    */
   public function validate() {
     return Afas::service('afas.entity.validator')->validate($this);
-  }
-
-  /**
-   * Validates the entity and throws an exception if validation fails.
-   *
-   * @throws \Afas\Core\Exception\EntityValidationException
-   *   When validation fails.
-   */
-  protected function mustValidate() {
-    $errors = $this->validate();
-    if (!empty($errors)) {
-      throw new EntityValidationException($this, $errors);
-    }
   }
 
   // --------------------------------------------------------------

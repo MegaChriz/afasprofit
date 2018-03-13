@@ -4,6 +4,7 @@ namespace Afas\Tests\resources\Entity;
 
 use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityContainerInterface;
+use Afas\Core\Entity\MustValidateTrait;
 use DOMDocument;
 use LogicException;
 
@@ -13,6 +14,8 @@ use LogicException;
  * @see \Afas\Tests\Core\Entity\EntityFactoryTest::testCreateInstanceWithoutMapping()
  */
 class DummyEntity implements EntityInterface {
+
+  use MustValidateTrait;
 
   // --------------------------------------------------------------
   // GETTERS

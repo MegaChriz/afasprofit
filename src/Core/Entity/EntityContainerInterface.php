@@ -164,4 +164,22 @@ interface EntityContainerInterface extends CompilableInterface {
    */
   public function validate();
 
+  /**
+   * Enables validation during compiling.
+   */
+  public function enableValidation();
+
+  /**
+   * Disables validation during compiling.
+   */
+  public function disableValidation();
+
+  /**
+   * Returns if validation is enabled.
+   *
+   * @return bool
+   *   True if validation is enabled, false otherwise.
+   */
+  public function isValidationEnabled();
+
 }
