@@ -83,4 +83,14 @@ abstract class TestBase extends PHPUnit_Framework_TestCase {
     return call_user_func_array($closure, $args);
   }
 
+  /**
+   * Returns base path.
+   *
+   * @return string
+   *   The base path of this project.
+   */
+  protected function getBasePath() {
+    return dirname(dirname(__DIR__));
+  }
+
 }

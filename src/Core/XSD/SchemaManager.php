@@ -25,6 +25,7 @@ class SchemaManager {
    * Constructs a new SchemaManager object.
    */
   public function __construct() {
+    $this->paths = [];
     $this->addPath(dirname(dirname(dirname(__DIR__))) . '/resources/XMLSchema');
   }
 
@@ -51,6 +52,13 @@ class SchemaManager {
 
     // Add path to the beginning of the array.
     array_unshift($this->paths, $path);
+  }
+
+  /**
+   * Returns the paths that are used to look for XSD files.
+   */
+  public function getPaths() {
+    return $this->paths;
   }
 
   /**
