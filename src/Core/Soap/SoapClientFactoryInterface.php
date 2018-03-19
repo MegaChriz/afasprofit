@@ -10,13 +10,13 @@ use Afas\Core\ServerInterface;
 interface SoapClientFactoryInterface {
 
   /**
-   * Runs the query against the profit.
+   * Creates a new soap client.
    *
    * @param \Afas\Core\ServerInterface $server
    *   A server instance.
    *
    * @return \Afas\Component\Soap\SoapClientInterface
-   *   An class to send soap requests with.
+   *   A class to send soap requests with.
    */
   public function create(ServerInterface $server);
 
