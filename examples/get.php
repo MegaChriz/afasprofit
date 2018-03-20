@@ -3,6 +3,8 @@
 /**
  * @file
  * Psuedo-code for using a get-connector.
+ *
+ * @todo add more examples.
  */
 
 use Afas\Core\Server;

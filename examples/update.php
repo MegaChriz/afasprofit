@@ -3,6 +3,8 @@
 /**
  * @file
  * Psuedo-code for using a update-connector.
+ *
+ * @todo examples are outdated, update them.
  */
 
 use Afas\Core\Server;
