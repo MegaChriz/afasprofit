@@ -39,6 +39,13 @@ class GetTest extends QueryTestBase {
   }
 
   /**
+   * @covers ::orderBy
+   */
+  public function testOrderBy() {
+    $this->assertSame($this->query, $this->query->orderBy('item_id'));
+  }
+
+  /**
    * @covers ::filter
    */
   public function testFilter() {

@@ -10,6 +10,24 @@ use Afas\Core\Filter\FilterContainerInterface;
 interface GetConnectorInterface extends ConnectorInterface {
 
   // --------------------------------------------------------------
+  // CONSTANTS
+  // --------------------------------------------------------------
+
+  /**
+   * Operator type for descending ordering.
+   *
+   * @var integer
+   */
+  const DESC = 0;
+
+  /**
+   * Operator type for ascending ordering.
+   *
+   * @var integer
+   */
+  const ASC = 1;
+
+  // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
 
@@ -19,7 +37,7 @@ interface GetConnectorInterface extends ConnectorInterface {
    * @param string $connector_id
    *   The name of the GetConnector.
    * @param array $options
-   *   Options for getting the data.
+   *   (optional) Options for getting the data.
    *
    * @return \Afas\Core\Result\ResultInterface
    *   The result of the call.
@@ -48,5 +66,16 @@ interface GetConnectorInterface extends ConnectorInterface {
    *   Defaults to take all records.
    */
   public function setRange($skip, $take = -1);
+
+  /**
+   * Sets the list of fields to order on.
+   *
+   * @param array $order
+   *   An associative array whose keys are the fields to order, and the values
+   *   are the direction to order. This may be:
+   *   - 'ASC' or 1 for ascending;
+   *   - 'DESC' or 0 for descending.
+   */
+  public function setOrder(array $order);
 
 }

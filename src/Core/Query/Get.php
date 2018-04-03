@@ -47,6 +47,16 @@ class Get extends Query implements GetInterface {
    */
   protected $length = -1;
 
+  /**
+   * The fields by which to order this query.
+   *
+   * This is an associative array. The keys are the fields to order, and the
+   * value is the direction to order, either ASC or DESC.
+   *
+   * @var array
+   */
+  protected $order = [];
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -75,6 +85,15 @@ class Get extends Query implements GetInterface {
   public function range($offset, $length = -1) {
     $this->offset = $offset;
     $this->length = $length;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function orderBy($field, $direction = 'ASC') {
+    $direction = strtoupper($direction) == 'DESC' ? 'DESC' : 'ASC';
+    $this->order[$field] = $direction;
     return $this;
   }
 
@@ -116,6 +135,7 @@ class Get extends Query implements GetInterface {
     $connector = new GetConnector($this->getClient(), $this->server);
     $connector->setFilterContainer($this->filterContainer);
     $connector->setRange($this->offset, $this->length);
+    $connector->setOrder($this->order);
     return $connector->getData($this->connectorId);
   }
 

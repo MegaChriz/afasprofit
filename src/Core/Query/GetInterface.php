@@ -24,6 +24,20 @@ interface GetInterface extends QueryInterface, FilterableInterface, GroupableInt
   public function range($offset, $length);
 
   /**
+   * Order by a specific field.
+   *
+   * @param string $field
+   *   The field on which to order.
+   * @param string $direction
+   *   The direction to sort. Legal values are "ASC" and "DESC". Any other value
+   *   will be converted to "ASC".
+   *
+   * @return \Afas\Core\Query\GetInterface
+   *   Returns current instance.
+   */
+  public function orderBy($field, $direction = 'ASC');
+
+  /**
    * Returns the used filter container.
    *
    * @return \Afas\Core\Filter\FilterContainerInterface

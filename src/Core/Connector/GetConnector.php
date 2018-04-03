@@ -137,6 +137,16 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
    */
   protected $take = -1;
 
+  /**
+   * The fields by which to order this query.
+   *
+   * This is an associative array. The keys are the fields to order, and the
+   * value is the direction to order, either 0 (descending) or 1 (ascending).
+   *
+   * @var array
+   */
+  protected $order = [];
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
@@ -154,15 +164,36 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
       'Metadata' => static::METADATA_TRUE,
       'Outputoptions' => static::OUTPUTOPTIONS_XML_MSDATA,
     ];
-    $options_str = '';
-    foreach ($options as $option => $value) {
-      $options_str .= "<$option>$value</$option>";
-    }
-    $arguments['options'] = "<options>$options_str</options>";
+
+    $arguments['options'] = $this->compileOptions($options);
 
     // Send request.
     $this->soapSendRequest('GetDataWithOptions', $arguments);
     return $this->getResult();
+  }
+
+  /**
+   * Compiles options for 'GetDataWithOptions' function.
+   *
+   * @param array $options
+   *   (optional) Options for getting the data.
+   *
+   * @return string
+   *   The compiled XML.
+   */
+  protected function compileOptions(array $options = []) {
+    if (!empty($this->order)) {
+      $options['Index'] = '';
+      foreach ($this->order as $field => $operator) {
+        $options['Index'] .= '<Field FieldId="' . $field . '" OperatorType="' . $operator . '"/>';
+      }
+    }
+
+    $options_str = '';
+    foreach ($options as $option => $value) {
+      $options_str .= "<$option>$value</$option>";
+    }
+    return "<options>$options_str</options>";
   }
 
   /**
@@ -195,6 +226,23 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   public function setRange($skip, $take = -1) {
     $this->skip = $skip;
     $this->take = $take;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setOrder(array $order) {
+    foreach ($order as $field => $direction) {
+      // Convert static::DESC to a string here cause a non-numeric string casted
+      // to an integer is always 0 in PHP.
+      if ($direction == 'DESC' || (string) $direction === (string) static::DESC) {
+        $direction = static::DESC;
+      }
+      else {
+        $direction = static::ASC;
+      }
+      $this->order[$field] = $direction;
+    }
   }
 
   // --------------------------------------------------------------
