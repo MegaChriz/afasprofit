@@ -148,6 +148,55 @@ class FilterContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::setCurrentGroup
+   * @covers ::currentGroup
+   * @covers ::removeGroup
+   */
+  public function testSetCurrentGroup() {
+    // Add a few groups.
+    $group1 = $this->container->group();
+    $group2 = $this->container->group();
+    $group3 = $this->container->group();
+    $group4 = $this->container->group();
+
+    $this->assertSame($group4, $this->callProtectedMethod($this->container, 'currentGroup'));
+
+    // Set group and assert current group.
+    $this->container->setCurrentGroup($group1);
+    $this->assertSame($group1, $this->callProtectedMethod($this->container, 'currentGroup'));
+
+    // Remove second group. Assert that first group is still active.
+    $this->container->removeGroup($group2);
+    $this->assertSame($group1, $this->callProtectedMethod($this->container, 'currentGroup'));
+
+    // Now remove first group as well and assert group 4 is now the active one.
+    $this->container->removeGroup($group1);
+    $this->assertSame($group4, $this->callProtectedMethod($this->container, 'currentGroup'));
+  }
+
+  /**
+   * @covers ::currentGroup
+   * @covers ::removeGroup
+   */
+  public function testCurrentGroup() {
+    $this->assertInstanceOf(FilterGroupInterface::class, $this->callProtectedMethod($this->container, 'currentGroup'));
+
+    // Add a group.
+    $group = $this->container->group();
+    $this->assertSame($group, $this->callProtectedMethod($this->container, 'currentGroup'));
+
+    // Add another group.
+    $group2 = $this->container->group();
+    $current_group = $this->callProtectedMethod($this->container, 'currentGroup');
+    $this->assertNotSame($group, $current_group);
+    $this->assertSame($group2, $current_group);
+
+    // Remove the second group.
+    $this->container->removeGroup($group2);
+    $this->assertSame($group, $this->callProtectedMethod($this->container, 'currentGroup'));
+  }
+
+  /**
    * @covers ::compile
    */
   public function testCompileWithoutFilters() {

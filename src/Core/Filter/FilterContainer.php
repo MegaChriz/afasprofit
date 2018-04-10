@@ -20,6 +20,13 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
    */
   private $factory;
 
+  /**
+   * The current group.
+   *
+   * @var \Afas\Core\Filter\FilterGroupInterface
+   */
+  private $currentGroup;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
@@ -67,6 +74,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     }
     $group = $this->factory->createFilterGroup($name);
     $this->addItem($group, $group->getName());
+    $this->setCurrentGroup($group);
     return $group;
   }
 
@@ -82,6 +90,9 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
       $name = $group;
     }
     $this->removeItem($name);
+    if ($this->currentGroup === $group) {
+      $this->currentGroup = NULL;
+    }
     return $this;
   }
 
@@ -92,20 +103,29 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     $this->factory = $factory;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function setCurrentGroup(FilterGroupInterface $group) {
+    $this->currentGroup = $group;
+  }
+
   // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
 
   /**
    * Returns current group.
-   *
-   * @todo Test if this actually works.
-   * @todo This should be improved. The pointer can't be set at all.
    */
   protected function currentGroup() {
     if (!$this->count()) {
       return $this->group();
     }
+    elseif (isset($this->currentGroup)) {
+      return $this->currentGroup;
+    }
+
+    // Return the last group.
     $items = $this->getItems();
     return end($items);
   }

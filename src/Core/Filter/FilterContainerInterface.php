@@ -12,9 +12,17 @@ interface FilterContainerInterface extends CompilableInterface, FilterableInterf
   /**
    * Sets the factory that generates the objects.
    *
-   * @param FilterFactoryInterface $factory
+   * @param \Afas\Core\Filter\FilterFactoryInterface $factory
    *   The factory that generates filter and filter group objects.
    */
   public function setFactory(FilterFactoryInterface $factory);
+
+  /**
+   * Sets the current active group on the container.
+   *
+   * @param \Afas\Core\Filter\FilterGroupInterface $group
+   *   The group to set as the current active group.
+   */
+  public function setCurrentGroup(FilterGroupInterface $group);
 
 }
