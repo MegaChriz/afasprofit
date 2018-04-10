@@ -839,20 +839,6 @@ class EntityTest extends TestBase {
   }
 
   /**
-   * @covers ::save
-   */
-  public function testSave() {
-    // @todo
-  }
-
-  /**
-   * @covers ::delete
-   */
-  public function testDelete() {
-    // @todo
-  }
-
-  /**
    * @covers ::compile
    */
   public function testCompile() {

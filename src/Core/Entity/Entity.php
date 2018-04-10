@@ -440,16 +440,6 @@ class Entity implements EntityWithMappingInterface {
   /**
    * {@inheritdoc}
    */
-  public function save() {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public function delete() {}
-
-  /**
-   * {@inheritdoc}
-   */
   public function compile() {
     if ($this->isValidationEnabled()) {
       // Validation *must* pass.

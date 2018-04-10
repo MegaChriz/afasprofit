@@ -208,33 +208,4 @@ interface EntityInterface extends EntityContainerInterface {
    */
   public function setParent(EntityContainerInterface $container);
 
-  // --------------------------------------------------------------
-  // ACTION
-  // --------------------------------------------------------------
-
-  /**
-   * Saves an entity permanently.
-   *
-   * When saving existing entities, the entity is assumed to be complete,
-   * partial updates of entities are not supported.
-   *
-   * @return int
-   *   Either SAVED_NEW or SAVED_UPDATED, depending on the operation performed.
-   *
-   * @throws \...Exception
-   *   In case of failures an exception is thrown.
-   *
-   * @todo Child entities can probably not be saved.
-   * @todo Because of above, move to other interface?
-   */
-  public function save();
-
-  /**
-   * Deletes an entity permanently.
-   *
-   * @throws \...Exception
-   *   In case of failures an exception is thrown.
-   */
-  public function delete();
-
 }
