@@ -79,10 +79,14 @@ abstract class Relation extends Entity {
   public function validate() {
     $errors = parent::validate();
 
-    // If the entity has an address, but no postal address then set 'PadAdr' to
-    // TRUE.
-    if ($this->getAddress('address') && !$this->getAddress('postal_address')) {
-      $this->setField('PadAdr', TRUE);
+    switch ($this->getAction()) {
+      case static::FIELDS_INSERT:
+        // If the entity has an address, but no postal address then set 'PadAdr'
+        // to TRUE, though only when inserting.
+        if ($this->getAddress('address') && !$this->getAddress('postal_address')) {
+          $this->setField('PadAdr', TRUE);
+        }
+        break;
     }
 
     return $errors;
