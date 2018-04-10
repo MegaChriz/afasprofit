@@ -3,6 +3,8 @@
 namespace Afas\Tests\Core\Filter;
 
 use Afas\Core\Filter\FilterContainer;
+use Afas\Core\Filter\FilterFactoryInterface;
+use Afas\Core\Filter\FilterGroupInterface;
 use Afas\Tests\TestBase;
 
 /**
@@ -19,29 +21,28 @@ class FilterContainerTest extends TestBase {
   private $container;
 
   /**
-   * A filter group.
-   *
-   * @var \Afas\Core\Filter\FilterGroupInterface
-   */
-  private $group;
-
-  /**
-   * Setup.
+   * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
-    $filter = $this->getMock('Afas\Core\Filter\FilterInterface');
-    $this->group = $this->getMock('Afas\Core\Filter\FilterGroupInterface');
-    $factory = $this->getMock('Afas\Core\Filter\FilterFactoryInterface');
 
-    $factory->expects($this->any())
-      ->method('createFilter')
-      ->will($this->returnValue($filter));
+    $this->container = new FilterContainer();
+  }
+
+  /**
+   * @covers ::__construct
+   * @covers ::group
+   */
+  public function testConstruct() {
+    $group = $this->getMock(FilterGroupInterface::class);
+    $factory = $this->getMock(FilterFactoryInterface::class);
+
     $factory->expects($this->any())
       ->method('createFilterGroup')
-      ->will($this->returnValue($this->group));
+      ->will($this->returnValue($group));
 
-    $this->container = new FilterContainer($factory);
+    $container = new FilterContainer($factory);
+    $this->assertSame($group, $container->group());
   }
 
   /**
@@ -52,10 +53,98 @@ class FilterContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::removeFilter
+   * @covers ::getFilters
+   */
+  public function testRemoveFilter() {
+    $this->container->filter('item_id');
+    $this->assertCount(1, $this->container->getFilters());
+
+    $this->assertSame($this->container, $this->container->removeFilter(0));
+    $this->assertEquals([], $this->container->getFilters());
+  }
+
+  /**
+   * @covers ::removeFilter
+   * @covers ::getFilters
+   */
+  public function testRemoveFilterWithMultipleFilters() {
+    $this->container->filter('item_id');
+    $this->container->filter('name');
+    $this->container->filter('foo');
+    $filters = $this->container->getFilters();
+    $this->assertCount(3, $filters);
+    $this->assertEquals('item_id', $filters[0]->field);
+    $this->assertEquals('name', $filters[1]->field);
+    $this->assertEquals('foo', $filters[2]->field);
+
+    $this->assertSame($this->container, $this->container->removeFilter(1));
+    $this->assertSame([0 => $filters[0], 2 => $filters[2]], $this->container->getFilters());
+  }
+
+  /**
    * @covers ::group
    */
   public function testGroup() {
-    $this->assertSame($this->group, $this->container->group());
+    $this->assertInstanceOf(FilterGroupInterface::class, $this->container->group());
+  }
+
+  /**
+   * @covers ::removeGroup
+   * @covers ::getGroups
+   */
+  public function testRemoveGroup() {
+    $group = $this->container->group();
+    $this->assertEquals(['Filter 1' => $group], $this->container->getGroups());
+
+    // Remove group.
+    $this->assertSame($this->container, $this->container->removeGroup($group));
+    $this->assertEquals([], $this->container->getGroups());
+  }
+
+  /**
+   * @covers ::removeGroup
+   * @covers ::getGroups
+   */
+  public function testRemoveGroupWithTwoGroups() {
+    $group1 = $this->container->group();
+    $group2 = $this->container->group();
+    $this->assertEquals(['Filter 1' => $group1, 'Filter 2' => $group2], $this->container->getGroups());
+
+    // Remove group.
+    $this->assertSame($this->container, $this->container->removeGroup($group1));
+    $this->assertEquals(['Filter 2' => $group2], $this->container->getGroups());
+  }
+
+  /**
+   * @covers ::removeGroup
+   * @covers ::getGroups
+   */
+  public function testRemoveGroupByName() {
+    $group1 = $this->container->group();
+    $group2 = $this->container->group();
+    $this->assertEquals(['Filter 1' => $group1, 'Filter 2' => $group2], $this->container->getGroups());
+
+    // Remove group.
+    $this->assertSame($this->container, $this->container->removeGroup('Filter 1'));
+    $this->assertEquals(['Filter 2' => $group2], $this->container->getGroups());
+  }
+
+  /**
+   * @covers ::setFactory
+   * @covers ::group
+   */
+  public function testSetFactory() {
+    $group = $this->getMock(FilterGroupInterface::class);
+    $factory = $this->getMock(FilterFactoryInterface::class);
+
+    $factory->expects($this->any())
+      ->method('createFilterGroup')
+      ->will($this->returnValue($group));
+
+    $this->assertNotSame($group, $this->container->group());
+    $this->container->setFactory($factory);
+    $this->assertSame($group, $this->container->group());
   }
 
   /**
@@ -70,8 +159,24 @@ class FilterContainerTest extends TestBase {
    */
   public function testCompileWithFilters() {
     $this->container->filter('item_id');
-    $expected = '<Filters></Filters>';
+    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="8"/></Filter></Filters>';
     $this->assertXmlStringEqualsXmlString($expected, $this->container->compile());
+  }
+
+  /**
+   * @covers ::__toString
+   */
+  public function testToStringWithoutFilters() {
+    $this->assertEquals('', (string) $this->container);
+  }
+
+  /**
+   * @covers ::__toString
+   */
+  public function testToStringWithFilters() {
+    $this->container->filter('item_id');
+    $expected = '<Filters><Filter FilterId="Filter 1"><Field FieldId="item_id" OperatorType="8"/></Filter></Filters>';
+    $this->assertXmlStringEqualsXmlString($expected, (string) $this->container);
   }
 
 }

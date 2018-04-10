@@ -33,4 +33,12 @@ interface FilterableInterface {
    */
   public function removeFilter($index);
 
+  /**
+   * Returns a list of configured filters.
+   *
+   * @return \Afas\Core\Filter\FilterableInterface[]
+   *   A list of filters.
+   */
+  public function getFilters();
+
 }

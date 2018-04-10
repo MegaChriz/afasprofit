@@ -110,6 +110,20 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
     return end($items);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getFilters() {
+    return $this->currentGroup()->getFilters();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getGroups() {
+    return $this->getItems();
+  }
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
@@ -131,7 +145,7 @@ class FilterContainer extends ItemList implements FilterContainerInterface {
   /**
    * Implements PHP magic __toString().
    *
-   * Converts the filter group to a string.
+   * Converts the filter container to a string.
    *
    * @return string
    *   A string version of the filter container.

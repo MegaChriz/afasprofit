@@ -2,7 +2,10 @@
 
 namespace Afas\Tests\Core\Filter;
 
+use Afas\Core\Filter\FilterFactory;
+use Afas\Core\Filter\FilterFactoryInterface;
 use Afas\Core\Filter\FilterGroup;
+use Afas\Core\Filter\FilterInterface;
 use Afas\Tests\TestBase;
 
 /**
@@ -19,25 +22,28 @@ class FilterGroupTest extends TestBase {
   private $group;
 
   /**
-   * A filter.
-   *
-   * @var \Afas\Core\Filter\FilterContainerInterface
-   */
-  private $filter;
-
-  /**
-   * Setup.
+   * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
-    $this->filter = $this->getMock('Afas\Core\Filter\FilterInterface');
-    $factory = $this->getMock('Afas\Core\Filter\FilterFactoryInterface');
+
+    $this->group = new FilterGroup('my_name', new FilterFactory());
+  }
+
+  /**
+   * @covers ::__construct
+   */
+  public function testConstruct() {
+    $filter = $this->getMock(FilterInterface::class);
+    $factory = $this->getMock(FilterFactoryInterface::class);
 
     $factory->expects($this->any())
       ->method('createFilter')
-      ->will($this->returnValue($this->filter));
+      ->will($this->returnValue($filter));
 
-    $this->group = new FilterGroup('my_name', $factory);
+    $group = new FilterGroup('my_name', $factory);
+    $group->filter('item_id');
+    $this->assertSame([$filter], $group->getFilters());
   }
 
   /**
@@ -45,6 +51,18 @@ class FilterGroupTest extends TestBase {
    */
   public function testFilter() {
     $this->assertSame($this->group, $this->group->filter('item_id'));
+  }
+
+  /**
+   * @covers ::removeFilter
+   * @covers ::getFilters
+   */
+  public function testRemoveFilter() {
+    $this->group->filter('item_id');
+    $this->assertCount(1, $this->group->getFilters());
+
+    $this->assertSame($this->group, $this->group->removeFilter(0));
+    $this->assertEquals([], $this->group->getFilters());
   }
 
   /**
@@ -66,8 +84,24 @@ class FilterGroupTest extends TestBase {
    */
   public function testCompileWithFilters() {
     $this->group->filter('item_id');
-    $expected = '<Filter FilterId="my_name"></Filter>';
+    $expected = '<Filter FilterId="my_name"><Field FieldId="item_id" OperatorType="8"/></Filter>';
     $this->assertXmlStringEqualsXmlString($expected, $this->group->compile());
+  }
+
+  /**
+   * @covers ::__toString
+   */
+  public function testToStringWithoutFilters() {
+    $this->assertEquals('', (string) $this->group);
+  }
+
+  /**
+   * @covers ::__toString
+   */
+  public function testToStringWithFilters() {
+    $this->group->filter('item_id');
+    $expected = '<Filter FilterId="my_name"><Field FieldId="item_id" OperatorType="8"/></Filter>';
+    $this->assertXmlStringEqualsXmlString($expected, (string) $this->group);
   }
 
 }

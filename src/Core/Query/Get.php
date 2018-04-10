@@ -150,4 +150,18 @@ class Get extends Query implements GetInterface {
     return $this->filterContainer;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getFilters() {
+    return $this->getFilterContainer()->getFilters();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getGroups() {
+    return $this->getFilterContainer()->getGroups();
+  }
+
 }

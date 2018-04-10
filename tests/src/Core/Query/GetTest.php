@@ -88,4 +88,41 @@ class GetTest extends QueryTestBase {
     $this->assertInstanceOf(FilterContainerInterface::class, $this->query->getFilterContainer());
   }
 
+  /**
+   * @covers ::getFilters
+   */
+  public function testGetFilters() {
+    $this->assertEquals([], $this->query->getFilters());
+
+    // Add a filter.
+    $this->query->filter('item_id', 'x', 'like');
+    $this->assertCount(1, $this->query->getFilters());
+
+    // Add a few other filters.
+    $this->query->filter('foo', 'bar');
+    $this->query->filter('baz', 'qux');
+    $this->assertCount(3, $this->query->getFilters());
+  }
+
+  /**
+   * @covers ::getGroups
+   */
+  public function testGetGroups() {
+    $this->assertEquals([], $this->query->getGroups());
+
+    // Add a group.
+    $group1 = $this->query->group();
+    $this->assertEquals(['Filter 1' => $group1], $this->query->getGroups());
+
+    // Add a few other groups.
+    $group2 = $this->query->group();
+    $group3 = $this->query->group();
+    $expected = [
+      'Filter 1' => $group1,
+      'Filter 2' => $group2,
+      'Filter 3' => $group3,
+    ];
+    $this->assertEquals($expected, $this->query->getGroups());
+  }
+
 }

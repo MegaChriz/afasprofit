@@ -78,6 +78,13 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
     return $this->name;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getFilters() {
+    return $this->getItems();
+  }
+
   // --------------------------------------------------------------
   // ACTION
   // --------------------------------------------------------------
@@ -105,7 +112,8 @@ class FilterGroup extends ItemList implements FilterGroupInterface {
    *   A string version of the filter group.
    */
   public function __toString() {
-    return $this->compile();
+    $compiled = $this->compile();
+    return !is_null($compiled) ? $compiled : '';
   }
 
 }

@@ -32,4 +32,12 @@ interface GroupableInterface {
    */
   public function removeGroup($group);
 
+  /**
+   * Returns a list of configured filter groups.
+   *
+   * @return \Afas\Core\Filter\FilterGroupInterface[]
+   *   A list of filter groups.
+   */
+  public function getGroups();
+
 }
