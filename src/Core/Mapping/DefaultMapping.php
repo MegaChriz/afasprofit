@@ -266,6 +266,8 @@ class DefaultMapping extends MappingBase implements EntityMappingInterface {
       case 'KnSalesRelationOrg':
       case 'KnSalesRelationPer':
         return [
+          'customer_id' => 'DbId',
+          'sales_relation' => 'DbId',
           'vat_number' => 'VaId',
           'currency_code' => 'CuId',
           'verzamelreking_debiteur' => 'ColA',
