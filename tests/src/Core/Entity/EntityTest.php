@@ -582,16 +582,41 @@ class EntityTest extends TestBase {
 
   /**
    * @covers ::setAction
+   * @covers ::compile
    */
-  public function testSetAction() {
+  public function testSetActionWithUpdate() {
     $this->entity->setAction(EntityInterface::FIELDS_UPDATE);
+    $expected = '<DummyEntityType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="update">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Element>
+    </DummyEntityType>';
+    $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
   }
 
   /**
    * @covers ::setAction
-   * @expectedException InvalidArgumentException
+   * @covers ::compile
+   */
+  public function testSetActionWithDelete() {
+    $this->entity->setAction(EntityInterface::FIELDS_DELETE);
+    $expected = '<DummyEntityType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="delete">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Element>
+    </DummyEntityType>';
+    $this->assertXmlStringEqualsXmlString($expected, $this->entity->compile());
+  }
+
+  /**
+   * @covers ::setAction
    */
   public function testSetInvalidAction() {
+    $this->setExpectedException(InvalidArgumentException::class);
     $this->entity->setAction('Qux');
   }
 
