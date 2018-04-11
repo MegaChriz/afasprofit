@@ -3,6 +3,7 @@
 namespace Afas\Core\Entity\Plugin;
 
 use Afas\Core\Entity\EntityInterface;
+use Afas\Core\Exception\UndefinedParentException;
 use InvalidArgumentException;
 
 /**
@@ -98,24 +99,35 @@ class KnContact extends Relation {
     switch ($this->getAction()) {
       case static::FIELDS_UPDATE:
       case static::FIELDS_DELETE:
-        // Identication of a contact is required.
-        $id_fields = [
-          'BcCoPer',
-          'CdId',
-          'ExAd',
-        ];
-        $found = FALSE;
-        foreach ($id_fields as $id_field) {
-          if ($this->getField($id_field)) {
-            // Identification is okay. Break out of the loop.
-            $found = TRUE;
-            break;
-          }
+        try {
+          $parent = $this->getParent()->getType();
         }
-        if (!$found) {
-          $errors[] = strtr('When updating or deleting a contact, one of the following fields is required: !fields.', [
-            '!fields' => implode(', ', $id_fields),
-          ]);
+        catch (UndefinedParentException $exception) {
+          // Parent may not be set. That's okay.
+          $parent = NULL;
+        }
+
+        // Identification of a contact is required, unless KnOrganisation is
+        // parent.
+        if ($parent != 'KnOrganisation') {
+          $id_fields = [
+            'BcCoPer',
+            'CdId',
+            'ExAd',
+          ];
+          $found = FALSE;
+          foreach ($id_fields as $id_field) {
+            if ($this->getField($id_field)) {
+              // Identification is okay. Break out of the loop.
+              $found = TRUE;
+              break;
+            }
+          }
+          if (!$found) {
+            $errors[] = strtr('When updating or deleting a contact, one of the following fields is required: !fields.', [
+              '!fields' => implode(', ', $id_fields),
+            ]);
+          }
         }
 
         break;

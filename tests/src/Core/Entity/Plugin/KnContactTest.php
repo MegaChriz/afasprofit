@@ -205,4 +205,17 @@ class KnContactTest extends PluginTestBase {
     ];
   }
 
+  /**
+   * Tests that for a contact inside an organisation, 'BcCoPer' is not required.
+   *
+   * @covers ::validate
+   */
+  public function testValidateWithKnOrganisation() {
+    $organisation = new Entity([], 'KnOrganisation');
+    $organisation->addObject($this->entity);
+
+    $this->entity->setAction(KnContact::FIELDS_UPDATE);
+    $this->assertEquals([], $this->entity->validate());
+  }
+
 }
