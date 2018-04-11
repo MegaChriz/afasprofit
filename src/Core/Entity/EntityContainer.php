@@ -71,6 +71,13 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function removeObject(EntityInterface $entity) {
+    $this->removeItem(spl_object_hash($entity));
+  }
+
+  /**
    * Sets the factory that generates the objects.
    *
    * @param \Afas\Core\Entity\EntityManagerInterface $manager

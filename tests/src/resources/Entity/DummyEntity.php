@@ -148,6 +148,11 @@ class DummyEntity implements EntityInterface {
   /**
    * {@inheritdoc}
    */
+  public function removeObject(EntityInterface $entity) {}
+
+  /**
+   * {@inheritdoc}
+   */
   public function fromArray(array $data) {}
 
   /**

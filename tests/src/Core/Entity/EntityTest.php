@@ -581,6 +581,17 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::removeObject
+   */
+  public function testRemoveObject() {
+    $entity2 = new Entity([], 'Dummy2');
+    $this->entity->addObject($entity2);
+    $this->assertCount(1, $this->entity->getObjects());
+    $this->entity->removeObject($entity2);
+    $this->assertEquals([], $this->entity->getObjects());
+  }
+
+  /**
    * @covers ::setAction
    * @covers ::compile
    */

@@ -320,6 +320,13 @@ class Entity implements EntityWithMappingInterface {
   /**
    * {@inheritdoc}
    */
+  public function removeObject(EntityInterface $entity) {
+    unset($this->objects[spl_object_hash($entity)]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function fromArray(array $data) {
     foreach ($data as $key => $value) {
       if (is_scalar($value)) {

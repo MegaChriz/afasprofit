@@ -38,6 +38,17 @@ interface EntityContainerInterface extends CompilableInterface {
   public function addObject(EntityInterface $entity);
 
   /**
+   * Removes a child object by giving an instance of EntityInterface.
+   *
+   * @param \Afas\Core\Entity\EntityInterface $entity
+   *   The entity to remove.
+   *
+   * @return $this
+   *   An instance of this class.
+   */
+  public function removeObject(EntityInterface $entity);
+
+  /**
    * Sets field action.
    *
    * @param string $action

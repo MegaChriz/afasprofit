@@ -102,6 +102,16 @@ class EntityContainerTest extends TestBase {
   }
 
   /**
+   * @covers ::removeObject
+   */
+  public function testRemoveObject() {
+    $this->container->addObject($this->entity);
+    $this->assertCount(1, $this->container->getObjects());
+    $this->container->removeObject($this->entity);
+    $this->assertEquals([], $this->container->getObjects());
+  }
+
+  /**
    * Ensure only EntityInterface objects can be added to the entity container.
    *
    * @covers ::addItem
