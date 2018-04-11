@@ -484,6 +484,44 @@ class EntityTest extends TestBase {
   }
 
   /**
+   * @covers ::removeField
+   * @covers ::getField
+   * @covers ::toArray
+   */
+  public function testRemoveFieldWithMapping() {
+    $entity = $this->getMock(Entity::class, ['map'], [
+      [],
+      'DummyEntityType',
+    ]);
+
+    // 'Foo' is an alias for 'Bar' and 'Baz'. Other values return themselves.
+    $entity->expects($this->any())
+      ->method('map')
+      ->will($this->returnValueMap([
+        ['Foo', ['Bar', 'Baz']],
+        ['Bar', ['Bar']],
+        ['Baz', ['Baz']],
+        ['Hello', ['Hello']],
+      ]));
+
+    // Set values. Make sure the value map set above works as expected.
+    $expected = [
+      'Bar' => 'Qux',
+      'Baz' => 'Qux',
+      'Hello' => 'World',
+    ];
+    $entity->fromArray($expected);
+    $this->assertEquals($expected, $entity->toArray());
+
+    // Now remove field by using the alias name.
+    $entity->removeField('Foo');
+    $expected = [
+      'Hello' => 'World',
+    ];
+    $this->assertEquals($expected, $entity->toArray());
+  }
+
+  /**
    * @covers ::setAttribute
    * @covers ::toArray
    */

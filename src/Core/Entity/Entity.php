@@ -278,7 +278,10 @@ class Entity implements EntityWithMappingInterface {
    * {@inheritdoc}
    */
   public function removeField($field_name) {
-    unset($this->fields[$field_name]);
+    $keys = $this->map($field_name);
+    foreach ($keys as $key) {
+      unset($this->fields[$key]);
+    }
   }
 
   /**
