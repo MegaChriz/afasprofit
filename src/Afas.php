@@ -9,8 +9,10 @@ use Afas\Core\Mapping\EntityMappingFactory;
 use Afas\Core\Locale\CountryManager;
 use Afas\Core\Soap\DefaultSoapClientFactory;
 use Afas\Core\XSD\SchemaManager;
+use LogicException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
 
 /**
  * Static Service Container wrapper.
@@ -82,6 +84,47 @@ class Afas {
   }
 
   /**
+   * Returns whether or not the symfony event dispatcher component is installed.
+   *
+   * @return bool
+   *   True if it is installed. False otherwise.
+   */
+  public static function hasEventDispatcher() {
+    return class_exists('\Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher');
+  }
+
+  /**
+   * Adds a subscriber service.
+   *
+   * @param string $id
+   *   The service identifier.
+   * @param string $class
+   *   The service class.
+   *
+   * @return \Symfony\Component\DependencyInjection\Definition
+   *   The created service definition.
+   *
+   * @throws \LogicException
+   *   In case the symfony event dispatcher component is not installed.
+   */
+  public static function addSubscriberService($id, $class) {
+    if (!static::hasEventDispatcher()) {
+      throw new LogicException('The symfony event dispatcher component is not installed.');
+    }
+
+    $container = static::getContainer();
+
+    // Register service.
+    $definition = $container->register($id, $class);
+
+    // Add subscriber.
+    $container->getDefinition('event_dispatcher')
+      ->addMethodCall('addSubscriberService', [$id, $class]);
+
+    return $definition;
+  }
+
+  /**
    * Instantiates a container with default services.
    */
   public static function setDefaultContainer() {
@@ -93,6 +136,12 @@ class Afas {
     $container->register('afas.country.manager', CountryManager::class);
     $container->register('afas.soap_client_factory', DefaultSoapClientFactory::class);
     $container->register('afas.xsd_schema.manager', SchemaManager::class);
+
+    // Optionally add event dispatcher.
+    if (static::hasEventDispatcher()) {
+      $container->register('event_dispatcher', ContainerAwareEventDispatcher::class)
+        ->setArguments([$container]);
+    }
 
     static::setContainer($container);
   }

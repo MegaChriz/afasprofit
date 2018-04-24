@@ -2,7 +2,10 @@
 
 namespace Afas\Core\Connector;
 
+use Afas\Afas;
 use Afas\Component\Soap\SoapClientInterface;
+use Afas\Core\Event\AfasEvents;
+use Afas\Core\Event\SendRequestEvent;
 use Afas\Core\ServerInterface;
 use SoapParam;
 
@@ -145,6 +148,12 @@ abstract class ConnectorBase implements ConnectorInterface {
     $options += [
       'soapaction' => $this->server->getUri() . '/' . $function,
     ];
+
+    // Dispatch event.
+    if (Afas::hasEventDispatcher()) {
+      $event = new SendRequestEvent($this, $function, $arguments, $options);
+      Afas::service('event_dispatcher')->dispatch(AfasEvents::SEND_REQUEST, $event);
+    }
 
     // Finally, send the request!
     $this->lastFunction = $function;

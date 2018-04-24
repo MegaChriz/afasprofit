@@ -23,6 +23,7 @@
         "kzykhys/php-csv-parser": "~1.4"
     },
     "suggest": {
+        "symfony/event-dispatcher": "To react on Profit calls.",
         "kzykhys/php-csv-parser": "To use the getListFromCsv() method from the service 'afas.country.manager'."
     },
     "minimum-stability": "beta",
