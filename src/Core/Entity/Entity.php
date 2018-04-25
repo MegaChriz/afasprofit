@@ -132,7 +132,7 @@ class Entity implements EntityWithMappingInterface {
    * {@inheritdoc}
    */
   public function fieldExists($name) {
-    if (isset($this->fields[$name])) {
+    if (array_key_exists($name, $this->fields)) {
       return TRUE;
     }
     return FALSE;
@@ -269,7 +269,12 @@ class Entity implements EntityWithMappingInterface {
       if (is_bool($value)) {
         $value = (int) $value;
       }
-      $this->fields[$key] = (string) $value;
+      if (!is_null($value)) {
+        $this->fields[$key] = (string) $value;
+      }
+      else {
+        $this->fields[$key] = NULL;
+      }
     }
     return $this;
   }
@@ -332,7 +337,7 @@ class Entity implements EntityWithMappingInterface {
    */
   public function fromArray(array $data) {
     foreach ($data as $key => $value) {
-      if (is_scalar($value)) {
+      if (is_scalar($value) || is_null($value)) {
         $this->setField($key, $value);
       }
       elseif (is_array($value)) {

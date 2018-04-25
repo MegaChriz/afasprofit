@@ -306,6 +306,11 @@ class EntityValidatorTest extends TestBase {
         ["Unknown property 'FooBar' in 'DummyEntityType'."],
       ],
       [
+        // Unknown property with null value.
+        ['FooBar' => NULL],
+        ["Unknown property 'FooBar' in 'DummyEntityType'."],
+      ],
+      [
         // Not a scalar value.
         ['Foo' => []],
         ["The property 'Foo' of 'DummyEntityType' must be scalar."],
@@ -319,6 +324,11 @@ class EntityValidatorTest extends TestBase {
         // Max length.
         ['Foo' => str_pad('', 16, 'x')],
         ["The property 'Foo' of 'DummyEntityType' must be no longer than 15 chars long."],
+      ],
+      [
+        // Null.
+        ['Foo' => NULL, 'Bar' => NULL, 'Baz' => NULL],
+        [],
       ],
       [
         // Boolean.

@@ -130,6 +130,11 @@ class EntityValidator implements EntityValidatorInterface {
       '!value' => @(string) $value,
     ];
 
+    if (is_null($value)) {
+      // No further validation needed for this field.
+      return $errors;
+    }
+
     if (!is_scalar($value)) {
       $errors[] = strtr("The property '!property' of '!type' must be scalar.", $common_args);
 
