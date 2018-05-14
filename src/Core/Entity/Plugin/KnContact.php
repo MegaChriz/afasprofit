@@ -96,17 +96,22 @@ class KnContact extends Relation {
       $errors[] = 'A KnContact object may not contain more than one KnPerson object.';
     }
 
+    try {
+      $parent = $this->getParent()->getType();
+    }
+    catch (UndefinedParentException $exception) {
+      // Parent may not be set. That's okay.
+      $parent = NULL;
+    }
+
+    if ($parent == 'KnOrganisation') {
+      // When parent is KnOrganisation, CdId is not available.
+      $this->removeField('CdId');
+    }
+
     switch ($this->getAction()) {
       case static::FIELDS_UPDATE:
       case static::FIELDS_DELETE:
-        try {
-          $parent = $this->getParent()->getType();
-        }
-        catch (UndefinedParentException $exception) {
-          // Parent may not be set. That's okay.
-          $parent = NULL;
-        }
-
         // Identification of a contact is required, unless KnOrganisation is
         // parent.
         if ($parent != 'KnOrganisation') {
@@ -129,7 +134,6 @@ class KnContact extends Relation {
             ]);
           }
         }
-
         break;
     }
 

@@ -73,8 +73,13 @@ class EntityValidator implements EntityValidatorInterface {
         // Stop here. No need to validate more rules for this type.
         return $errors;
       }
+    }
 
-      // Check fields.
+    // Validate against entity's own rules.
+    $errors = array_merge($errors, $entity->validate());
+
+    // Validate fields.
+    if (!empty($schema)) {
       foreach ($entity->getFields() as $name => $value) {
         if (!isset($schema[$entity_type]['Element']['Fields'][$name])) {
           $errors[] = strtr("Unknown property '!property' in '!type'.", [
@@ -89,9 +94,6 @@ class EntityValidator implements EntityValidatorInterface {
         $errors = array_merge($errors, $this->validateField($entity, $schema[$entity_type]['Element']['Fields'][$name], $name, $value));
       }
     }
-
-    // Validate against entity's own rules.
-    $errors = array_merge($errors, $entity->validate());
 
     // Validate child objects.
     foreach ($entity->getObjects() as $entity) {

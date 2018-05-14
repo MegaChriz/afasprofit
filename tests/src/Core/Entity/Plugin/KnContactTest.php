@@ -218,4 +218,19 @@ class KnContactTest extends PluginTestBase {
     $this->assertEquals([], $this->entity->validate());
   }
 
+  /**
+   * Tests that CdId is removed for a contact inside an organisation.
+   *
+   * @covers ::validate
+   */
+  public function testCdIdRemovalWithKnOrganisation() {
+    $organisation = new Entity([], 'KnOrganisation');
+    $organisation->addObject($this->entity);
+
+    $this->entity->setField('CdId', 1234);
+    $this->entity->validate();
+
+    $this->assertFalse($this->entity->fieldExists('CdId'));
+  }
+
 }
