@@ -2,6 +2,7 @@
 
 namespace Afas\Core\Filter;
 
+use DOMDocument;
 use InvalidArgumentException;
 
 /**
@@ -98,13 +99,22 @@ class Filter implements FilterInterface {
    *   The filter as XML.
    */
   public function compile() {
-    if (is_null($this->value) || $this->value === '') {
-      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '" />';
+    $doc = new DOMDocument();
+    $field = $doc->createElement('Field');
+    $doc->appendChild($field);
+
+    // Set field ID and operator.
+    $field->setAttribute('FieldId', $this->field);
+    $field->setAttribute('OperatorType', $this->operator);
+
+    // Set value, if there is one.
+    if (!is_null($this->value) && $this->value !== '') {
+      $text = $doc->createTextNode($this->value);
+      $field->appendChild($text);
     }
-    else {
-      $output = '<Field FieldId="' . $this->field . '" OperatorType="' . $this->operator . '">' . $this->value . '</Field>';
-    }
-    return $output;
+
+    // Return XML as string.
+    return $doc->saveXML($field);
   }
 
   /**

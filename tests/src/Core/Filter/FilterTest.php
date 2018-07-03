@@ -77,6 +77,39 @@ class FilterTest extends TestBase {
   }
 
   /**
+   * @covers ::compile
+   * @dataProvider filterDataProvider
+   */
+  public function testCompileWithSpecialChars($expected, $value = NULL, $operator = NULL) {
+    $filter = new Filter('item_id', $value, $operator);
+    $this->assertXmlStringEqualsXmlString($expected, $filter->compile());
+  }
+
+  /**
+   * Data provider for testCompileWithSpecialChars().
+   */
+  public function filterDataProvider() {
+    return [
+      [
+        '<Field FieldId="item_id" OperatorType="1">F&amp;C</Field>',
+        'F&C',
+      ],
+      [
+        '<Field FieldId="item_id" OperatorType="1">é</Field>',
+        'é',
+      ],
+      [
+        '<Field FieldId="item_id" OperatorType="1">&lt;</Field>',
+        '<',
+      ],
+      [
+        '<Field FieldId="item_id" OperatorType="1">&#x3B2;</Field>',
+        'β',
+      ],
+    ];
+  }
+
+  /**
    * @covers ::__toString
    */
   public function testToString() {
