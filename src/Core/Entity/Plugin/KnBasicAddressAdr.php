@@ -4,6 +4,7 @@ namespace Afas\Core\Entity\Plugin;
 
 use Afas\Afas;
 use Afas\Core\Entity\Entity;
+use UnexpectedValueException;
 
 /**
  * Class for a KnBasicAddressAdr entity.
@@ -64,25 +65,28 @@ class KnBasicAddressAdr extends Entity {
         break;
 
       case 'CoId':
-        if (is_numeric($value)) {
-          /** @var \Afas\Core\Locale\CountryManagerInterface $country_manager */
-          $country_manager = Afas::service('afas.country.manager');
+        /** @var \Afas\Core\Locale\CountryManagerInterface $country_manager */
+        $country_manager = Afas::service('afas.country.manager');
 
+        if (is_numeric($value)) {
           // Lookup country.
           $countries = $country_manager->getListNum3toIso2();
           if (!isset($countries[$value])) {
             // Do not allow to set a numeric value for this field.
-            return;
+            throw new UnexpectedValueException(sprintf('No ISO Alpha-2 country code found for country no. %d.', $value));
           }
 
-          $iso2 = $countries[$value];
+          $value = $countries[$value];
+        }
+
+        if (strlen($value) === 2) {
           $countries = $country_manager->getList();
-          if (!isset($countries[$iso2])) {
-            // Do not allow to set a numeric value for this field.
-            return;
+          if (!isset($countries[$value])) {
+            // Country not found.
+            throw new UnexpectedValueException(sprintf('No Profit country code found for country code "%s".', $value));
           }
 
-          $value = $countries[$iso2];
+          $value = $countries[$value];
         }
         break;
     }

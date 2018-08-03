@@ -3,6 +3,7 @@
 namespace Afas\Tests\Core\Entity\Plugin;
 
 use Afas\Core\Entity\Plugin\KnBasicAddressAdr;
+use UnexpectedValueException;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\Plugin\KnBasicAddressAdr
@@ -57,7 +58,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetCountry() {
-    // Set to Belgium.
+    // Set to the Netherlands.
     $this->entity->setField('CoId', 'NL');
     $this->assertEquals('NL', $this->entity->getField('CoId'));
   }
@@ -74,10 +75,26 @@ class KnBasicAddressAdrTest extends PluginTestBase {
   /**
    * @covers ::setField
    */
+  public function testSetIso2CountryThatProfitFailsToRecognize() {
+    // Set to Belgium. Profit uses 'B' instead of 'BE' to identify Belgium.
+    $this->entity->setField('CoId', 'BE');
+    $this->assertEquals('B', $this->entity->getField('CoId'));
+  }
+
+  /**
+   * @covers ::setField
+   */
   public function testSetInvalidNumericCountry() {
-    // Set to Belgium.
+    $this->setExpectedException(UnexpectedValueException::class, 'No ISO Alpha-2 country code found for country no. 25389.');
     $this->entity->setField('CoId', 25389);
-    $this->assertNull($this->entity->getField('CoId'));
+  }
+
+  /**
+   * @covers ::setField
+   */
+  public function testSetInvalidIso2Country() {
+    $this->setExpectedException(UnexpectedValueException::class, 'No Profit country code found for country code "QQ".');
+    $this->entity->setField('CoId', 'QQ');
   }
 
   /**
