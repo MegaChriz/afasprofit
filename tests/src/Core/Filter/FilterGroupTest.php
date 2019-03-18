@@ -34,8 +34,8 @@ class FilterGroupTest extends TestBase {
    * @covers ::__construct
    */
   public function testConstruct() {
-    $filter = $this->getMock(FilterInterface::class);
-    $factory = $this->getMock(FilterFactoryInterface::class);
+    $filter = $this->createMock(FilterInterface::class);
+    $factory = $this->createMock(FilterFactoryInterface::class);
 
     $factory->expects($this->any())
       ->method('createFilter')

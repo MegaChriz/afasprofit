@@ -144,7 +144,7 @@ class RelationTest extends PluginTestBase {
    * @covers ::resolveAddressType
    */
   public function testSetInvalidAddressType() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setAddress([
       'Ad' => 'Mainstreet',
       'HmNr' => 123,

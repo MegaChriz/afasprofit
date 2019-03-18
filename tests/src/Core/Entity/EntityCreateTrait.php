@@ -27,7 +27,7 @@ trait EntityCreateTrait {
       'validate' => [],
     ];
 
-    $entity = $this->getMock(EntityInterface::class);
+    $entity = $this->createMock(EntityInterface::class);
     foreach ($arguments as $method => $return_value) {
       $entity->expects($this->any())
         ->method($method)

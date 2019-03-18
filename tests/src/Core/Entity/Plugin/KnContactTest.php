@@ -69,7 +69,7 @@ class KnContactTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidViKc() {
-    $this->setExpectedException(InvalidArgumentException::class, 'Invalid value for ViKc: RAD');
+    $this->expectException(InvalidArgumentException::class, 'Invalid value for ViKc: RAD');
     $this->entity->setField('ViKc', 'RAD');
   }
 

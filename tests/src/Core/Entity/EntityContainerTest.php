@@ -10,7 +10,7 @@ use Afas\Tests\TestBase;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 use ReflectionMethod;
 
 /**
@@ -48,7 +48,7 @@ class EntityContainerTest extends TestBase {
       ->will($this->returnCallback([get_class($this), 'callbackEntityInterface__toXml']));
 
     // Create a mocked entity manager.
-    $manager = $this->getMock(EntityManagerInterface::class);
+    $manager = $this->createMock(EntityManagerInterface::class);
     $manager->expects($this->any())
       ->method('createInstance')
       ->will($this->returnValue($this->entity));
@@ -90,14 +90,15 @@ class EntityContainerTest extends TestBase {
    * @covers ::__construct
    */
   public function testAddObjectWithInvalidObject() {
-    $container = $this->getMock(EntityContainer::class, ['isValidChild'], [
-      'DummyType',
-    ]);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['isValidChild'])
+      ->getMock();
     $container->expects($this->once())
       ->method('isValidChild')
       ->will($this->returnValue(FALSE));
 
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $container->addObject($this->entity);
   }
 
@@ -117,7 +118,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::addItem
    */
   public function testAddItem() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $method = new ReflectionMethod(EntityContainer::class, 'addItem');
     $method->setAccessible(TRUE);
     $method->invoke($this->container, 'Foo');
@@ -140,7 +141,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::setAction
    */
   public function testSetFailedAction() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->container->setAction('invalid');
   }
 
@@ -210,10 +211,10 @@ class EntityContainerTest extends TestBase {
    * @covers ::__construct
    */
   public function testSetManager() {
-    $manager = $this->getMock(EntityManagerInterface::class);
+    $manager = $this->createMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2');
     $container->setManager($manager);
-    $this->assertEquals($manager, PHPUnit_Framework_Assert::readAttribute($container, 'manager'));
+    $this->assertEquals($manager, Assert::readAttribute($container, 'manager'));
   }
 
   /**
@@ -221,7 +222,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::__construct
    */
   public function testGetManager() {
-    $manager = $this->getMock(EntityManagerInterface::class);
+    $manager = $this->createMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2', $manager);
     $this->assertEquals($manager, $container->getManager());
   }
@@ -231,7 +232,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::__construct
    */
   public function testGetManagerWithPassingItToTheConstructor() {
-    $manager = $this->getMock(EntityManagerInterface::class);
+    $manager = $this->createMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2');
     $this->assertInstanceOf(EntityManagerInterface::class, $container->getManager());
   }
@@ -349,12 +350,15 @@ class EntityContainerTest extends TestBase {
    * @covers ::isValidationEnabled
    */
   public function testCompileWithValidation() {
-    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $container->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
 
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $container->compile();
   }
 
@@ -365,7 +369,10 @@ class EntityContainerTest extends TestBase {
    * @covers ::isValidationEnabled
    */
   public function testCompileWithAndWithoutValidation() {
-    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $container->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
@@ -379,7 +386,7 @@ class EntityContainerTest extends TestBase {
 
     // Enable validation.
     $container->enableValidation();
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $container->compile();
   }
 
@@ -401,9 +408,10 @@ class EntityContainerTest extends TestBase {
    * @covers ::__toString
    */
   public function testToStringWithException() {
-    $container = $this->getMock(EntityContainer::class, ['compile'], [
-      'DummyType',
-    ]);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['compile'])
+      ->getMock();
     $container->expects($this->once())
       ->method('compile')
       ->will($this->throwException(new Exception()));
@@ -422,7 +430,10 @@ class EntityContainerTest extends TestBase {
    * @covers ::mustValidate
    */
   public function testMustValidate() {
-    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $container->expects($this->once())
       ->method('validate')
       ->will($this->returnValue([]));
@@ -434,12 +445,15 @@ class EntityContainerTest extends TestBase {
    * @covers ::mustValidate
    */
   public function testMustValidateException() {
-    $container = $this->getMock(EntityContainer::class, ['validate'], ['DummyType']);
+    $container = $this->getMockBuilder(EntityContainer::class)
+      ->setConstructorArgs(['DummyType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $container->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
 
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $this->callProtectedMethod($container, 'mustValidate');
   }
 

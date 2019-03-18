@@ -59,7 +59,7 @@ class SchemaManagerTest extends TestBase {
    * @covers ::addPath
    */
   public function testAddInvalidPath() {
-    $this->setExpectedException(DirNotFoundException::class);
+    $this->expectException(DirNotFoundException::class);
     $this->manager->addPath($this->getBasePath() . '/non_existing_dir');
   }
 
@@ -93,7 +93,7 @@ class SchemaManagerTest extends TestBase {
    * @covers ::getSchema
    */
   public function testGetNonExistingSchema() {
-    $this->setExpectedException(SchemaNotFoundException::class);
+    $this->expectException(SchemaNotFoundException::class);
     $this->manager->getSchema('DummyType');
   }
 

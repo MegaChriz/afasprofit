@@ -41,7 +41,7 @@ class KnPersonTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidMatchPer() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setField('MatchPer', 18);
   }
 

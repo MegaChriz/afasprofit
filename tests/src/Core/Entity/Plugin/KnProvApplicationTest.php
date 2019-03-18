@@ -30,7 +30,7 @@ class KnProvApplicationTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidVaPt() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setField('VaPt', 'Xa');
   }
 

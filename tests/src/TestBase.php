@@ -2,13 +2,13 @@
 
 namespace Afas\Tests;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 /**
  * Base class for Afas Profit tests.
  */
-abstract class TestBase extends PHPUnit_Framework_TestCase {
+abstract class TestBase extends TestCase {
 
   /**
    * Returns the contents of one of the file resources.

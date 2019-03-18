@@ -107,7 +107,7 @@ class EntityCreateTraitTest extends TestBase {
    * @covers ::getObjectsOfType
    */
   public function testGetObjectsOfTypeWithInvalidParameter() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->trait->getObjectsOfType(TRUE);
   }
 
@@ -141,7 +141,7 @@ class EntityCreateTraitTest extends TestBase {
    * @covers ::hasObjectType
    */
   public function testHasObjectTypeWithInvalidParameter() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->trait->hasObjectType(['Dummy']);
   }
 
@@ -156,7 +156,7 @@ class EntityCreateTraitTest extends TestBase {
    * @covers ::isValidChild
    */
   public function testIsValidChild() {
-    $this->assertTrue($this->trait->isValidChild($this->getMock(EntityInterface::class)));
+    $this->assertTrue($this->trait->isValidChild($this->createMock(EntityInterface::class)));
   }
 
   /**

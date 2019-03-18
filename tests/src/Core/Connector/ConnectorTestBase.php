@@ -30,8 +30,8 @@ abstract class ConnectorTestBase extends TestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->client = $this->getMock(SoapClientInterface::class);
-    $this->server = $this->getMock(ServerInterface::class);
+    $this->client = $this->createMock(SoapClientInterface::class);
+    $this->server = $this->createMock(ServerInterface::class);
   }
 
 }

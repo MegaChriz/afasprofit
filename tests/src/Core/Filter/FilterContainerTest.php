@@ -34,8 +34,8 @@ class FilterContainerTest extends TestBase {
    * @covers ::group
    */
   public function testConstruct() {
-    $group = $this->getMock(FilterGroupInterface::class);
-    $factory = $this->getMock(FilterFactoryInterface::class);
+    $group = $this->createMock(FilterGroupInterface::class);
+    $factory = $this->createMock(FilterFactoryInterface::class);
 
     $factory->expects($this->any())
       ->method('createFilterGroup')
@@ -135,8 +135,8 @@ class FilterContainerTest extends TestBase {
    * @covers ::group
    */
   public function testSetFactory() {
-    $group = $this->getMock(FilterGroupInterface::class);
-    $factory = $this->getMock(FilterFactoryInterface::class);
+    $group = $this->createMock(FilterGroupInterface::class);
+    $factory = $this->createMock(FilterFactoryInterface::class);
 
     $factory->expects($this->any())
       ->method('createFilterGroup')

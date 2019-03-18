@@ -85,7 +85,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidNumericCountry() {
-    $this->setExpectedException(UnexpectedValueException::class, 'No ISO Alpha-2 country code found for country no. 25389.');
+    $this->expectException(UnexpectedValueException::class, 'No ISO Alpha-2 country code found for country no. 25389.');
     $this->entity->setField('CoId', 25389);
   }
 
@@ -93,7 +93,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidIso2Country() {
-    $this->setExpectedException(UnexpectedValueException::class, 'No Profit country code found for country code "QQ".');
+    $this->expectException(UnexpectedValueException::class, 'No Profit country code found for country code "QQ".');
     $this->entity->setField('CoId', 'QQ');
   }
 

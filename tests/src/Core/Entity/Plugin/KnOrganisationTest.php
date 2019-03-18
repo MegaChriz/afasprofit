@@ -43,7 +43,7 @@ class KnOrganisationTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidMatchOga() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setField('MatchOga', 18);
   }
 

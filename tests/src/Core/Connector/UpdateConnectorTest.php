@@ -6,7 +6,7 @@ use Afas\Core\Connector\UpdateConnector;
 use Afas\Core\Entity\EntityContainer;
 use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\Result\UpdateConnectorResult;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 
 /**
  * @coversDefaultClass \Afas\Core\Connector\UpdateConnector
@@ -20,7 +20,7 @@ class UpdateConnectorTest extends ConnectorTestBase {
   public function testConstructWithoutEntityContainer() {
     // Ensure that there is always an entity container.
     $connector = new UpdateConnector($this->client, $this->server, 'FbSales');
-    $this->assertInstanceOf(EntityContainerInterface::class, PHPUnit_Framework_Assert::readAttribute($connector, 'entityContainer'));
+    $this->assertInstanceOf(EntityContainerInterface::class, Assert::readAttribute($connector, 'entityContainer'));
   }
 
   /**
@@ -29,15 +29,15 @@ class UpdateConnectorTest extends ConnectorTestBase {
    */
   public function testConstructWithEntityContainer() {
     // Pass entity container upon construction.
-    $entity_container = $this->getMock(EntityContainerInterface::class);
+    $entity_container = $this->createMock(EntityContainerInterface::class);
     $connector = new UpdateConnector($this->client, $this->server, 'FbSales', $entity_container);
-    $this->assertEquals($entity_container, PHPUnit_Framework_Assert::readAttribute($connector, 'entityContainer'));
+    $this->assertEquals($entity_container, Assert::readAttribute($connector, 'entityContainer'));
 
     // New entity container.
     $entity_container2 = new EntityContainer('FbSales');
     $connector->setEntityContainer($entity_container2);
-    $this->assertNotEquals($entity_container, PHPUnit_Framework_Assert::readAttribute($connector, 'entityContainer'));
-    $this->assertEquals($entity_container2, PHPUnit_Framework_Assert::readAttribute($connector, 'entityContainer'));
+    $this->assertNotEquals($entity_container, Assert::readAttribute($connector, 'entityContainer'));
+    $this->assertEquals($entity_container2, Assert::readAttribute($connector, 'entityContainer'));
   }
 
   /**
@@ -45,10 +45,10 @@ class UpdateConnectorTest extends ConnectorTestBase {
    * @covers ::__construct
    */
   public function testSetEntityContainer() {
-    $entity_container = $this->getMock(EntityContainerInterface::class);
+    $entity_container = $this->createMock(EntityContainerInterface::class);
     $connector = new UpdateConnector($this->client, $this->server, 'FbSales');
     $connector->setEntityContainer($entity_container);
-    $this->assertEquals($entity_container, PHPUnit_Framework_Assert::readAttribute($connector, 'entityContainer'));
+    $this->assertEquals($entity_container, Assert::readAttribute($connector, 'entityContainer'));
   }
 
   /**

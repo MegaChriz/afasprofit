@@ -39,8 +39,8 @@ abstract class QueryTestBase extends TestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->client = $this->getMock(SoapClientInterface::class);
-    $this->server = $this->getMock(ServerInterface::class);
+    $this->client = $this->createMock(SoapClientInterface::class);
+    $this->server = $this->createMock(ServerInterface::class);
   }
 
   /**
@@ -70,7 +70,10 @@ abstract class QueryTestBase extends TestBase {
     ];
     ksort($params);
 
-    $query = $this->getMock($class, ['getClient'], $params);
+    $query = $this->getMockBuilder($class)
+      ->setConstructorArgs($params)
+      ->setMethods(['getClient'])
+      ->getMock();
 
     $query->expects($this->any())
       ->method('getClient')

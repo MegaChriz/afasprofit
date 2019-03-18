@@ -40,7 +40,7 @@ class FbSalesTest extends PluginTestBase {
    * @covers ::setField
    */
   public function testSetInvalidDeCo() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setField('DeCo', 18);
   }
 

@@ -23,10 +23,12 @@ class ConnectorBaseTest extends ConnectorTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->connector = $this->getMockForAbstractClass(ConnectorBase::class, [
-      $this->client,
-      $this->server,
-    ]);
+    $this->connector = $this->getMockBuilder(ConnectorBase::class)
+      ->setConstructorArgs([
+        $this->client,
+        $this->server,
+      ])
+      ->getMockForAbstractClass();
   }
 
   /**

@@ -7,7 +7,7 @@ use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\XSD\SchemaManager;
 use Afas\Tests\TestBase;
-use PHPUnit_Framework_MockObject_Matcher_InvokedRecorder;
+use PHPUnit\Framework\MockObject\Matcher\InvokedRecorder;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\EntityValidator
@@ -38,14 +38,14 @@ class EntityValidatorTest extends TestBase {
    *   (optional) The expected errors.
    * @param array $arguments
    *   (optional) Return values for other methods.
-   * @param \PHPUnit_Framework_MockObject_Matcher_InvokedRecorder $matcher
+   * @param \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder $matcher
    *   (optional) How many times the validate function is expected to be called.
    *   Defaults to 'once'.
    *
    * @return \Afas\Core\Entity\EntityInterface
    *   A mocked entity.
    */
-  protected function getMockedEntity(array $errors = [], array $arguments = [], PHPUnit_Framework_MockObject_Matcher_InvokedRecorder $matcher = NULL) {
+  protected function getMockedEntity(array $errors = [], array $arguments = [], InvokedRecorder $matcher = NULL) {
     $arguments += [
       'getObjects' => [],
       'getFields' => [],
@@ -55,7 +55,7 @@ class EntityValidatorTest extends TestBase {
       $matcher = $this->once();
     }
 
-    $entity = $this->getMock(EntityInterface::class);
+    $entity = $this->createMock(EntityInterface::class);
     $entity->expects($matcher)
       ->method('validate')
       ->will($this->returnValue($errors));
@@ -79,7 +79,7 @@ class EntityValidatorTest extends TestBase {
    *   A mocked entity container.
    */
   protected function getMockedEntityContainer(array $objects = []) {
-    $container = $this->getMock(EntityContainerInterface::class);
+    $container = $this->createMock(EntityContainerInterface::class);
     $container->expects($this->any())
       ->method('getObjects')
       ->will($this->returnValue($objects));
@@ -90,19 +90,21 @@ class EntityValidatorTest extends TestBase {
   /**
    * Returns a mocked validator with a mocked schema manager.
    *
-   * @param \PHPUnit_Framework_MockObject_Matcher_InvokedRecorder $matcher
+   * @param \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder $matcher
    *   (optional) How many times the schema manager is expected to be called.
    *   Defaults to 'at least once'.
    *
    * @return \Afas\Core\Entity\EntityValidator
    *   A mocked entity validator.
    */
-  protected function getMockedValidatorWithSchemaManager(PHPUnit_Framework_MockObject_Matcher_InvokedRecorder $matcher = NULL) {
+  protected function getMockedValidatorWithSchemaManager(InvokedRecorder $matcher = NULL) {
     if (empty($matcher)) {
       $matcher = $this->atLeastOnce();
     }
 
-    $schema_manager = $this->getMock(SchemaManager::class, ['getSchema']);
+    $schema_manager = $this->getMockBuilder(SchemaManager::class)
+      ->setMethods(['getSchema'])
+      ->getMock();
     $schema_manager->expects($matcher)
       ->method('getSchema')
       ->will($this->returnValue([
@@ -159,7 +161,9 @@ class EntityValidatorTest extends TestBase {
         ],
       ]));
 
-    $validator = $this->getMock(EntityValidator::class, ['getSchemaManager']);
+    $validator = $this->getMockBuilder(EntityValidator::class)
+      ->setMethods(['getSchemaManager'])
+      ->getMock();
     $validator->expects($matcher)
       ->method('getSchemaManager')
       ->will($this->returnValue($schema_manager));

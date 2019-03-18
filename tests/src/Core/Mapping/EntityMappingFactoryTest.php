@@ -30,7 +30,7 @@ class EntityMappingFactoryTest extends TestBase {
    */
   public function testSetClassException() {
     $factory = new EntityMappingFactory();
-    $this->setExpectedException(InvalidArgumentException::class, 'The given class Afas\\Tests\\resources\\DummyClass does not implement Afas\\Core\\Mapping\\EntityMappingInterface.');
+    $this->expectException(InvalidArgumentException::class, 'The given class Afas\\Tests\\resources\\DummyClass does not implement Afas\\Core\\Mapping\\EntityMappingInterface.');
     $this->assertEquals($factory, $factory->setClass(DummyClass::class));
   }
 
@@ -39,7 +39,7 @@ class EntityMappingFactoryTest extends TestBase {
    */
   public function testCreateForEntity() {
     $factory = new EntityMappingFactory();
-    $entity = $this->getMock(EntityInterface::class);
+    $entity = $this->createMock(EntityInterface::class);
     $this->assertInstanceOf(EntityMappingInterface::class, $factory->createForEntity($entity));
   }
 

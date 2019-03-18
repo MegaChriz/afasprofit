@@ -82,7 +82,7 @@ class EntityFactoryTest extends TestBase {
       'entity_type' => 'DummyEntityType',
     ]);
 
-    $this->setExpectedException(LogicException::class);
+    $this->expectException(LogicException::class);
     $entity->setMapper();
   }
 

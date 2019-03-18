@@ -139,8 +139,8 @@ class EntityTest extends TestBase {
   public function testGetObjects() {
     // Create two objects.
     $objects = [
-      $this->getMock(EntityInterface::class),
-      $this->getMock(EntityInterface::class),
+      $this->createMock(EntityInterface::class),
+      $this->createMock(EntityInterface::class),
     ];
 
     foreach ($objects as $object) {
@@ -154,7 +154,7 @@ class EntityTest extends TestBase {
    * @covers ::containsObject
    */
   public function testContainsObject() {
-    $subentity = $this->getMock(EntityInterface::class);
+    $subentity = $this->createMock(EntityInterface::class);
     $this->assertFalse($this->entity->containsObject($subentity));
 
     // Now add the subentity.
@@ -404,7 +404,7 @@ class EntityTest extends TestBase {
    */
   public function testGetParentWithoutParent() {
     // A new entity does not have a parent.
-    $this->setExpectedException(UndefinedParentException::class);
+    $this->expectException(UndefinedParentException::class);
     $this->entity->getParent();
   }
 
@@ -453,10 +453,10 @@ class EntityTest extends TestBase {
    * @covers ::toArray
    */
   public function testSetFieldWithMapping() {
-    $entity = $this->getMock(Entity::class, ['map'], [
-      [],
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([[], 'DummyEntityType'])
+      ->setMethods(['map'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('map')
       ->with('Foo')
@@ -489,10 +489,10 @@ class EntityTest extends TestBase {
    * @covers ::toArray
    */
   public function testRemoveFieldWithMapping() {
-    $entity = $this->getMock(Entity::class, ['map'], [
-      [],
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([[], 'DummyEntityType'])
+      ->setMethods(['map'])
+      ->getMock();
 
     // 'Foo' is an alias for 'Bar' and 'Baz'. Other values return themselves.
     $entity->expects($this->any())
@@ -604,17 +604,17 @@ class EntityTest extends TestBase {
    * @covers ::__construct
    */
   public function testAddObjectWithInvalidObject() {
-    $entity = $this->getMock(Entity::class, ['isValidChild'], [
-      $this->values,
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([$this->values, 'DummyEntityType'])
+      ->setMethods(['isValidChild'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('isValidChild')
       ->will($this->returnValue(FALSE));
 
     $entity2 = new Entity([], 'Dummy2');
 
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $entity->addObject($entity2);
   }
 
@@ -665,7 +665,7 @@ class EntityTest extends TestBase {
    * @covers ::setAction
    */
   public function testSetInvalidAction() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->entity->setAction('Qux');
   }
 
@@ -748,7 +748,7 @@ class EntityTest extends TestBase {
    * @covers ::map
    */
   public function testMapping() {
-    $mapper = $this->getMock(MappingInterface::class);
+    $mapper = $this->createMock(MappingInterface::class);
     $mapper->expects($this->once())
       ->method('map')
       ->with('Foo')
@@ -821,7 +821,7 @@ class EntityTest extends TestBase {
    * @covers ::setParent
    */
   public function testSetParent() {
-    $container = $this->getMock(EntityContainerInterface::class);
+    $container = $this->createMock(EntityContainerInterface::class);
     $container->expects($this->once())
       ->method('containsObject')
       ->will($this->returnValue(TRUE));
@@ -834,7 +834,7 @@ class EntityTest extends TestBase {
    */
   public function testSetInvalidParent() {
     $subentity = new Entity([], 'Dummy2');
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $subentity->setParent($this->entity);
   }
 
@@ -878,7 +878,7 @@ class EntityTest extends TestBase {
    * @covers ::setSingleObjectData
    */
   public function testSetSingleObjectDataException() {
-    $this->setExpectedException(InvalidArgumentException::class);
+    $this->expectException(InvalidArgumentException::class);
     $this->callProtectedMethod($this->entity, 'setSingleObjectData', [
       45,
       ['Foo' => 'Bar', 'Baz' => 'Qux'],
@@ -896,10 +896,10 @@ class EntityTest extends TestBase {
    * @covers ::validate
    */
   public function testValidateWithRequiredFields() {
-    $entity = $this->getMock(Entity::class, ['getRequiredFields'], [
-      $this->values,
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([$this->values, 'DummyEntityType'])
+      ->setMethods(['getRequiredFields'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('getRequiredFields')
       ->will($this->returnValue(['Foo', 'Bar', 'Qux']));
@@ -931,15 +931,15 @@ class EntityTest extends TestBase {
    * @covers ::isValidationEnabled
    */
   public function testCompileWithValidation() {
-    $entity = $this->getMock(Entity::class, ['validate'], [
-      [],
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([[], 'DummyEntityType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
 
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $entity->compile();
   }
 
@@ -950,10 +950,10 @@ class EntityTest extends TestBase {
    * @covers ::isValidationEnabled
    */
   public function testCompileWithAndWithoutValidation() {
-    $entity = $this->getMock(Entity::class, ['validate'], [
-      [],
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([[], 'DummyEntityType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
@@ -970,7 +970,7 @@ class EntityTest extends TestBase {
 
     // Enable validation.
     $entity->enableValidation();
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $entity->compile();
   }
 
@@ -978,10 +978,10 @@ class EntityTest extends TestBase {
    * @covers ::mustValidate
    */
   public function testMustValidate() {
-    $entity = $this->getMock(Entity::class, ['validate'], [
-      $this->values,
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([$this->values, 'DummyEntityType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('validate')
       ->will($this->returnValue([]));
@@ -993,15 +993,15 @@ class EntityTest extends TestBase {
    * @covers ::mustValidate
    */
   public function testMustValidateException() {
-    $entity = $this->getMock(Entity::class, ['validate'], [
-      $this->values,
-      'DummyEntityType',
-    ]);
+    $entity = $this->getMockBuilder(Entity::class)
+      ->setConstructorArgs([$this->values, 'DummyEntityType'])
+      ->setMethods(['validate'])
+      ->getMock();
     $entity->expects($this->once())
       ->method('validate')
       ->will($this->returnValue(['An error.']));
 
-    $this->setExpectedException(EntityValidationException::class);
+    $this->expectException(EntityValidationException::class);
     $this->callProtectedMethod($entity, 'mustValidate');
   }
 
