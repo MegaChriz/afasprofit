@@ -27,7 +27,7 @@ class SubjectConnector extends ConnectorBase implements SubjectConnectorInterfac
    */
   public function getAttachment($subject_id, $file_id) {
     $arguments['subjectID'] = $subject_id;
-    $arguments['fileID'] = $file_id;
+    $arguments['fileId'] = $file_id;
     $this->soapSendRequest('GetAttachment', $arguments);
     return $this->getResult()->getRaw();
   }
