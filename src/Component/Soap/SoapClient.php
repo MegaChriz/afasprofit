@@ -12,9 +12,9 @@ class SoapClient extends SoapClientBase implements SoapClientInterface {
   /**
    * Override of SoapClient::__doRequest().
    */
-  public function __doRequest($request, $location, $action, $version, $one_way = 0) {
+  public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false) {
     $request = preg_replace('/<(ns1\:[a-z0-9\:\ ]*)>/i', '<${1} xmlns="' . $this->uri . '">', $request);
-    return parent::__doRequest($request, $location, $action, $version, $one_way);
+    return parent::__doRequest($request, $location, $action, $version, $oneWay);
   }
 
 }

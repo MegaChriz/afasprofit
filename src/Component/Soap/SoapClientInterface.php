@@ -12,7 +12,7 @@ interface SoapClientInterface {
    *
    * {@inheritdoc}
    */
-  public function __doRequest($request, $location, $action, $version, $one_way = 0);
+  public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false);
 
   /**
    * Returns list of available SOAP functions.
@@ -49,21 +49,21 @@ interface SoapClientInterface {
   /**
    *
    */
-  public function __setCookie($name, $value);
+  public function __setCookie(string $name, ?string $value = null);
 
   /**
    *
    */
-  public function __setLocation($new_location);
+  public function __setLocation(string $location);
 
   /**
    *
    */
-  public function __setSoapHeaders($soapheaders);
+  public function __setSoapHeaders($headers = null);
 
   /**
    *
    */
-  public function __soapCall($function_name, $arguments, $options = [], $input_headers = NULL, &$output_headers = NULL);
+  public function __soapCall(string $name, array $args, ?array $options = null, $inputHeaders = null, &$outputHeaders = null);
 
 }
