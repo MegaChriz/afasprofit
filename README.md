@@ -1,6 +1,6 @@
 # Afas Profit API
 
-[![Build Status](https://travis-ci.org/MegaChriz/afasprofit.svg?branch=3.x)](https://travis-ci.org/MegaChriz/afasprofit)
+[![Build Status](https://travis-ci.com/MegaChriz/afasprofit.svg?branch=3.x)](https://travis-ci.com/github/MegaChriz/afasprofit)
 
 An API to connect to Afas Profit written in PHP.
 
