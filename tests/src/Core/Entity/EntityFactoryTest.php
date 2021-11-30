@@ -28,7 +28,7 @@ class EntityFactoryTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->factory = new EntityFactory(new Discovery(), EntityInterface::class);

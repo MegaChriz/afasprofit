@@ -13,7 +13,7 @@ class DataConnectorResultTest extends ResultTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->setConnectorResult(new DataConnectorResult($this->getFileContents('DataConnector/ExecuteResponse.xml'), 'Execute'));

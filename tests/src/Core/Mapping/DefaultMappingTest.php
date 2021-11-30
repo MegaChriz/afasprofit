@@ -31,7 +31,7 @@ class DefaultMappingTest extends TestBase {
 
     $mapper = new DefaultMapping($entity);
     $mappings = $this->callProtectedMethod($mapper, 'getMappings');
-    $this->assertInternalType('array', $mappings);
+    $this->assertIsArray($mappings);
     $this->assertNotEmpty($mappings);
   }
 

@@ -41,28 +41,28 @@ abstract class ResultTestBase extends TestBase {
    * @covers ::getRaw
    */
   public function testGetRaw() {
-    $this->assertInternalType('string', $this->result->getRaw());
+    $this->assertIsString($this->result->getRaw());
   }
 
   /**
    * @covers ::asXml
    */
   public function testAsXml() {
-    $this->assertInternalType('string', $this->result->asXml());
+    $this->assertIsString($this->result->asXml());
   }
 
   /**
    * @covers ::getHeaders
    */
   public function testGetHeaders() {
-    $this->assertInternalType('array', $this->result->getHeaders());
+    $this->assertIsArray($this->result->getHeaders());
   }
 
   /**
    * @covers ::asArray
    */
   public function testAsArray() {
-    $this->assertInternalType('array', $this->result->asArray());
+    $this->assertIsArray($this->result->asArray());
   }
 
 }

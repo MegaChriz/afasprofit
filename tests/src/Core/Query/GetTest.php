@@ -16,7 +16,7 @@ class GetTest extends QueryTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->query = $this->createQuery(Get::class);

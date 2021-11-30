@@ -23,7 +23,7 @@ class FilterContainerTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->container = new FilterContainer();

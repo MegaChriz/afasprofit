@@ -26,7 +26,7 @@ class EntityCreateTraitTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->trait = $this->getMockForTrait(AfasCoreEntityCreateTrait::class);

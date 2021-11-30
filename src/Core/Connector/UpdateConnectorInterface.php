@@ -10,6 +10,14 @@ use Afas\Core\Entity\EntityContainerInterface;
 interface UpdateConnectorInterface extends ConnectorInterface {
 
   /**
+   * Returns the entity container that is set.
+   *
+   * @return \Afas\Core\Entity\EntityContainerInterface
+   *   A container containing items to send to Profit.
+   */
+  public function getEntityContainer(): EntityContainerInterface;
+
+  /**
    * Sets an entity container.
    *
    * @param \Afas\Core\Entity\EntityContainerInterface $entity_container

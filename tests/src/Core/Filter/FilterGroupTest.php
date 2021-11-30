@@ -24,7 +24,7 @@ class FilterGroupTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->group = new FilterGroup('my_name', new FilterFactory());

@@ -90,6 +90,13 @@ class UpdateConnector extends ConnectorBase implements UpdateConnectorInterface 
     return $arguments;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityContainer(): EntityContainerInterface {
+    return $this->entityContainer;
+  }
+
   // --------------------------------------------------------------
   // SETTERS
   // --------------------------------------------------------------

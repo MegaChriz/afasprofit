@@ -23,7 +23,7 @@ class SchemaManagerTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->manager = new SchemaManager();

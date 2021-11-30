@@ -28,7 +28,7 @@ abstract class ConnectorTestBase extends TestBase {
   /**
    * Setups required dependencies.
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->client = $this->createMock(SoapClientInterface::class);
     $this->server = $this->createMock(ServerInterface::class);

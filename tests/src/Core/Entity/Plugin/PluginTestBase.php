@@ -19,7 +19,7 @@ abstract class PluginTestBase extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->entity = $this->createEntity();
@@ -29,7 +29,7 @@ abstract class PluginTestBase extends TestBase {
    * @covers ::getRequiredFields
    */
   public function testGetRequiredFields() {
-    $this->assertInternalType('array', $this->entity->getRequiredFields());
+    $this->assertIsArray($this->entity->getRequiredFields());
   }
 
   /**

@@ -10,7 +10,6 @@ use Afas\Tests\TestBase;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
-use PHPUnit\Framework\Assert;
 use ReflectionMethod;
 
 /**
@@ -38,7 +37,7 @@ class EntityContainerTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     // Create a mocked entity.
@@ -208,13 +207,14 @@ class EntityContainerTest extends TestBase {
 
   /**
    * @covers ::setManager
+   * @covers ::getManager
    * @covers ::__construct
    */
   public function testSetManager() {
     $manager = $this->createMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2');
     $container->setManager($manager);
-    $this->assertEquals($manager, Assert::readAttribute($container, 'manager'));
+    $this->assertSame($manager, $container->getManager());
   }
 
   /**
@@ -224,7 +224,7 @@ class EntityContainerTest extends TestBase {
   public function testGetManager() {
     $manager = $this->createMock(EntityManagerInterface::class);
     $container = new EntityContainer('DummyType2', $manager);
-    $this->assertEquals($manager, $container->getManager());
+    $this->assertSame($manager, $container->getManager());
   }
 
   /**
@@ -423,7 +423,7 @@ class EntityContainerTest extends TestBase {
    * @covers ::validate
    */
   public function testValidate() {
-    $this->assertInternalType('array', $this->container->validate());
+    $this->assertIsArray($this->container->validate());
   }
 
   /**

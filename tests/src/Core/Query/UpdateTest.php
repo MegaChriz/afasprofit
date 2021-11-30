@@ -15,7 +15,7 @@ class UpdateTest extends QueryTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->query = $this->createQuery(Update::class, [

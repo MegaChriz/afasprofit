@@ -8,8 +8,9 @@ vendor/*
 .idea/*
 *.esproj/*
 
-# PHPUnit code coverage
+# PHPUnit (including code coverage)
 build
+.phpunit.result.cache
 
 # OS generated files #
 ######################

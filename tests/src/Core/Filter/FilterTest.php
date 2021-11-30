@@ -13,10 +13,9 @@ class FilterTest extends TestBase {
 
   /**
    * Test if an exception is thrown when a bad name is passed to Filter.
-   *
-   * @expectedException \InvalidArgumentException
    */
   public function testBadFilterName() {
+    $this->expectException('\InvalidArgumentException');
     $filter = new Filter(0);
   }
 
@@ -24,9 +23,9 @@ class FilterTest extends TestBase {
    * Test if an exception is thrown when a bad operator is passed to Filter.
    *
    * @dataProvider badFilterOperatorProvider()
-   * @expectedException \InvalidArgumentException
    */
   public function testBadFilterOperator($operator) {
+    $this->expectException('\InvalidArgumentException');
     $filter = new Filter('item_id', NULL, $operator);
   }
 

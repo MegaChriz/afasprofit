@@ -20,7 +20,7 @@ class ConnectorBaseTest extends ConnectorTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->connector = $this->getMockBuilder(ConnectorBase::class)

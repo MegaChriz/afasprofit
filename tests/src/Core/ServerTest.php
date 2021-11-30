@@ -25,7 +25,7 @@ class ServerTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDE');

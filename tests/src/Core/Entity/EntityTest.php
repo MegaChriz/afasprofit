@@ -36,7 +36,7 @@ class EntityTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->values = [
@@ -889,7 +889,7 @@ class EntityTest extends TestBase {
    * @covers ::validate
    */
   public function testValidate() {
-    $this->assertInternalType('array', $this->entity->validate());
+    $this->assertIsArray($this->entity->validate());
   }
 
   /**

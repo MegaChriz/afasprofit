@@ -252,6 +252,13 @@ class GetConnector extends ConnectorBase implements GetConnectorInterface {
   /**
    * {@inheritdoc}
    */
+  public function getFilterContainer(): FilterContainerInterface {
+    return $this->filterContainer;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getResult() {
     list($result_xml, $last_function) = $this->getResultArguments();
     return new GetConnectorResult($result_xml, $last_function);

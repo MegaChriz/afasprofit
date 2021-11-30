@@ -8,7 +8,6 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="true"
          bootstrap="vendor/autoload.php"
 >
   <testsuites>
@@ -24,6 +23,6 @@
   </filter>
 
   <logging>
-    <log type="coverage-html" target="build/coverage" title="Afas Core" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="90"/>
+    <log type="coverage-html" target="build/coverage" lowUpperBound="50" highLowerBound="90"/>
   </logging>
 </phpunit>

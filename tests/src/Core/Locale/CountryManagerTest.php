@@ -21,7 +21,7 @@ class CountryManagerTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->manager = new CountryManager();
@@ -31,14 +31,14 @@ class CountryManagerTest extends TestBase {
    * @covers ::getList
    */
   public function testGetList() {
-    $this->assertInternalType('array', $this->manager->getList());
+    $this->assertIsArray($this->manager->getList());
   }
 
   /**
    * @covers ::getListNum3toIso2
    */
   public function testGetListNum3toIso2() {
-    $this->assertInternalType('array', $this->manager->getListNum3toIso2());
+    $this->assertIsArray($this->manager->getListNum3toIso2());
   }
 
   /**
@@ -46,7 +46,7 @@ class CountryManagerTest extends TestBase {
    */
   public function testGetListFromCsv() {
     $list = $this->manager->getListFromCsv();
-    $this->assertInternalType('array', $list);
+    $this->assertIsArray($list);
 
     // Assert keys.
     $expected = [

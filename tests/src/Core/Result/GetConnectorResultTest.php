@@ -13,7 +13,7 @@ class GetConnectorResultTest extends ResultTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->setConnectorResult(new GetConnectorResult($this->getFileContents('GetConnector/GetDataWithOptionsResponse.xml'), 'GetDataWithOptions'));

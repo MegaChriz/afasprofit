@@ -13,7 +13,7 @@ class UpdateConnectorResultTest extends ResultTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->setConnectorResult(new UpdateConnectorResult($this->getFileContents('UpdateConnector/ExecuteResponse.xml'), 'Execute'));

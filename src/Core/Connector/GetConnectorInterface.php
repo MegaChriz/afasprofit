@@ -78,4 +78,16 @@ interface GetConnectorInterface extends ConnectorInterface {
    */
   public function setOrder(array $order);
 
+  // --------------------------------------------------------------
+  // GETTERS
+  // --------------------------------------------------------------
+
+  /**
+   * Returns the filter container that is set.
+   *
+   * @return \Afas\Core\Filter\FilterContainerInterface
+   *   The filter container that is set on this get connector.
+   */
+  public function getFilterContainer(): FilterContainerInterface;
+
 }

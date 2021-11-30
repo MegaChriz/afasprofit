@@ -7,7 +7,7 @@ use Afas\Core\Entity\EntityInterface;
 use Afas\Core\Entity\EntityContainerInterface;
 use Afas\Core\XSD\SchemaManager;
 use Afas\Tests\TestBase;
-use PHPUnit\Framework\MockObject\Matcher\InvokedRecorder;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
 /**
  * @coversDefaultClass \Afas\Core\Entity\EntityValidator
@@ -25,7 +25,7 @@ class EntityValidatorTest extends TestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
 
     $this->validator = new EntityValidator();
@@ -38,14 +38,14 @@ class EntityValidatorTest extends TestBase {
    *   (optional) The expected errors.
    * @param array $arguments
    *   (optional) Return values for other methods.
-   * @param \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder $matcher
+   * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $matcher
    *   (optional) How many times the validate function is expected to be called.
    *   Defaults to 'once'.
    *
    * @return \Afas\Core\Entity\EntityInterface
    *   A mocked entity.
    */
-  protected function getMockedEntity(array $errors = [], array $arguments = [], InvokedRecorder $matcher = NULL) {
+  protected function getMockedEntity(array $errors = [], array $arguments = [], InvocationOrder $matcher = NULL) {
     $arguments += [
       'getObjects' => [],
       'getFields' => [],
@@ -90,14 +90,14 @@ class EntityValidatorTest extends TestBase {
   /**
    * Returns a mocked validator with a mocked schema manager.
    *
-   * @param \PHPUnit\Framework\MockObject\Matcher\InvokedRecorder $matcher
+   * @param \PHPUnit\Framework\MockObject\Rule\InvocationOrder $matcher
    *   (optional) How many times the schema manager is expected to be called.
    *   Defaults to 'at least once'.
    *
    * @return \Afas\Core\Entity\EntityValidator
    *   A mocked entity validator.
    */
-  protected function getMockedValidatorWithSchemaManager(InvokedRecorder $matcher = NULL) {
+  protected function getMockedValidatorWithSchemaManager(InvocationOrder $matcher = NULL) {
     if (empty($matcher)) {
       $matcher = $this->atLeastOnce();
     }

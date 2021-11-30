@@ -5,7 +5,6 @@ namespace Afas\Tests\Core\Connector;
 use Afas\Core\Connector\GetConnector;
 use Afas\Core\Filter\FilterContainerInterface;
 use Afas\Core\Result\GetConnectorResult;
-use PHPUnit\Framework\Assert;
 
 /**
  * @coversDefaultClass \Afas\Core\Connector\GetConnector
@@ -25,13 +24,14 @@ class GetConnectorTest extends ConnectorTestBase {
 
   /**
    * @covers ::setFilterContainer
+   * @covers ::getFilterContainer
    * @covers ::getSoapArguments
    */
   public function testSetFilterContainer() {
     $filter_container = $this->createMock(FilterContainerInterface::class);
     $connector = new GetConnector($this->client, $this->server);
     $connector->setFilterContainer($filter_container);
-    $this->assertEquals($filter_container, Assert::readAttribute($connector, 'filterContainer'));
+    $this->assertSame($filter_container, $connector->getFilterContainer());
 
     $filter_container->expects($this->once())
       ->method('compile')
