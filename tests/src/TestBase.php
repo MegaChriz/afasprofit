@@ -2,6 +2,7 @@
 
 namespace Afas\Tests;
 
+use Afas\Afas;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -9,6 +10,13 @@ use ReflectionClass;
  * Base class for Afas Profit tests.
  */
 abstract class TestBase extends TestCase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function tearDown(): void {
+    Afas::unsetContainer();
+  }
 
   /**
    * Returns the contents of one of the file resources.

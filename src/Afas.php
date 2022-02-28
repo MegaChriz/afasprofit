@@ -13,6 +13,7 @@ use LogicException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Static Service Container wrapper.
@@ -89,8 +90,23 @@ class Afas {
    * @return bool
    *   True if it is installed. False otherwise.
    */
-  public static function hasEventDispatcher() {
-    return class_exists('\Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher');
+  public static function hasEventDispatcher(): bool {
+    return static::getEventDispatcherClass() ? TRUE : FALSE;
+  }
+
+  /**
+   * Returns the symfony event dispatcher class in case it exists.
+   *
+   * @return string|null
+   *   The class to use if there is one. Null otherwise.
+   */
+  public static function getEventDispatcherClass(): ?string {
+    if (class_exists('\Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher')) {
+      return ContainerAwareEventDispatcher::class;
+    }
+    elseif (class_exists('\Symfony\Component\EventDispatcher\EventDispatcher')) {
+      return EventDispatcher::class;
+    }
   }
 
   /**
@@ -108,7 +124,8 @@ class Afas {
    *   In case the symfony event dispatcher component is not installed.
    */
   public static function addSubscriberService($id, $class) {
-    if (!static::hasEventDispatcher()) {
+    $event_dispatcher_class = static::getEventDispatcherClass();
+    if (!$event_dispatcher_class) {
       throw new LogicException('The symfony event dispatcher component is not installed.');
     }
 
@@ -117,9 +134,18 @@ class Afas {
     // Register service.
     $definition = $container->register($id, $class);
 
-    // Add subscriber.
-    $container->getDefinition('event_dispatcher')
-      ->addMethodCall('addSubscriberService', [$id, $class]);
+    // Symfony 3.3.
+    if ($event_dispatcher_class == ContainerAwareEventDispatcher::class) {
+      // Add subscriber.
+      $container->getDefinition('event_dispatcher')
+        ->addMethodCall('addSubscriberService', [$id, $class]);
+    }
+    // Symfony 4.0+.
+    elseif ($event_dispatcher_class == EventDispatcher::class) {
+      // Add subscriber.
+      $container->getDefinition('event_dispatcher')
+        ->addMethodCall('addSubscriber', [$container->get($id)]);
+    }
 
     return $definition;
   }
@@ -138,8 +164,9 @@ class Afas {
     $container->register('afas.xsd_schema.manager', SchemaManager::class);
 
     // Optionally add event dispatcher.
-    if (static::hasEventDispatcher()) {
-      $container->register('event_dispatcher', ContainerAwareEventDispatcher::class)
+    $event_dispatcher_class = static::getEventDispatcherClass();
+    if ($event_dispatcher_class) {
+      $container->register('event_dispatcher', $event_dispatcher_class)
         ->setArguments([$container]);
     }
 
