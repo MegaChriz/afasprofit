@@ -107,6 +107,7 @@ class Afas {
     elseif (class_exists('\Symfony\Component\EventDispatcher\EventDispatcher')) {
       return EventDispatcher::class;
     }
+    return NULL;
   }
 
   /**

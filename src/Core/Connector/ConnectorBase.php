@@ -148,7 +148,7 @@ abstract class ConnectorBase implements ConnectorInterface {
     // Dispatch event.
     if (Afas::hasEventDispatcher()) {
       $event = new SendRequestEvent($this, $function, $arguments, $options);
-      Afas::service('event_dispatcher')->dispatch(AfasEvents::SEND_REQUEST, $event);
+      Afas::service('event_dispatcher')->dispatch($event, AfasEvents::SEND_REQUEST);
     }
 
     // Wrap soap variables to ensure they are properly namespaced.

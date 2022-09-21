@@ -3,7 +3,7 @@
 namespace Afas\Core\Event;
 
 use Afas\Core\Connector\ConnectorInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Fired when a request is about to be send to Profit.
