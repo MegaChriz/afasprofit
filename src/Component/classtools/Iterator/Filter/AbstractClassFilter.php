@@ -21,7 +21,7 @@ class AbstractClassFilter extends ClassIterator implements Filter {
   /**
    * {@inheritdoc}
    */
-  public function getIterator() {
+  public function getIterator(): \Traversable {
     foreach ($this->getBoundIterator() as $class_name => $reflected_class) {
       try {
         if ($reflected_class->isAbstract()) {

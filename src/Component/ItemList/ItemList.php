@@ -17,14 +17,14 @@ abstract class ItemList implements \IteratorAggregate, ListInterface {
   /**
    * Implements \IteratorAggregate::getIterator().
    */
-  public function getIterator() {
+  public function getIterator(): \Traversable {
     return new \ArrayIterator($this->list);
   }
 
   /**
    * Implements \Countable::count().
    */
-  public function count() {
+  public function count(): int {
     return isset($this->list) ? count($this->list) : 0;
   }
 

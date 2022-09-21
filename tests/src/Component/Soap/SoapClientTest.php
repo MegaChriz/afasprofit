@@ -21,8 +21,8 @@ class SoapClientTest extends TestBase {
       'location' => '',
       'uri' => 'https://www.example.com/profitservices',
       'trace' => 1,
-      'style' => SOAP_RPC,
-      'use' => SOAP_ENCODED,
+      'style' => SOAP_DOCUMENT,
+      'use' => SOAP_LITERAL,
     ]);
     $this->assertInstanceof(SoapClient::class, $client);
   }

@@ -14,7 +14,7 @@ if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
      *
      * {@inheritdoc}
      */
-    public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false);
+    public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false): ?string;
 
     /**
      * Returns list of available SOAP functions.

@@ -8,6 +8,7 @@ use Afas\Core\Event\AfasEvents;
 use Afas\Core\Event\SendRequestEvent;
 use Afas\Core\ServerInterface;
 use SoapParam;
+use SoapVar;
 
 /**
  * Base class for Profit connectors.
@@ -130,17 +131,12 @@ abstract class ConnectorBase implements ConnectorInterface {
    *   Defaults to the result of getSoapOptions().
    */
   protected function soapSendRequest($function, array $arguments = [], array $options = []) {
-    // Set action to call.
-    // @todo Evaluate if this is still needed.
-    //$this->client->setAction($function);
-
     // Setup arguments.
     $arguments += $this->getSoapArguments();
-    // Convert arguments to Soap parameters.
-    // @todo Don't create an instance of SoapParam here?
-    $soap_params = [];
+    // Convert arguments to namespaced Soap variables.
+    $params = [];
     foreach ($arguments as $key => $value) {
-      $soap_params[] = new SoapParam($value, $key);
+      $params[] = new SoapVar($value, XSD_STRING, null, null, $key, $this->server->getUri());
     }
 
     // Setup options.
@@ -155,9 +151,13 @@ abstract class ConnectorBase implements ConnectorInterface {
       Afas::service('event_dispatcher')->dispatch(AfasEvents::SEND_REQUEST, $event);
     }
 
+    // Wrap soap variables to ensure they are properly namespaced.
+    $function_wrapper = new SoapVar($params, SOAP_ENC_OBJECT, null, null, $function, $this->server->getUri());
+    $soap_params = new SoapParam($function_wrapper, $function);
+
     // Finally, send the request!
     $this->lastFunction = $function;
-    $this->client->__soapCall($function, $soap_params, $options);
+    $this->client->__soapCall($function, [$soap_params], $options);
   }
 
   // --------------------------------------------------------------

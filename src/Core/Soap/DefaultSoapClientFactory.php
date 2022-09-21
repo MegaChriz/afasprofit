@@ -20,8 +20,8 @@ class DefaultSoapClientFactory implements SoapClientFactoryInterface {
       'location' => '',
       'uri' => $server->getUri(),
       'trace' => 1,
-      'style' => SOAP_RPC,
-      'use' => SOAP_ENCODED,
+      'style' => SOAP_DOCUMENT,
+      'use' => SOAP_LITERAL,
     ];
     return new SoapClient(NULL, $options);
   }
