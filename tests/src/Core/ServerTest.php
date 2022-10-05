@@ -84,6 +84,44 @@ class ServerTest extends TestBase {
   }
 
   /**
+   * @covers ::insert
+   */
+  public function testInsertWithEntityTypeId() {
+    $insert = $this->server->insert('Dummy', [
+      'DbId' => 12345,
+    ], [], 'Dummy2');
+
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="insert">
+          <DbId>12345</DbId>
+        </Fields>
+      </Element>
+    </Dummy2>';
+    $this->assertXmlStringEqualsXmlString($expected, $insert->getEntityContainer()->compile());
+  }
+
+  /**
+   * @covers ::insert
+   */
+  public function testInsertWithAttributesAndEntityTypeId() {
+    $insert = $this->server->insert('Dummy', [
+      'DbId' => 12345,
+      'CdId' => 10001,
+      'Foo' => 'Bar',
+    ], ['DbId', 'CdId'], 'Dummy2');
+
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element DbId="12345" CdId="10001">
+        <Fields Action="insert">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Element>
+    </Dummy2>';
+    $this->assertXmlStringEqualsXmlString($expected, $insert->getEntityContainer()->compile());
+  }
+
+  /**
    * @covers ::update
    */
   public function testUpdate() {
@@ -124,6 +162,44 @@ class ServerTest extends TestBase {
           <Foo>Bar</Foo>
         </Fields>
       </Element>
+    </Dummy>';
+    $this->assertXmlStringEqualsXmlString($expected, $update->getEntityContainer()->compile());
+  }
+
+  /**
+   * @covers ::update
+   */
+  public function testUpdateWithEntityTypeId() {
+    $update = $this->server->update('Dummy', [
+      'DbId' => 12345,
+    ], [], 'Dummy2');
+
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="update">
+          <DbId>12345</DbId>
+        </Fields>
+      </Element>
+    </Dummy2>';
+    $this->assertXmlStringEqualsXmlString($expected, $update->getEntityContainer()->compile());
+  }
+
+  /**
+   * @covers ::update
+   */
+  public function testUpdateWithAttributesAndEntityTypeId() {
+    $update = $this->server->update('Dummy', [
+      'DbId' => 12345,
+      'CdId' => 10001,
+      'Foo' => 'Bar',
+    ], ['DbId', 'CdId'], 'Dummy2');
+
+    $expected = '<Dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Dummy2 DbId="12345" CdId="10001">
+        <Fields Action="update">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Dummy2>
     </Dummy>';
     $this->assertXmlStringEqualsXmlString($expected, $update->getEntityContainer()->compile());
   }
@@ -170,6 +246,44 @@ class ServerTest extends TestBase {
         </Fields>
       </Element>
     </Dummy>';
+    $this->assertXmlStringEqualsXmlString($expected, $delete->getEntityContainer()->compile());
+  }
+
+  /**
+   * @covers ::delete
+   */
+  public function testDeleteWithEntityTypeId() {
+    $delete = $this->server->delete('Dummy', [
+      'DbId' => 12345,
+    ], [], 'Dummy2');
+
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element>
+        <Fields Action="delete">
+          <DbId>12345</DbId>
+        </Fields>
+      </Element>
+    </Dummy2>';
+    $this->assertXmlStringEqualsXmlString($expected, $delete->getEntityContainer()->compile());
+  }
+
+  /**
+   * @covers ::delete
+   */
+  public function testDeleteWithAttributesAndEntityTypeId() {
+    $delete = $this->server->delete('Dummy', [
+      'DbId' => 12345,
+      'CdId' => 10001,
+      'Foo' => 'Bar',
+    ], ['DbId', 'CdId'], 'Dummy2');
+
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element DbId="12345" CdId="10001">
+        <Fields Action="delete">
+          <Foo>Bar</Foo>
+        </Fields>
+      </Element>
+    </Dummy2>';
     $this->assertXmlStringEqualsXmlString($expected, $delete->getEntityContainer()->compile());
   }
 

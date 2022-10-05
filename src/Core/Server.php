@@ -73,22 +73,22 @@ class Server implements ServerInterface {
   /**
    * {@inheritdoc}
    */
-  public function insert($connector_id, array $data, array $attribute_keys = []) {
-    return new Insert($this, $connector_id, $data, $attribute_keys);
+  public function insert($connector_id, array $data, array $attribute_keys = [], $entity_type_id = '') {
+    return new Insert($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function update($connector_id, array $data, array $attribute_keys = []) {
-    return new Update($this, $connector_id, $data, $attribute_keys);
+  public function update($connector_id, array $data, array $attribute_keys = [], $entity_type_id = '') {
+    return new Update($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function delete($connector_id, array $data, array $attribute_keys = []) {
-    return new Delete($this, $connector_id, $data, $attribute_keys);
+  public function delete($connector_id, array $data, array $attribute_keys = [], $entity_type_id = '') {
+    return new Delete($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
   // --------------------------------------------------------------

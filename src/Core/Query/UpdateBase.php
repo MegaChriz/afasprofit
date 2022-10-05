@@ -20,6 +20,13 @@ class UpdateBase extends Query implements UpdateBaseInterface {
   protected $connectorId;
 
   /**
+   * The entity type to insert, update or delete.
+   *
+   * @var string
+   */
+  protected $entity_type_id;
+
+  /**
    * An entity container.
    *
    * @var \Afas\Core\Entity\EntityContainerInterface
@@ -41,11 +48,15 @@ class UpdateBase extends Query implements UpdateBaseInterface {
    *   The data to update.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
+   * @param array $entity_type_id
+   *   (optional) The entity type to insert, update or delete.
    */
-  public function __construct(ServerInterface $server, $connector_id, array &$data, array $attribute_keys = []) {
+  public function __construct(ServerInterface $server, $connector_id, array &$data, array $attribute_keys = [], $entity_type_id = '') {
     parent::__construct($server);
     $this->connectorId = $connector_id;
-    $this->entityContainer = new EntityContainer($connector_id);
+    $this->entity_type_id = $entity_type_id;
+    $entityType = $entity_type_id ?: $connector_id;
+    $this->entityContainer = new EntityContainer($entityType);
 
     if (!empty($attribute_keys)) {
       if (ArrayHelper::isAssociative($data)) {
