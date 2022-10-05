@@ -21,7 +21,7 @@ class Insert extends UpdateBase implements InsertInterface {
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
    * @param string $entity_type_id
-   *   (optional) The entity type to insert.
+   *   (optional) The type of entity to insert.
    */
   public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {
     parent::__construct($server, $connector_id, $data, $attribute_keys, $entity_type_id);

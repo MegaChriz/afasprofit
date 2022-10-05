@@ -32,7 +32,7 @@ interface ServerInterface {
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
    * @param string $entity_type_id
-   *   (optional) The entity that needs to be inserted.
+   *   (optional) The type of entity that needs to be inserted.
    *
    * @return \Afas\Core\Query\Insert
    *   An insert query.
@@ -49,7 +49,7 @@ interface ServerInterface {
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
    * @param string $entity_type_id
-   *   (optional) The entity that needs to be updated.
+   *   (optional) The type of entity that needs to be updated.
    *
    * @return \Afas\Core\Query\Update
    *   An update query.
@@ -66,7 +66,7 @@ interface ServerInterface {
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
    * @param string $entity_type_id
-   *   (optional) The entity that needs to be deleted.
+   *   (optional) The type of entity that needs to be deleted.
    *
    * @return \Afas\Core\Query\Delete
    *   A delete query.
