@@ -25,9 +25,11 @@ class Update extends UpdateBase implements UpdateInterface {
    *   The data to update.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
+   * @param string $entity_type_id
+   *   (optional) The type of entity to update.
    */
-  public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = []) {
-    parent::__construct($server, $connector_id, $data, $attribute_keys);
+  public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {
+    parent::__construct($server, $connector_id, $data, $attribute_keys, $entity_type_id);
     $this->entityContainer->setAction(EntityInterface::FIELDS_UPDATE);
     $this->entityContainer->fromArray($data);
   }
