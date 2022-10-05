@@ -25,7 +25,7 @@ class Delete extends UpdateBase implements DeleteInterface {
    *   The data to delete.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
-   * @param array $entity_type_id
+   * @param string $entity_type_id
    *   (optional) The entity type to insert or update.
    */
   public function __construct(ServerInterface $server, $connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {

@@ -48,10 +48,10 @@ class UpdateBase extends Query implements UpdateBaseInterface {
    *   The data to update.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
-   * @param array $entity_type_id
+   * @param string $entity_type_id
    *   (optional) The entity type to insert, update or delete.
    */
-  public function __construct(ServerInterface $server, $connector_id, array &$data, array $attribute_keys = [], $entity_type_id = '') {
+  public function __construct(ServerInterface $server, $connector_id, array &$data, array $attribute_keys = [], string $entity_type_id = '') {
     parent::__construct($server);
     $this->connectorId = $connector_id;
     $this->entity_type_id = $entity_type_id;

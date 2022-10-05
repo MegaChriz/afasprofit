@@ -31,13 +31,13 @@ interface ServerInterface {
    *   The data to insert.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
-   * @param array $entity_type_id
+   * @param string $entity_type_id
    *   (optional) The entity that needs to be inserted.
    *
    * @return \Afas\Core\Query\Insert
    *   An insert query.
    */
-  public function insert($connector_id, array $data, array $attribute_keys = [], $entity_type_id = '');
+  public function insert($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
 
   /**
    * Returns an update query object.
@@ -48,13 +48,13 @@ interface ServerInterface {
    *   The data to update.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
-   * @param array $entity_type_id
+   * @param string $entity_type_id
    *   (optional) The entity that needs to be updated.
    *
    * @return \Afas\Core\Query\Update
    *   An update query.
    */
-  public function update($connector_id, array $data, array $attribute_keys = [], $entity_type_id = '');
+  public function update($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
 
   /**
    * Returns an update query object.
@@ -65,11 +65,13 @@ interface ServerInterface {
    *   The data to delete.
    * @param array $attribute_keys
    *   (optional) The keys belonging to attributes.
+   * @param string $entity_type_id
+   *   (optional) The entity that needs to be deleted.
    *
    * @return \Afas\Core\Query\Delete
    *   A delete query.
    */
-  public function delete($connector_id, array $data, array $attribute_keys = []);
+  public function delete($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
 
   // --------------------------------------------------------------
   // GETTERS
