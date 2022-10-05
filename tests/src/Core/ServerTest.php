@@ -194,13 +194,13 @@ class ServerTest extends TestBase {
       'Foo' => 'Bar',
     ], ['DbId', 'CdId'], 'Dummy2');
 
-    $expected = '<Dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <Dummy2 DbId="12345" CdId="10001">
+    $expected = '<Dummy2 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Element DbId="12345" CdId="10001">
         <Fields Action="update">
           <Foo>Bar</Foo>
         </Fields>
-      </Dummy2>
-    </Dummy>';
+      </Element>
+    </Dummy2>';
     $this->assertXmlStringEqualsXmlString($expected, $update->getEntityContainer()->compile());
   }
 
