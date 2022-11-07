@@ -10,21 +10,6 @@ use Afas\Core\Entity\Entity;
 class KnCourseMember extends Entity {
 
   // --------------------------------------------------------------
-  // CONSTRUCT
-  // --------------------------------------------------------------
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function init() {
-    // Set subscription date to today.
-    $this->setField('SuDa', date('Y-m-d'));
-
-    // Enable invoice by default.
-    $this->setField('Invo', 1);
-  }
-
-  // --------------------------------------------------------------
   // GETTERS
   // --------------------------------------------------------------
 
@@ -34,8 +19,6 @@ class KnCourseMember extends Entity {
   public function getRequiredFields() {
     return [
       'BcCo',
-      'SuDa',
-      'Invo',
     ];
   }
 

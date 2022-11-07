@@ -35,22 +35,22 @@ class KnCourseMemberTest extends PluginTestBase {
       [
         [
           $default_errors['BcCo'],
-          'SuDa is a required field for type KnCourseMember.',
-          'Invo is a required field for type KnCourseMember.',
+          $default_errors['CrId'],
+          $default_errors['CdId'],
+        ],
+      ],
+      [
+        // When updating a member, some fields and attributes are required.
+        [
+          $default_errors['BcCo'],
           $default_errors['CrId'],
           $default_errors['CdId'],
         ],
         [
           [
-            'method' => 'removeField',
+            'method' => 'setAction',
             'args' => [
-              'SuDa',
-            ],
-          ],
-          [
-            'method' => 'removeField',
-            'args' => [
-              'Invo',
+              KnCourseMember::FIELDS_UPDATE,
             ],
           ],
         ],
