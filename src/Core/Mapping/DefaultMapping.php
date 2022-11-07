@@ -202,7 +202,9 @@ class DefaultMapping extends MappingBase implements EntityMappingInterface {
           'price' => 'DfPr',
           'sell_price' => 'DfPr',
           'discount_perc' => 'DiPc',
+          'invoice' => 'Invo',
           'comment' => 'Rm',
+          'blocked' => 'Bl',
         ];
 
       case 'KnOrganisation':
