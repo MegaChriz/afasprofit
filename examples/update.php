@@ -3,19 +3,18 @@
 /**
  * @file
  * Psuedo-code for using a update-connector.
- *
- * @todo examples are outdated, update them.
  */
 
+use Afas\Afas;
 use Afas\Core\Server;
 
 // Bootstrap.
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Create AfasServer.
-$server = new Server();
+// Initialize server.
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
-// Send a new order to Profit.
+// Example 1: Send a new order to Profit.
 $order = [
   'order_id' => 'TEST3_001',
   'afas_dbid' => 102889,
@@ -28,9 +27,11 @@ $order = [
     ],
   ],
 ];
-$server->insert('FbSales', $order);
+$server->insert('FbSales', $order)
+  ->execute();
 
-// Send an existing order to Profit, but with a new product.
+
+// Example 2: Send an existing order to Profit, but with a new product.
 $order = [
   'order_id' => 'TEST3_001',
   'line_items' => [
@@ -40,9 +41,11 @@ $order = [
     ],
   ],
 ];
-$server->update('FbSales', $order);
+$server->update('FbSales', $order)
+  ->execute();
 
-// Change qty of a certain product.
+
+// Example 3: Change qty of a certain product.
 $order = [
   'order_id' => 'TEST3_001',
   'line_items' => [
@@ -52,15 +55,79 @@ $order = [
     ],
   ],
 ];
-$server->update('FbSales', $order);
+$server->update('FbSales', $order)
+  ->execute();
 
-// Create a new order object.
-$order = $entityFactory->create('FbSales');
 
-$order->order_id = 'TEST3_002';
-// Make it an "existing" order.
-$order->is_new = FALSE;
-// Call a generic method to add line item.
-$line_item = $order->add('FbSalesLines');
-// Or call a specific method for that.
-$line_item = $order->addLineItem();
+// Example 4: example using attributes.
+$data = [
+  'id' => 1234,
+  'name' => 'Foo',
+];
+// 'id' is set as attribute.
+$query = $server->update('Foo', $data, ['id']);
+
+// Check how the XML looks like.
+$xml = $query->getEntityContainer()
+  ->compile();
+
+// The XML will look something like this:
+// @code
+// <Foo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+//   <Element id="1234">
+//     <Fields Action="update">
+//       <name>Foo</name>
+//     </Fields>
+//   </Element>
+// </Foo>
+
+
+// Example 5: update existing sales relation using attributes.
+$relation = [
+  'DbId' => 12345,
+  'KnOrganisation' => [
+    'Nm' => 'Example BV',
+    'EmAd' => 'example-bv@example.com',
+    'BcCo' => 23899,
+  ],
+];
+// 'DbId' is set as attribute.
+$query = $server->update('KnSalesRelationOrg', $relation, ['DbId']);
+
+// Check how the XML looks like.
+$xml = $query->getEntityContainer()
+  ->compile();
+
+// The XML will look something like the following. There is much more data
+// because for this connector there are a lot of default values set.
+// @code
+// <KnSalesRelationOrg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+//   <Element DbId="12345">
+//     <Fields Action="update">
+//       <CuId>EUR</CuId>
+//       <PfId>*****</PfId>
+//       <VaDu>1</VaDu>
+//       <PrLi>0</PrLi>
+//       <PrFc>0</PrFc>
+//       <ClPc>0</ClPc>
+//       <PrPt>0</PrPt>
+//       <Krli>0</Krli>
+//     </Fields>
+//     <Objects>
+//       <KnOrganisation>
+//         <Element>
+//           <Fields Action="update">
+//             <Nm>Example BV</Nm>
+//             <EmAd>example-bv@example.com</EmAd>
+//             <BcCo>23899</BcCo>
+//             <MatchOga>0</MatchOga>
+//           </Fields>
+//         </Element>
+//       </KnOrganisation>
+//     </Objects>
+//   </Element>
+// </KnSalesRelationOrg>
+// @endcode
+
+// And send the data to Profit.
+$query->execute();

@@ -17,7 +17,7 @@ Get data from Profit (GetConnector):
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 // Get data from GetConnector 'Products', filter by 'sku'.
 $products = $server->get('Products')
@@ -31,7 +31,7 @@ Insert data into Profit (UpdateConnector):
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 // Insert an order into Profit.
 $server->insert('FbSales', [
@@ -48,7 +48,8 @@ $server->insert('FbSales', [
       'QuUn' => 1,
     ],
   ],
-]);
+])
+  ->execute();
 ```
 
 Update data into Profit (UpdateConnector):
@@ -56,7 +57,7 @@ Update data into Profit (UpdateConnector):
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 // Update an existing order, change quantity of existing item.
 $server->update('FbSales', [
@@ -67,7 +68,8 @@ $server->update('FbSales', [
       'QuUn' => 2,
     ],
   ],
-]);
+])
+  ->execute();
 ```
 
 Delete data from Profit (UpdateConnector):
@@ -75,11 +77,12 @@ Delete data from Profit (UpdateConnector):
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 $server->delete('FbSales', [
   'OrNu' => 'test_001',
-]);
+])
+  ->execute();
 ```
 
 Get a file from Profit (SubjectConnector):
@@ -89,7 +92,7 @@ use Afas\Core\Connector\SubjectConnector;
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 // Create Soap client.
 /** @var \Afas\Component\Soap\SoapClientInterface $client */
@@ -109,7 +112,7 @@ use Afas\Core\Connector\DataConnector;
 use Afas\Core\Server;
 
 // Initialize server.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 // Create Soap client.
 /** @var \Afas\Component\Soap\SoapClientInterface $client */

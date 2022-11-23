@@ -13,7 +13,7 @@ use Afas\Core\Server;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Initialize server connection.
-$server = new Server('https://12345.afasonlineconnector.nl/profitservices', 'ABCDEFGHIJK1234');
+$server = new Server('https://12345.soap.afas.online/profitservices', 'ABCDEFGHIJK1234');
 
 $client = Afas::service('afas.soap_client_factory')->create($server);
 
