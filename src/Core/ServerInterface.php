@@ -2,6 +2,11 @@
 
 namespace Afas\Core;
 
+use Afas\Core\Query\GetInterface;
+use Afas\Core\Query\InsertInterface;
+use Afas\Core\Query\UpdateInterface;
+use Afas\Core\Query\DeleteInterface;
+
 /**
  * Interface for connecting a Profit server.
  */
@@ -17,13 +22,13 @@ interface ServerInterface {
    * @param string $connector_id
    *   The Get connector to use.
    *
-   * @return \Afas\Core\Query\Get
+   * @return \Afas\Core\Query\GetInterface
    *   A get query.
    */
-  public function get($connector_id);
+  public function get($connector_id): GetInterface;
 
   /**
-   * Returns an update query object.
+   * Returns an insert query object.
    *
    * @param string $connector_id
    *   The Update connector to use.
@@ -34,10 +39,10 @@ interface ServerInterface {
    * @param string $entity_type_id
    *   (optional) The type of entity that needs to be inserted.
    *
-   * @return \Afas\Core\Query\Insert
+   * @return \Afas\Core\Query\InsertInterface
    *   An insert query.
    */
-  public function insert($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
+  public function insert($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): InsertInterface;
 
   /**
    * Returns an update query object.
@@ -51,13 +56,13 @@ interface ServerInterface {
    * @param string $entity_type_id
    *   (optional) The type of entity that needs to be updated.
    *
-   * @return \Afas\Core\Query\Update
+   * @return \Afas\Core\Query\UpdateInterface
    *   An update query.
    */
-  public function update($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
+  public function update($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): UpdateInterface;
 
   /**
-   * Returns an update query object.
+   * Returns a delete query object.
    *
    * @param string $connector_id
    *   The Update connector to use.
@@ -68,10 +73,10 @@ interface ServerInterface {
    * @param string $entity_type_id
    *   (optional) The type of entity that needs to be deleted.
    *
-   * @return \Afas\Core\Query\Delete
+   * @return \Afas\Core\Query\DeleteInterface
    *   A delete query.
    */
-  public function delete($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '');
+  public function delete($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): DeleteInterface;
 
   // --------------------------------------------------------------
   // GETTERS

@@ -3,9 +3,13 @@
 namespace Afas\Core;
 
 use Afas\Core\Query\Get;
+use Afas\Core\Query\GetInterface;
 use Afas\Core\Query\Insert;
+use Afas\Core\Query\InsertInterface;
 use Afas\Core\Query\Update;
+use Afas\Core\Query\UpdateInterface;
 use Afas\Core\Query\Delete;
+use Afas\Core\Query\DeleteInterface;
 
 /**
  * Class for connecting a Profit server.
@@ -66,28 +70,28 @@ class Server implements ServerInterface {
   /**
    * {@inheritdoc}
    */
-  public function get($connector_id) {
+  public function get($connector_id): GetInterface {
     return new Get($this, $connector_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function insert($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {
+  public function insert($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): InsertInterface {
     return new Insert($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function update($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {
+  public function update($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): UpdateInterface {
     return new Update($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function delete($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = '') {
+  public function delete($connector_id, array $data, array $attribute_keys = [], string $entity_type_id = ''): DeleteInterface {
     return new Delete($this, $connector_id, $data, $attribute_keys, $entity_type_id);
   }
 
