@@ -146,6 +146,7 @@ $query = $server->insert('FiEntries', [
 $xml = $query->getEntityContainer()
   ->compile();
 
+// The XML will look something like this:
 // @code
 // <FiEntryPar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 //   <Element>
