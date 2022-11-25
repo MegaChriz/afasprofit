@@ -80,6 +80,7 @@ $xml = $query->getEntityContainer()
 //     </Fields>
 //   </Element>
 // </Foo>
+// @endcode
 
 
 // Example 5: update existing sales relation using attributes.
@@ -127,6 +128,32 @@ $xml = $query->getEntityContainer()
 //     </Objects>
 //   </Element>
 // </KnSalesRelationOrg>
+// @endcode
+
+// And send the data to Profit.
+$query->execute();
+
+
+// Example 6: insert data where the connector name differs from the entity name.
+// For the FiEntries Update connector, the top level element to use is
+// 'FiEntryPar'. So while the XML-root element will be called 'FiEntryPar', to
+// Profit it gets send to FiEntries Update connector.
+$query = $server->insert('FiEntries', [
+  'UnId' => 1,
+], [], 'FiEntryPar');
+
+// Check how the XML looks like.
+$xml = $query->getEntityContainer()
+  ->compile();
+
+// @code
+// <FiEntryPar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+//   <Element>
+//     <Fields Action="insert">
+//       <UnId>1</UnId>
+//     </Fields>
+//   </Element>
+// </FiEntryPar>
 // @endcode
 
 // And send the data to Profit.
