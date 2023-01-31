@@ -276,6 +276,7 @@ class DefaultMapping extends MappingBase implements EntityMappingInterface {
           'vat_number' => 'VaId',
           'currency_code' => 'CuId',
           'verzamelreking_debiteur' => 'ColA',
+          'oin' => 'OINr',
         ];
 
       case 'KnSubject':
