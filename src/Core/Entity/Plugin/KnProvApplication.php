@@ -41,14 +41,18 @@ class KnProvApplication extends Entity {
    *
    * @var string
    */
-  const PROV_PRINT     = 'A';
-  const PRINT_EMAIL    = 'B';
-  const EMAIL          = 'E';
-  const PRINT_EDI      = 'P';
-  const DOSSIER        = 'In dossier zetten';
-  const EMAIL_EFACTUUR = 'U';
-  const EDI            = 'V';
-  const NO_PROVISION   = 'X';
+  const PROV_PRINT         = 'A';
+  const PRINT_EMAIL        = 'B';
+  const PDF_EFACTUUR       = 'D';
+  const EMAIL              = 'E';
+  const ECONNECT           = 'F';
+  const XML                = 'M';
+  const PRINT_EDI          = 'P';
+  const DOSSIER            = 'S';
+  const EMAIL_EFACTUUR     = 'U';
+  const EDI                = 'V';
+  const NO_PROVISION_AGAIN = 'X';
+  const NO_PROVISION       = 'Y';
 
   // --------------------------------------------------------------
   // CONSTRUCT
@@ -90,11 +94,15 @@ class KnProvApplication extends Entity {
         switch ($value) {
           case static::PROV_PRINT:
           case static::PRINT_EMAIL:
+          case static::PDF_EFACTUUR:
           case static::EMAIL:
+          case static::ECONNECT:
+          case static::XML:
           case static::PRINT_EDI:
           case static::DOSSIER:
           case static::EMAIL_EFACTUUR:
           case static::EDI:
+          case static::NO_PROVISION_AGAIN:
           case static::NO_PROVISION:
             break;
 
