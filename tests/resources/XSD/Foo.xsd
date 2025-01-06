@@ -1,0 +1,45 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:simpleType name="AFASRowAction">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="insert" />
+      <xsd:enumeration value="update" />
+      <xsd:enumeration value="delete" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:element name="Foo">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Element" maxOccurs="unbounded">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Fields" minOccurs="0">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <!--The Bar field-->
+                    <xsd:element name="Bar" minOccurs="0">
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                          <xsd:maxLength value="15" />
+                          <xsd:minLength value="1" />
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:element>
+                    <!--The Qux field-->
+                    <xsd:element name="Qux" minOccurs="0">
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                          <xsd:maxLength value="15" />
+                          <xsd:minLength value="1" />
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

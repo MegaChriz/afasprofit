@@ -3,6 +3,7 @@
 namespace Afas\Core\XSD;
 
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use DOMXPath;
 
@@ -225,6 +226,11 @@ class Reader {
 
               // Save also minlength and maxlength.
               foreach ($restriction->childNodes as $oChild) {
+                if (!$oChild instanceof DOMElement) {
+                  // Ignore any possible spaces.
+                  continue;
+                }
+
                 switch ($oChild->tagName) {
                   case $this->xsdNs . ':maxLength':
                     $array[$name]['maxlength'] = $oChild->getAttribute('value');
