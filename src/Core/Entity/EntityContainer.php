@@ -29,6 +29,13 @@ class EntityContainer extends ItemList implements EntityContainerInterface {
    */
   protected $connectorType;
 
+  /**
+   * The entity manager.
+   *
+   * @var \Afas\Core\Entity\EntityManagerInterface
+   */
+  protected $manager;
+
   // --------------------------------------------------------------
   // CONSTRUCT
   // --------------------------------------------------------------
