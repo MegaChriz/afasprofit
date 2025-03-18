@@ -274,6 +274,7 @@ class DefaultMapping extends MappingBase implements EntityMappingInterface {
           'customer_id' => 'DbId',
           'sales_relation' => 'DbId',
           'vat_number' => 'VaId',
+          'vat_due' => 'VaDu',
           'currency_code' => 'CuId',
           'verzamelreking_debiteur' => 'ColA',
           'oin' => 'OINr',
