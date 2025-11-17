@@ -49,8 +49,9 @@ class KnPerson extends Relation {
    */
   public function isValidChild(EntityInterface $entity) {
     switch ($entity->getType()) {
-      case 'KnBankAccount':
-        return TRUE;
+	  case 'KnBankAccount':
+	  case 'KnContact':
+	    return TRUE;
     }
 
     return parent::isValidChild($entity);

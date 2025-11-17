@@ -27,6 +27,7 @@ class KnPersonTest extends PluginTestBase {
     $this->assertTrue($this->entity->isValidChild(new Entity([], 'KnBankAccount')));
     $this->assertTrue($this->entity->isValidChild(new Entity([], 'KnBasicAddressAdr')));
     $this->assertTrue($this->entity->isValidChild(new Entity([], 'KnBasicAddressPad')));
+	$this->assertTrue($this->entity->isValidChild(new Entity([], 'KnContact')));
   }
 
   /**
