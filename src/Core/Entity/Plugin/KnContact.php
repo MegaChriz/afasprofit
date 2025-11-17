@@ -128,6 +128,10 @@ class KnContact extends Relation {
               break;
             }
           }
+          if ($this->getAttribute('CdId') !== NULL) {
+            // For the KnContact connector 'CdId' is also allowed as attribute.
+            $found = TRUE;
+          }
           if (!$found) {
             $errors[] = strtr('When updating or deleting a contact, one of the following fields is required: !fields.', [
               '!fields' => implode(', ', $id_fields),

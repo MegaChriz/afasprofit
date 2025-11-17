@@ -194,6 +194,24 @@ class KnContactTest extends PluginTestBase {
             ],
           ],
           [
+            'method' => 'setAttribute',
+            'args' => [
+              'CdId',
+              12345,
+            ],
+          ],
+        ],
+      ],
+      [
+        [],
+        [
+          [
+            'method' => 'setAction',
+            'args' => [
+              KnContact::FIELDS_UPDATE,
+            ],
+          ],
+          [
             'method' => 'setField',
             'args' => [
               'ExAd',
