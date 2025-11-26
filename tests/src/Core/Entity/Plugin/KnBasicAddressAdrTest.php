@@ -105,21 +105,20 @@ class KnBasicAddressAdrTest extends PluginTestBase {
       'Ad' => 'Ad is a required field for type KnBasicAddressAdr.',
       'HmNr' => 'HmNr is a required field for type KnBasicAddressAdr.',
       'CoId' => 'CoId is a required field for type KnBasicAddressAdr.',
-      'Rs' => "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to true.",
     ];
 
     return [
       'without values' => [
         array_values($default_errors),
       ],
-      'Dutch address 1' => [
+      'Dutch address where city is searced by zip code' => [
         [],
         [
           [
             'method' => 'fromArray',
             'args' => [
               [
-                'ResZip' => FALSE,
+                'ResZip' => TRUE,
                 'Ad' => 'Mainstreet',
                 'HmNr' => '123',
                 'ZpCd' => '1234 AB',
@@ -129,13 +128,14 @@ class KnBasicAddressAdrTest extends PluginTestBase {
           ],
         ],
       ],
-      'Dutch address 2' => [
+      'Dutch address where city is taken as is' => [
         [],
         [
           [
             'method' => 'fromArray',
             'args' => [
               [
+                'ResZip' => FALSE,
                 'Ad' => 'Mainstreet',
                 'HmNr' => '123',
                 'ZpCd' => '1234 AB',
@@ -164,6 +164,25 @@ class KnBasicAddressAdrTest extends PluginTestBase {
           ],
         ],
       ],
+      'Dutch address where city is missing and search by zip code is turned off' => [
+        [
+          "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to false.",
+        ],
+        [
+          [
+            'method' => 'fromArray',
+            'args' => [
+              [
+                'ResZip' => FALSE,
+                'Ad' => 'Mainstreet',
+                'HmNr' => '123',
+                'ZpCd' => '1234 AB',
+                'CoId' => 'NL',
+              ],
+            ],
+          ],
+        ],
+      ],
       'Aruba address (no zip code)' => [
         [],
         [
@@ -174,6 +193,24 @@ class KnBasicAddressAdrTest extends PluginTestBase {
                 'Ad' => 'Foostraat',
                 'HmNr' => '123',
                 'Rs' => 'Oranjestad',
+                'CoId' => 'AW',
+              ],
+            ],
+          ],
+        ],
+      ],
+      'Aruba address where city is missing' => [
+        [
+          "The field 'Rs' is required in a KnBasicAddressAdr object when the country does not have a zip code.",
+        ],
+        [
+          [
+            'method' => 'fromArray',
+            'args' => [
+              [
+                'ResZip' => TRUE,
+                'Ad' => 'Foostraat',
+                'HmNr' => '123',
                 'CoId' => 'AW',
               ],
             ],

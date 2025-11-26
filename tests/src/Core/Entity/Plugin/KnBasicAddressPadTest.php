@@ -25,11 +25,10 @@ class KnBasicAddressPadTest extends PluginTestBase {
       'Ad' => 'Ad is a required field for type KnBasicAddressPad.',
       'HmNr' => 'HmNr is a required field for type KnBasicAddressPad.',
       'CoId' => 'CoId is a required field for type KnBasicAddressPad.',
-      'Rs' => "The field 'Rs' is required in a KnBasicAddressPad object when the field 'ResZip' is set to true.",
     ];
 
     return [
-      [
+      'without values' => [
         array_values($default_errors),
       ],
       [

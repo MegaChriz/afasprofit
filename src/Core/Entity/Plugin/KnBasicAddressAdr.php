@@ -103,20 +103,37 @@ class KnBasicAddressAdr extends Entity {
   public function validate() {
     $errors = parent::validate();
 
-    // When 'ResZip' is set to true, 'Rs' becomes required.
-    if ($this->getField('ResZip') && !$this->fieldExists('Rs')) {
-      $errors[] = strtr("The field 'Rs' is required in a !type object when the field 'ResZip' is set to true.", [
-        '!type' => $this->getType(),
-      ]);
-    }
-
     // Postal code is a required field for most countries, but not for all.
     $country_code = $this->getField('CoId');
-    if (is_string($country_code) && Afas::service('afas.country.manager')->hasZipCode($country_code) && !$this->fieldExists('ZpCd')) {
+    if (is_string($country_code)) {
+      $has_zip_code = Afas::service('afas.country.manager')->hasZipCode($country_code);
+    }
+    else {
+      $has_zip_code = TRUE;
+    }
+    if (is_string($country_code) && $has_zip_code && !$this->fieldExists('ZpCd')) {
       $errors[] = strtr('!field is a required field in a !type object for the given country: "!country".', [
         '!field' => 'ZpCd',
         '!type' => $this->getType(),
         '!country' => $country_code,
+      ]);
+    }
+
+    if (!$has_zip_code) {
+      // When the country does not have a zip code, 'ResZip' makes no sense.
+      $this->removeField('ResZip');
+    }
+
+    // When 'ResZip' is set to false, 'Rs' becomes required.
+    if (!$this->getField('ResZip') && !$this->fieldExists('Rs')) {
+      if ($has_zip_code) {
+        $message = "The field 'Rs' is required in a !type object when the field 'ResZip' is set to false.";
+      }
+      else {
+        $message = "The field 'Rs' is required in a !type object when the country does not have a zip code.";
+      }
+      $errors[] = strtr($message, [
+        '!type' => $this->getType(),
       ]);
     }
 
