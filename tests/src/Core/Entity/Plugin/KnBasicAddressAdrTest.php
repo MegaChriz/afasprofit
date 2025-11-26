@@ -23,7 +23,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    */
   public function testGetRequiredFieldsWhenInserting() {
     $this->entity->setAction(KnBasicAddressAdr::FIELDS_INSERT);
-    $this->assertEquals(['Ad', 'HmNr', 'ZpCd', 'CoId'], $this->entity->getRequiredFields());
+    $this->assertEquals(['Ad', 'HmNr', 'CoId'], $this->entity->getRequiredFields());
   }
 
   /**
@@ -31,7 +31,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
    */
   public function testGetRequiredFieldsWhenUpdating() {
     $this->entity->setAction(KnBasicAddressAdr::FIELDS_UPDATE);
-    $this->assertEquals(['Ad', 'HmNr', 'ZpCd', 'CoId'], $this->entity->getRequiredFields());
+    $this->assertEquals(['Ad', 'HmNr', 'CoId'], $this->entity->getRequiredFields());
   }
 
   /**
@@ -104,16 +104,15 @@ class KnBasicAddressAdrTest extends PluginTestBase {
     $default_errors = [
       'Ad' => 'Ad is a required field for type KnBasicAddressAdr.',
       'HmNr' => 'HmNr is a required field for type KnBasicAddressAdr.',
-      'ZpCd' => 'ZpCd is a required field for type KnBasicAddressAdr.',
       'CoId' => 'CoId is a required field for type KnBasicAddressAdr.',
       'Rs' => "The field 'Rs' is required in a KnBasicAddressAdr object when the field 'ResZip' is set to true.",
     ];
 
     return [
-      [
+      'without values' => [
         array_values($default_errors),
       ],
-      [
+      'Dutch address 1' => [
         [],
         [
           [
@@ -130,7 +129,7 @@ class KnBasicAddressAdrTest extends PluginTestBase {
           ],
         ],
       ],
-      [
+      'Dutch address 2' => [
         [],
         [
           [
@@ -142,6 +141,40 @@ class KnBasicAddressAdrTest extends PluginTestBase {
                 'ZpCd' => '1234 AB',
                 'Rs' => 'SomeCity',
                 'CoId' => 'NL',
+              ],
+            ],
+          ],
+        ],
+      ],
+      'Dutch address that is missing a zip code' => [
+        [
+          'ZpCd is a required field in a KnBasicAddressAdr object for the given country: "NL".',
+        ],
+        [
+          [
+            'method' => 'fromArray',
+            'args' => [
+              [
+                'Ad' => 'Mainstreet',
+                'HmNr' => '123',
+                'Rs' => 'SomeCity',
+                'CoId' => 'NL',
+              ],
+            ],
+          ],
+        ],
+      ],
+      'Aruba address (no zip code)' => [
+        [],
+        [
+          [
+            'method' => 'fromArray',
+            'args' => [
+              [
+                'Ad' => 'Foostraat',
+                'HmNr' => '123',
+                'Rs' => 'Oranjestad',
+                'CoId' => 'AW',
               ],
             ],
           ],

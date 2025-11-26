@@ -42,4 +42,15 @@ interface CountryManagerInterface {
    */
   public function getListFromCsv();
 
+  /**
+   * Returns whether the given country requires a postal code.
+   *
+   * @param string $country_code
+   *   A two-letter ISO alpha-2 code (e.g. "NL", "BE", "US").
+   *
+   * @return bool
+   *   TRUE if the country requires a postal code, FALSE otherwise.
+   */
+  public function hasZipCode($country_code);
+
 }

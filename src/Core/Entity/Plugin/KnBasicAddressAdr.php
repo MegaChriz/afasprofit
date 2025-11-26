@@ -40,7 +40,6 @@ class KnBasicAddressAdr extends Entity {
           // Addresses must have a street, house number and a zip code.
           'Ad',
           'HmNr',
-          'ZpCd',
           'CoId',
         ];
     }
@@ -108,6 +107,16 @@ class KnBasicAddressAdr extends Entity {
     if ($this->getField('ResZip') && !$this->fieldExists('Rs')) {
       $errors[] = strtr("The field 'Rs' is required in a !type object when the field 'ResZip' is set to true.", [
         '!type' => $this->getType(),
+      ]);
+    }
+
+    // Postal code is a required field for most countries, but not for all.
+    $country_code = $this->getField('CoId');
+    if (is_string($country_code) && Afas::service('afas.country.manager')->hasZipCode($country_code) && !$this->fieldExists('ZpCd')) {
+      $errors[] = strtr('!field is a required field in a !type object for the given country: "!country".', [
+        '!field' => 'ZpCd',
+        '!type' => $this->getType(),
+        '!country' => $country_code,
       ]);
     }
 
