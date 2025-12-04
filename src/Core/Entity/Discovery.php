@@ -5,7 +5,7 @@ namespace Afas\Core\Entity;
 use Afas\Component\classtools\Iterator\Filter\AbstractClassFilter;
 use Drupal\Component\Plugin\Discovery\StaticDiscovery;
 use Symfony\Component\Finder\Finder;
-use hanneskod\classtools\Iterator\ClassIterator;
+use megachriz\classtools\Iterator\ClassIterator;
 
 /**
  * Default class for discovering entity plugins.

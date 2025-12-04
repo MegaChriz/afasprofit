@@ -2,9 +2,9 @@
 
 namespace Afas\Component\classtools\Iterator\Filter;
 
-use hanneskod\classtools\Iterator\ClassIterator;
-use hanneskod\classtools\Iterator\Filter;
-use hanneskod\classtools\Iterator\Filter\FilterTrait;
+use megachriz\classtools\Iterator\ClassIterator;
+use megachriz\classtools\Iterator\Filter;
+use megachriz\classtools\Iterator\Filter\FilterTrait;
 
 /**
  * Filter classes that are abstract.
