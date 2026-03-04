@@ -4,7 +4,24 @@ namespace Afas\Component\Soap;
 
 use SoapClient as SoapClientBase;
 
-if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+if (version_compare(PHP_VERSION, '8.5.0') >= 0) {
+
+  /**
+   * A child of SoapClient that exist to just implement the interface.
+   */
+  class SoapClient extends SoapClientBase implements SoapClientInterface {
+
+    /**
+     * Override of SoapClient::__doRequest().
+     */
+    public function __doRequest(string $request, string $location, string $action, int $version, bool $oneWay = false, ?string $uriParserClass = null): ?string {
+      return parent::__doRequest($request, $location, $action, $version, $oneWay, $uriParserClass);
+    }
+
+  }
+
+}
+elseif (version_compare(PHP_VERSION, '8.0.0') >= 0) {
 
   /**
    * A child of SoapClient that exist to just implement the interface.
