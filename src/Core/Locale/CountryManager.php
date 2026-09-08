@@ -557,9 +557,9 @@ class CountryManager implements CountryManagerInterface {
     // Countries that do NOT require a postal code.
     // Source: Universal Postal Union + practical e-commerce implementations.
     $noPostalCode = [
-      'AE', 'AG', 'AW', 'BS', 'BZ', 'DM', 'FJ', 'GD', 'GY', 'HK', 'JM',
-      'KI', 'KN', 'LC', 'NR', 'PA', 'SB', 'SC', 'SR', 'SX', 'TG',
-      'TV', 'UG', 'VC', 'VU', 'ZW',
+      'AE', 'AG', 'AW', 'BS', 'BZ', 'CW', 'DM', 'FJ', 'GD', 'GY', 'HK', 'JM',
+      'KI', 'KN', 'LC', 'NR', 'PA', 'SB', 'SC', 'SR', 'SX', 'TG', 'TV', 'UG',
+      'VC', 'VU', 'ZW',
     ];
 
     $country_code = strtoupper($country_code);
